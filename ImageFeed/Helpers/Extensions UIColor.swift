@@ -15,4 +15,6 @@ extension UIColor {
     static var ypRed: UIColor {UIColor(named: "YP Red") ?? UIColor.red}
     static var ypWhiteAlfa50: UIColor {UIColor(named: "YP White (Alpha 50)") ?? UIColor.white}
     static var ypWhite: UIColor {UIColor(named: "YP White") ?? UIColor.white}
+    static var ypGradientAlpha0: UIColor {UIColor(named: "YP Gradient (Alpha 0)") ?? UIColor.gray}
+    static var ypGradientAlpha20: UIColor {UIColor(named: "YP Gradient (Alpha 20)") ?? UIColor.gray}
 }

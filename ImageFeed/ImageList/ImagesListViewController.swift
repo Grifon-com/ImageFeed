@@ -21,7 +21,6 @@ class ImagesListViewController: UIViewController {
         return formatter
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,8 +28,8 @@ class ImagesListViewController: UIViewController {
         tableView.delegate = self
         
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        
     }
-    
 }
 
 extension ImagesListViewController {
@@ -45,13 +44,14 @@ extension ImagesListViewController {
         
         let likeImage = indexPath.row % 2 != 0 ? imageButtonNoLike : imageButtonLike
         cell.cellButton.setImage(likeImage, for: .normal)
+        
+        cell.setupGradient()
     }
 }
 
 //MARK: - TableViewDlegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -66,6 +66,7 @@ extension ImagesListViewController: UITableViewDelegate {
         
         return heigtImageView
     }
+    
 }
 //MARK: - TAbleViewDataSource
 extension ImagesListViewController: UITableViewDataSource {
@@ -75,13 +76,12 @@ extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-        
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
-        
-        configCell(for: imageListCell, with: indexPath)
-        
+
+        self.configCell(for: imageListCell, with: indexPath)
         return imageListCell
     }
 }
+

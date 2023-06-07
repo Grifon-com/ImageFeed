@@ -38,6 +38,13 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VD2-JZ-Rey">
+                                                    <rect key="frame" x="16" y="90" width="288" height="30"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="S2v-9n-NHI"/>
+                                                    </constraints>
+                                                </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27.05.2023" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MPM-g2-2xY" userLabel="Cell Lable">
                                                     <rect key="frame" x="24" y="96" width="68" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -65,13 +72,17 @@
                                                 <constraint firstItem="YFu-85-OK5" firstAttribute="trailing" secondItem="JMq-0p-pR9" secondAttribute="trailing" id="cVq-VE-1Lf"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="MPM-g2-2xY" secondAttribute="trailing" constant="20" symbolic="YES" id="dCB-sA-7Du"/>
                                                 <constraint firstItem="JMq-0p-pR9" firstAttribute="leading" secondItem="hut-I1-3cP" secondAttribute="leading" constant="16" id="ftc-PL-lUt"/>
+                                                <constraint firstAttribute="bottom" secondItem="VD2-JZ-Rey" secondAttribute="bottom" constant="4" id="g4U-oZ-Qbb"/>
                                                 <constraint firstAttribute="top" secondItem="JMq-0p-pR9" secondAttribute="top" constant="-4" id="jVM-cI-D7J"/>
                                                 <constraint firstItem="MPM-g2-2xY" firstAttribute="leading" secondItem="hut-I1-3cP" secondAttribute="leading" constant="24" id="kLD-4E-fJG"/>
+                                                <constraint firstAttribute="trailing" secondItem="VD2-JZ-Rey" secondAttribute="trailing" constant="16" id="wcp-ZH-Qnk"/>
+                                                <constraint firstItem="VD2-JZ-Rey" firstAttribute="leading" secondItem="hut-I1-3cP" secondAttribute="leading" constant="16" id="wwQ-cS-pkG"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="cellButton" destination="YFu-85-OK5" id="WNf-OB-tlF"/>
+                                            <outlet property="cellGradientView" destination="VD2-JZ-Rey" id="tBa-gE-Ku3"/>
                                             <outlet property="cellImage" destination="JMq-0p-pR9" id="4lE-9b-oTW"/>
                                             <outlet property="cellLable" destination="MPM-g2-2xY" id="o3i-c1-vn8"/>
                                         </connections>
@@ -94,7 +105,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="36" y="66"/>
+            <point key="canvasLocation" x="35.625" y="65.492957746478879"/>
         </scene>
     </scenes>
     <resources>
