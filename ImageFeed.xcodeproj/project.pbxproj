@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A71D5132A31E9FA00B70452 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A71D5122A31E9FA00B70452 /* ProfileViewController.swift */; };
 		1ACCC8242A20DE3C00433E49 /* Extensions UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */; };
 		1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */; };
 		1AFE86142A1FB89100BBEA1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE86132A1FB89100BBEA1B /* AppDelegate.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A71D5122A31E9FA00B70452 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions UIColor.swift"; sourceTree = "<group>"; };
 		1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		1AFE86102A1FB89100BBEA1B /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,12 +82,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A4235AB2A32168B009EA9D1 /* ProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1A71D5122A31E9FA00B70452 /* ProfileViewController.swift */,
+			);
+			path = ProfileViewController;
+			sourceTree = "<group>";
+		};
 		1ACCC8222A20DDF400433E49 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		1ACFC3CF2A3229240007A645 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		1AEAF11C2A21EFB3009DA20F /* ImageList */ = {
@@ -120,6 +137,8 @@
 		1AFE86122A1FB89100BBEA1B /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				1ACFC3CF2A3229240007A645 /* New Group */,
+				1A4235AB2A32168B009EA9D1 /* ProfileViewController */,
 				1AEAF11C2A21EFB3009DA20F /* ImageList */,
 				1AFE86132A1FB89100BBEA1B /* AppDelegate.swift */,
 				1AFE86152A1FB89100BBEA1B /* SceneDelegate.swift */,
@@ -280,6 +299,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A71D5132A31E9FA00B70452 /* ProfileViewController.swift in Sources */,
 				1ACCC8242A20DE3C00433E49 /* Extensions UIColor.swift in Sources */,
 				1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */,
 				1AFE86182A1FB89100BBEA1B /* ImagesListViewController.swift in Sources */,
