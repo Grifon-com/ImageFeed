@@ -13,21 +13,27 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet weak var cellImage: UIImageView!
     @IBOutlet weak var cellButton: UIButton!
     @IBOutlet weak var cellLable: UILabel!
-    @IBOutlet weak var cellGradientView: UIView!
+    @IBOutlet weak var cellGradienView: UIView!
     
     static let reuseIdentifier = "ImagesListCell"
     
-    func setupGradient() {
-        let gradient = CAGradientLayer()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    class cellGradienView: UIView {
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+        }
         
-        gradient.colors = [UIColor.ypRed.cgColor, UIColor.ypBlue.cgColor]
-        
-        gradient.frame = cellGradientView.bounds
-        
-        cellGradientView.layer.addSublayer(gradient)
-        
-        gradient.startPoint = CGPoint(x: 0.5, y: 0)
-        gradient.endPoint = CGPoint(x: 0.5, y: 1)
+        required init?(coder: NSCoder) {
+            super.init(coder: coder)
+            self.backgroundColor = .ypRed
+        }
     }
 }
 

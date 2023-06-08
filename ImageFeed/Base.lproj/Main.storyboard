@@ -38,7 +38,7 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VD2-JZ-Rey">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VD2-JZ-Rey" customClass="CellGradienView" customModule="ImageFeed" customModuleProvider="target">
                                                     <rect key="frame" x="16" y="90" width="288" height="30"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
@@ -82,6 +82,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="cellButton" destination="YFu-85-OK5" id="WNf-OB-tlF"/>
+                                            <outlet property="cellGradienView" destination="VD2-JZ-Rey" id="26H-yR-HNA"/>
                                             <outlet property="cellGradientView" destination="VD2-JZ-Rey" id="tBa-gE-Ku3"/>
                                             <outlet property="cellImage" destination="JMq-0p-pR9" id="4lE-9b-oTW"/>
                                             <outlet property="cellLable" destination="MPM-g2-2xY" id="o3i-c1-vn8"/>
