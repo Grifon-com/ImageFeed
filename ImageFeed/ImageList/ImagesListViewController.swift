@@ -44,8 +44,6 @@ extension ImagesListViewController {
         
         let likeImage = indexPath.row % 2 != 0 ? imageButtonNoLike : imageButtonLike
         cell.cellButton.setImage(likeImage, for: .normal)
-        
-        //cell.setupGradient()
     }
 }
 
@@ -79,8 +77,8 @@ extension ImagesListViewController: UITableViewDataSource {
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
-
         self.configCell(for: imageListCell, with: indexPath)
+        
         return imageListCell
     }
 }
