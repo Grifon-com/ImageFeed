@@ -21,7 +21,6 @@ class ImagesListViewController: UIViewController {
         return formatter
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,7 +29,6 @@ class ImagesListViewController: UIViewController {
         
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
-    
 }
 
 extension ImagesListViewController {
