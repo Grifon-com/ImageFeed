@@ -20,7 +20,6 @@ final class ImagesListCell: UITableViewCell {
     override func awakeFromNib() {
        super.awakeFromNib()
         let layer =  cellGradienView.addGradientBackground(firstColor: .ypBlue, secondColor: .ypRed)
-        cellGradienView.layer.insertSublayer(layer, at: 0)
     }
 }
 
@@ -31,6 +30,7 @@ extension UIView{
         gradientLayer.frame = self.bounds
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+        self.layer.insertSublayer(layer, at: 0)
         
         return gradientLayer
     }
