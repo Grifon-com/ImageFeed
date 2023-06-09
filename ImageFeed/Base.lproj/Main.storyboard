@@ -46,7 +46,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27.05.2023" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MPM-g2-2xY" userLabel="Cell Lable">
-                                                    <rect key="frame" x="24" y="96" width="68" height="16"/>
+                                                    <rect key="frame" x="24" y="96" width="280" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -70,7 +70,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="MPM-g2-2xY" secondAttribute="bottom" constant="12" id="OAA-uq-woD"/>
                                                 <constraint firstAttribute="trailing" secondItem="YFu-85-OK5" secondAttribute="trailing" constant="16" id="XwQ-Pf-ES3"/>
                                                 <constraint firstItem="YFu-85-OK5" firstAttribute="trailing" secondItem="JMq-0p-pR9" secondAttribute="trailing" id="cVq-VE-1Lf"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="MPM-g2-2xY" secondAttribute="trailing" constant="20" symbolic="YES" id="dCB-sA-7Du"/>
+                                                <constraint firstAttribute="trailing" secondItem="MPM-g2-2xY" secondAttribute="trailing" constant="16" id="dCB-sA-7Du"/>
                                                 <constraint firstItem="JMq-0p-pR9" firstAttribute="leading" secondItem="hut-I1-3cP" secondAttribute="leading" constant="16" id="ftc-PL-lUt"/>
                                                 <constraint firstItem="iDk-Ze-KoS" firstAttribute="bottom" secondItem="JMq-0p-pR9" secondAttribute="bottom" constant="4" id="izJ-Qw-S4d"/>
                                                 <constraint firstAttribute="top" secondItem="JMq-0p-pR9" secondAttribute="top" constant="-4" id="jVM-cI-D7J"/>
