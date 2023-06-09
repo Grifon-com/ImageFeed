@@ -19,17 +19,19 @@ final class ImagesListCell: UITableViewCell {
     
     override func awakeFromNib() {
        super.awakeFromNib()
-        cellGradienView.addGradientBackground(firstColor: .ypBlue, secondColor: .ypRed)
+        let layer =  cellGradienView.addGradientBackground(firstColor: .ypBlue, secondColor: .ypRed)
+        cellGradienView.layer.insertSublayer(layer, at: 0)
     }
 }
 
 extension UIView{
-    func addGradientBackground(firstColor: UIColor, secondColor: UIColor){
+    func addGradientBackground(firstColor: UIColor, secondColor: UIColor) -> CAGradientLayer{
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [firstColor.cgColor, secondColor.cgColor]
         gradientLayer.frame = self.bounds
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0, y: 1)
-        self.layer.addSublayer(gradientLayer)
+        
+        return gradientLayer
     }
 }

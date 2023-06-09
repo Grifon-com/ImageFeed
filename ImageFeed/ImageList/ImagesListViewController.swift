@@ -78,7 +78,7 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         self.configCell(for: imageListCell, with: indexPath)
-        
+        imageListCell.awakeFromNib()
         return imageListCell
     }
 }
