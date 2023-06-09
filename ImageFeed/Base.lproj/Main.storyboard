@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -74,6 +75,7 @@
                                             <outlet property="cellButton" destination="YFu-85-OK5" id="WNf-OB-tlF"/>
                                             <outlet property="cellImage" destination="JMq-0p-pR9" id="4lE-9b-oTW"/>
                                             <outlet property="cellLable" destination="MPM-g2-2xY" id="o3i-c1-vn8"/>
+                                            <segue destination="HfV-gs-vGG" kind="show" id="HUC-Yv-0i6"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -88,14 +90,14 @@
                             <constraint firstAttribute="trailing" secondItem="dH8-Ek-GCM" secondAttribute="trailing" id="SJ0-na-m6p"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="1Dg-ba-Zuv"/>
+                    <navigationItem key="navigationItem" id="DnB-5g-DVp"/>
                     <connections>
                         <outlet property="tableView" destination="dH8-Ek-GCM" id="tV3-h0-y8A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1315" y="-295"/>
+            <point key="canvasLocation" x="-386.15384615384613" y="-295.02369668246445"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="wDF-93-xzP">
@@ -112,7 +114,7 @@
                         </tabBarAppearance>
                     </tabBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="Wdq-z4-WLi"/>
+                        <segue destination="iIb-rA-Qys" kind="relationship" relationship="viewControllers" id="Wdq-z4-WLi"/>
                         <segue destination="Kbg-qI-7zl" kind="relationship" relationship="viewControllers" id="KDh-wi-2yl"/>
                     </connections>
                 </tabBarController>
@@ -197,6 +199,60 @@
             </objects>
             <point key="canvasLocation" x="-1315" y="540"/>
         </scene>
+        <!--Single Image View Controller-->
+        <scene sceneID="16b-la-oB7">
+            <objects>
+                <viewController id="HfV-gs-vGG" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oLh-qS-NQf">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="uOA-Px-6gx">
+                                <rect key="frame" x="0.0" y="91" width="390" height="670"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="EDA-jD-F3H"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="uOA-Px-6gx" firstAttribute="trailing" secondItem="EDA-jD-F3H" secondAttribute="trailing" id="CeQ-pi-PEW"/>
+                            <constraint firstItem="uOA-Px-6gx" firstAttribute="leading" secondItem="EDA-jD-F3H" secondAttribute="leading" id="Uac-8Q-Hec"/>
+                            <constraint firstItem="uOA-Px-6gx" firstAttribute="bottom" secondItem="EDA-jD-F3H" secondAttribute="bottom" id="hEd-Ay-gyv"/>
+                            <constraint firstItem="uOA-Px-6gx" firstAttribute="top" secondItem="EDA-jD-F3H" secondAttribute="top" id="lr1-b4-63Q"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="pgR-QH-2Aq"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Am-GU-8kE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="560" y="-295"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="cCe-VO-eaU">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iIb-rA-Qys" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="1Dg-ba-Zuv"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="VXX-WZ-oNC">
+                        <rect key="frame" x="0.0" y="47" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="YP White"/>
+                        <color key="barTintColor" name="YP White"/>
+                        <navigationBarAppearance key="standardAppearance">
+                            <color key="backgroundColor" name="YP Black"/>
+                        </navigationBarAppearance>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EUy-Wy-AiG">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Ke4-ng-kLo"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zQg-EU-GzK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1315.3846153846152" y="-295.02369668246445"/>
+        </scene>
     </scenes>
     <resources>
         <image name="0" width="200" height="132"/>
@@ -214,5 +270,8 @@
         <namedColor name="YP White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
