@@ -2,7 +2,7 @@
 //  SingleImageViewController.swift
 //  ImageFeed
 //
-//  Created by Марина Машук on 9.06.23.
+//  Created by Григорий Машук on 9.06.23.
 //
 
 import Foundation
@@ -22,4 +22,11 @@ final class SingleImageViewController: UIViewController {
          super.viewDidLoad()
          imageView.image = image
     }
+    
+    
+    @IBAction func didTapBackButton(_ sender: UIButton) {
+        dismiss(animated: true)
+    }
+    
+    
 }
