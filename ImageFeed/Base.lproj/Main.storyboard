@@ -102,13 +102,13 @@
         <!--Single Image View Controller-->
         <scene sceneID="8bR-wC-Baw">
             <objects>
-                <viewController id="ypY-BZ-PGi" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="ypY-BZ-PGi" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dBr-m9-hfi">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lPN-0Z-1b6">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="430" placeholderIntrinsicHeight="430" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="jLs-0I-mlK">
                                         <rect key="frame" x="0.0" y="0.0" width="430" height="430"/>
@@ -142,7 +142,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ClZ-xg-zju" userLabel="Sharing Button">
-                                <rect key="frame" x="182" y="785" width="50" height="50"/>
+                                <rect key="frame" x="182" y="795" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="2ME-PL-ihe"/>
                                     <constraint firstAttribute="height" constant="50" id="BwA-Q1-DE0"/>
@@ -167,6 +167,7 @@
                             <constraint firstItem="lPN-0Z-1b6" firstAttribute="top" secondItem="dBr-m9-hfi" secondAttribute="top" id="klZ-Cv-wea"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="lXA-Hk-7zI"/>
                     <connections>
                         <outlet property="imageView" destination="jLs-0I-mlK" id="nev-BP-7fm"/>
                         <outlet property="scrollView" destination="lPN-0Z-1b6" id="YaM-BR-VTg"/>
@@ -220,7 +221,7 @@
         <image name="Backward" width="24" height="24"/>
         <image name="No Active" width="30" height="27"/>
         <image name="Sharing 1" width="50" height="50"/>
-        <image name="tab_editorial_active" width="20" height="22"/>
+        <image name="tab_editorial_active" width="30" height="30"/>
         <image name="tab_profile_active" width="24" height="24"/>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
