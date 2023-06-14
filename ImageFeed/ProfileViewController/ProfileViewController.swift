@@ -14,7 +14,6 @@ class ProfileViewController: UIViewController {
     private var nameLabel: UILabel?
     private var loginNameLabel: UILabel?
     private var descriptionLabel: UILabel?
-    private var logoutButton: UIButton?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,7 +86,7 @@ extension ProfileViewController {
     
     func setupDescriptionLabel() {
         let descriptionLabel = UILabel()
-        descriptionLabel.text = "Hello, world"
+        descriptionLabel.text = "Hello, world!"
         descriptionLabel.textColor = .ypWhite
         descriptionLabel.font = UIFont.systemFont(ofSize: 13)
         setupBackgroundColorAutoresizingMask(andAdd: descriptionLabel)
