@@ -44,6 +44,7 @@ class ImagesListViewController: UIViewController {
     }
 }
 
+//MARK: - ConfigCell
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: photosName[indexPath.row]) else { return }
@@ -78,6 +79,7 @@ extension ImagesListViewController: UITableViewDelegate {
         return heigtImageView
     }
 }
+
 //MARK: - TAbleViewDataSource
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
