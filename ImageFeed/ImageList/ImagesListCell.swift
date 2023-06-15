@@ -17,9 +17,7 @@ final class ImagesListCell: UITableViewCell {
     
     static let reuseIdentifier = "ImagesListCell"
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
+    private let gradientLayer = CAGradientLayer()
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -31,21 +29,35 @@ final class ImagesListCell: UITableViewCell {
     }
     
     override func awakeFromNib() {
-       super.awakeFromNib()
+        super.awakeFromNib()
         let layer =  cellGradienView.addGradientBackground(firstColor: .ypBlue, secondColor: .ypRed)
         cellGradienView.layer.insertSublayer(layer, at: 0)
         cellGradienView.layoutIfNeeded()
-    }
-}
-
-extension UIView{
-    func addGradientBackground(firstColor: UIColor, secondColor: UIColor) -> CAGradientLayer{
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [firstColor.cgColor, secondColor.cgColor]
-        gradientLayer.frame = self.bounds
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
         
-        return gradientLayer
+        func prepareForReuse() {
+            super.prepareForReuse()
+            gradientLayer.frame = cellGradienView.bounds
+            
+            setupGradient()
+        }
+        
+        func setupGradient() {
+            self.cellGradienView.layer.addSublayer(gradientLayer)
+            gradientLayer.colors = [UIColor.ypRed.cgColor, UIColor.ypBlue.cgColor]
+            
+        }
     }
 }
+    
+    extension UIView{
+        func addGradientBackground(firstColor: UIColor, secondColor: UIColor) -> CAGradientLayer{
+            let gradientLayer = CAGradientLayer()
+            gradientLayer.colors = [firstColor.cgColor, secondColor.cgColor]
+            gradientLayer.frame = self.bounds
+            gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+            gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+            
+            return gradientLayer
+        }
+    }
+

@@ -44,6 +44,14 @@ extension ImagesListViewController {
         
         let likeImage = indexPath.row % 2 != 0 ? imageButtonNoLike : imageButtonLike
         cell.cellButton.setImage(likeImage, for: .normal)
+<<<<<<< Updated upstream
+=======
+        
+        //func prepareForReuse() {
+        //}
+        
+        //cell.setupGradient()
+>>>>>>> Stashed changes
     }
 }
 
