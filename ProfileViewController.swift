@@ -9,5 +9,22 @@ import Foundation
 import UIKit
 
 class ProfileViewController: UIViewController {
+    private weak var avatarImageView: UIImageView!
+    private weak var nameLabel: UILabel!
+    private weak var loginLable: UILabel!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+
+    }
+}
+
+
+extension ProfileViewController {
+    
+    func setupAutoresizingMaskBackgroundColor(andAdd subview: UIView) {
+        subview.translatesAutoresizingMaskIntoConstraints = false
+        subview.backgroundColor = .clear
+    }
 }
