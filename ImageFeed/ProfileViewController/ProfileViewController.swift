@@ -9,27 +9,35 @@ import Foundation
 import UIKit
 
 class ProfileViewController: UIViewController {
-    private weak var avatarImageView: UIImageView!
-    private weak var nameLabel: UILabel!
-    private weak var loginLable: UILabel!
-
+    private var avatarImageView: UIImageView?
+    private var nameLabel: UILabel?
+    private var loginLable: UILabel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .ypBlack
         
-
     }
 }
-
 
 extension ProfileViewController {
     
     func setupAutoresizingMaskBackgroundColor(andAdd subview: UIView) {
         subview.translatesAutoresizingMaskIntoConstraints = false
         subview.backgroundColor = .clear
+        view.addSubview(subview)
     }
-    
     func setupAvatarImageView() {
+        let avatarImage = UIImage(named: "Photo")
+        let avatarImageView = UIImageView.init(image: avatarImage)
+        setupAutoresizingMaskBackgroundColor(andAdd: avatarImageView)
+        self.avatarImageView = avatarImageView
         
+        NSLayoutConstraint.activate([
+            avatarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76),
+            avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 70),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 70)
+        ])
     }
 }
