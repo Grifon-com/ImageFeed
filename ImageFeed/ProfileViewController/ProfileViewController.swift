@@ -12,7 +12,7 @@ class ProfileViewController: UIViewController {
     private weak var avatarImageView: UIImageView!
     private weak var nameLabel: UILabel!
     private weak var loginLable: UILabel!
-    private weak 
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
