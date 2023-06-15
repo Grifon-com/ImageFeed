@@ -17,10 +17,24 @@ final class ImagesListCell: UITableViewCell {
     
     static let reuseIdentifier = "ImagesListCell"
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        let cellGradienView = UIView()
+        let layer =  cellGradienView.addGradientBackground(firstColor: .ypBlue, secondColor: .ypRed)
+        cellGradienView.layer.insertSublayer(layer, at: 0)
+        cellGradienView.layoutIfNeeded()
+        self.cellGradienView = cellGradienView
+    }
+    
     override func awakeFromNib() {
        super.awakeFromNib()
         let layer =  cellGradienView.addGradientBackground(firstColor: .ypBlue, secondColor: .ypRed)
         cellGradienView.layer.insertSublayer(layer, at: 0)
+        cellGradienView.layoutIfNeeded()
     }
 }
 

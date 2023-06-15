@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1ACA61122A3B2D13009F2141 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA61112A3B2D13009F2141 /* ProfileViewController.swift */; };
 		1ACCC8242A20DE3C00433E49 /* Extensions UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */; };
 		1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */; };
 		1AFE86142A1FB89100BBEA1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE86132A1FB89100BBEA1B /* AppDelegate.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1ACA61112A3B2D13009F2141 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions UIColor.swift"; sourceTree = "<group>"; };
 		1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		1AFE86102A1FB89100BBEA1B /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +102,7 @@
 		1AFE86072A1FB89100BBEA1B = {
 			isa = PBXGroup;
 			children = (
+				1ACA61112A3B2D13009F2141 /* ProfileViewController.swift */,
 				1AFE86122A1FB89100BBEA1B /* ImageFeed */,
 				1AFE86292A1FB89300BBEA1B /* ImageFeedTests */,
 				1AFE86332A1FB89300BBEA1B /* ImageFeedUITests */,
@@ -280,6 +283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1ACA61122A3B2D13009F2141 /* ProfileViewController.swift in Sources */,
 				1ACCC8242A20DE3C00433E49 /* Extensions UIColor.swift in Sources */,
 				1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */,
 				1AFE86182A1FB89100BBEA1B /* ImagesListViewController.swift in Sources */,
