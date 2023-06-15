@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
-        
+        setupAvatarImageView()
     }
 }
 
@@ -27,6 +27,7 @@ extension ProfileViewController {
         subview.backgroundColor = .clear
         view.addSubview(subview)
     }
+    
     func setupAvatarImageView() {
         let avatarImage = UIImage(named: "Photo")
         let avatarImageView = UIImageView.init(image: avatarImage)
@@ -39,5 +40,12 @@ extension ProfileViewController {
             avatarImageView.heightAnchor.constraint(equalToConstant: 70),
             avatarImageView.widthAnchor.constraint(equalToConstant: 70)
         ])
+    }
+    
+    func setupNameLabel() {
+        let nameLabel = UILabel()
+        nameLabel.text = "Екатерина новикова"
+        nameLabel.tintColor = .ypWhite
+        nameLabel.font = UIFont.init(name: <#T##String#>, size: <#T##CGFloat#>)
     }
 }
