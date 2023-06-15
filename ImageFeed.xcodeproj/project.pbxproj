@@ -82,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1ACA61132A3B3433009F2141 /* ProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1ACA61112A3B2D13009F2141 /* ProfileViewController.swift */,
+			);
+			path = ProfileViewController;
+			sourceTree = "<group>";
+		};
 		1ACCC8222A20DDF400433E49 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,7 +110,6 @@
 		1AFE86072A1FB89100BBEA1B = {
 			isa = PBXGroup;
 			children = (
-				1ACA61112A3B2D13009F2141 /* ProfileViewController.swift */,
 				1AFE86122A1FB89100BBEA1B /* ImageFeed */,
 				1AFE86292A1FB89300BBEA1B /* ImageFeedTests */,
 				1AFE86332A1FB89300BBEA1B /* ImageFeedUITests */,
@@ -123,6 +130,7 @@
 		1AFE86122A1FB89100BBEA1B /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				1ACA61132A3B3433009F2141 /* ProfileViewController */,
 				1AEAF11C2A21EFB3009DA20F /* ImageList */,
 				1AFE86132A1FB89100BBEA1B /* AppDelegate.swift */,
 				1AFE86152A1FB89100BBEA1B /* SceneDelegate.swift */,
