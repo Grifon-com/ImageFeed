@@ -8,7 +8,6 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-    
     private let avatarImageView: UIImageView = {
         let avatarImage = UIImage(named: "Avatar")
         let avatarImageView = UIImageView(image: avatarImage)
