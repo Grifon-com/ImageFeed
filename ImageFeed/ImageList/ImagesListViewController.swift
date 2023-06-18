@@ -8,18 +8,15 @@
 import UIKit
 
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
     
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
     
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
-    private var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
     
     @IBOutlet private var tableView: UITableView!
     
@@ -33,9 +30,9 @@ class ImagesListViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showSingleImageSegueIdentifier{
-            let viewController = segue.destination as! SingleImageViewController
-            let indexPath = sender as! IndexPath
+        if segue.identifier == showSingleImageSegueIdentifier {
+            guard let viewController = segue.destination as? SingleImageViewController,
+                  let indexPath = sender as? IndexPath else { return }
             let image = UIImage(named: photosName[indexPath.row])
             viewController.image = image
         } else {
@@ -44,21 +41,6 @@ class ImagesListViewController: UIViewController {
     }
 }
 
-//MARK: - ConfigCell
-extension ImagesListViewController {
-    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let image = UIImage(named: photosName[indexPath.row]) else { return }
-        
-        cell.cellImage.image = image
-        cell.cellLable.text = dateFormatter.string(from: Date())
-        
-        let imageButtonLike = UIImage(named: "Active")
-        let imageButtonNoLike = UIImage(named: "No Active")
-        
-        let likeImage = indexPath.row % 2 != 0 ? imageButtonNoLike : imageButtonLike
-        cell.cellButton.setImage(likeImage, for: .normal)
-    }
-}
 
 //MARK: - TableViewDlegate
 extension ImagesListViewController: UITableViewDelegate {
@@ -93,7 +75,12 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        configCell(for: imageListCell, with: indexPath)
+        guard let image = UIImage(named: photosName[indexPath.row]) else { return UITableViewCell() }
+        let buttonImage = indexPath.row % 2 == 0 ? UIImage(named: "No Active") : UIImage(named: "Active")
+        let textLable = Date().dateTimeString
+        let model = ImagesListCellModel(image: image, buttonImage: buttonImage, textLabel: textLable)
+        
+        imageListCell.configure(model: model)
         
         return imageListCell
     }

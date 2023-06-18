@@ -5,15 +5,20 @@
 //  Created by Григорий Машук on 27.05.23.
 //
 
-import Foundation
 import UIKit
 
 final class ImagesListCell: UITableViewCell {
     
-    @IBOutlet weak var cellImage: UIImageView!
-    @IBOutlet weak var cellButton: UIButton!
-    @IBOutlet weak var cellLable: UILabel!
+    @IBOutlet private weak var cellImage: UIImageView!
+    @IBOutlet private weak var cellButton: UIButton!
+    @IBOutlet private weak var cellLabel: UILabel!
     
     static let reuseIdentifier = "ImagesListCell"
+    
+    func configure(model: ImagesListCellModel) {
+        cellImage.image = model.image
+        cellButton.imageView?.image = model.buttonImage
+        cellLabel.text = model.textLabel
+        }
 }
 
