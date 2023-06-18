@@ -73,7 +73,7 @@
                                         <connections>
                                             <outlet property="cellButton" destination="YFu-85-OK5" id="WNf-OB-tlF"/>
                                             <outlet property="cellImage" destination="JMq-0p-pR9" id="4lE-9b-oTW"/>
-                                            <outlet property="cellLable" destination="MPM-g2-2xY" id="o3i-c1-vn8"/>
+                                            <outlet property="cellLabel" destination="MPM-g2-2xY" id="o3i-c1-vn8"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -119,8 +119,6 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="jLs-0I-mlK" secondAttribute="trailing" id="4LV-6y-l45"/>
                                     <constraint firstItem="jLs-0I-mlK" firstAttribute="top" secondItem="lPN-0Z-1b6" secondAttribute="top" id="GLp-B2-gOk"/>
-                                    <constraint firstItem="jLs-0I-mlK" firstAttribute="height" secondItem="sc9-W8-hO6" secondAttribute="height" multiplier="0.504695" id="NTf-VY-ySC"/>
-                                    <constraint firstItem="jLs-0I-mlK" firstAttribute="width" secondItem="sc9-W8-hO6" secondAttribute="width" multiplier="1.09415" id="b5J-kw-hAx"/>
                                     <constraint firstItem="jLs-0I-mlK" firstAttribute="leading" secondItem="lPN-0Z-1b6" secondAttribute="leading" id="pYk-9F-rNJ"/>
                                     <constraint firstAttribute="bottom" secondItem="jLs-0I-mlK" secondAttribute="bottom" id="wzq-6S-gnw"/>
                                 </constraints>

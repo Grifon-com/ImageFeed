@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1A71D5132A31E9FA00B70452 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A71D5122A31E9FA00B70452 /* ProfileViewController.swift */; };
+		1A83F9542A3E094700EBD8F8 /* ImageListCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A83F9532A3E094700EBD8F8 /* ImageListCellModel.swift */; };
+		1A83F9562A3E139000EBD8F8 /* ExtensionDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A83F9552A3E139000EBD8F8 /* ExtensionDate.swift */; };
 		1ACCC8242A20DE3C00433E49 /* ExtensionsUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACCC8232A20DE3C00433E49 /* ExtensionsUIColor.swift */; };
 		1AD0754B2A335B0500A41082 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD0754A2A335B0500A41082 /* SingleImageViewController.swift */; };
 		1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */; };
@@ -41,6 +43,8 @@
 
 /* Begin PBXFileReference section */
 		1A71D5122A31E9FA00B70452 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		1A83F9532A3E094700EBD8F8 /* ImageListCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListCellModel.swift; sourceTree = "<group>"; };
+		1A83F9552A3E139000EBD8F8 /* ExtensionDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDate.swift; sourceTree = "<group>"; };
 		1ACCC8232A20DE3C00433E49 /* ExtensionsUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsUIColor.swift; sourceTree = "<group>"; };
 		1AD0754A2A335B0500A41082 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
@@ -92,9 +96,18 @@
 			path = ProfileViewController;
 			sourceTree = "<group>";
 		};
+		1A83F9522A3E091200EBD8F8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1A83F9532A3E094700EBD8F8 /* ImageListCellModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		1ACCC8222A20DDF400433E49 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				1A83F9552A3E139000EBD8F8 /* ExtensionDate.swift */,
 				1ACCC8232A20DE3C00433E49 /* ExtensionsUIColor.swift */,
 			);
 			path = Helpers;
@@ -140,6 +153,7 @@
 		1AFE86122A1FB89100BBEA1B /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				1A83F9522A3E091200EBD8F8 /* Models */,
 				1A4235AB2A32168B009EA9D1 /* ProfileViewController */,
 				1AEC1DBA2A33B20900701990 /* SingleImageViewController */,
 				1AEAF11C2A21EFB3009DA20F /* ImageList */,
@@ -305,9 +319,11 @@
 				1A71D5132A31E9FA00B70452 /* ProfileViewController.swift in Sources */,
 				1ACCC8242A20DE3C00433E49 /* ExtensionsUIColor.swift in Sources */,
 				1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */,
+				1A83F9542A3E094700EBD8F8 /* ImageListCellModel.swift in Sources */,
 				1AD0754B2A335B0500A41082 /* SingleImageViewController.swift in Sources */,
 				1AFE86182A1FB89100BBEA1B /* ImagesListViewController.swift in Sources */,
 				1AFE86142A1FB89100BBEA1B /* AppDelegate.swift in Sources */,
+				1A83F9562A3E139000EBD8F8 /* ExtensionDate.swift in Sources */,
 				1AFE86162A1FB89100BBEA1B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
