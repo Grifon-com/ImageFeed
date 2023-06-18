@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1ACCC8242A20DE3C00433E49 /* Extensions UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */; };
+		1A71D5132A31E9FA00B70452 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A71D5122A31E9FA00B70452 /* ProfileViewController.swift */; };
+		1ACCC8242A20DE3C00433E49 /* ExtensionsUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACCC8232A20DE3C00433E49 /* ExtensionsUIColor.swift */; };
+		1AD0754B2A335B0500A41082 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD0754A2A335B0500A41082 /* SingleImageViewController.swift */; };
 		1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */; };
 		1AFE86142A1FB89100BBEA1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE86132A1FB89100BBEA1B /* AppDelegate.swift */; };
 		1AFE86162A1FB89100BBEA1B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE86152A1FB89100BBEA1B /* SceneDelegate.swift */; };
@@ -38,7 +40,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions UIColor.swift"; sourceTree = "<group>"; };
+		1A71D5122A31E9FA00B70452 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		1ACCC8232A20DE3C00433E49 /* ExtensionsUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsUIColor.swift; sourceTree = "<group>"; };
+		1AD0754A2A335B0500A41082 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		1AFE86102A1FB89100BBEA1B /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AFE86132A1FB89100BBEA1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,10 +84,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A4235AB2A32168B009EA9D1 /* ProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1A71D5122A31E9FA00B70452 /* ProfileViewController.swift */,
+			);
+			path = ProfileViewController;
+			sourceTree = "<group>";
+		};
 		1ACCC8222A20DDF400433E49 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */,
+				1ACCC8232A20DE3C00433E49 /* ExtensionsUIColor.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -95,6 +107,14 @@
 				1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */,
 			);
 			path = ImageList;
+			sourceTree = "<group>";
+		};
+		1AEC1DBA2A33B20900701990 /* SingleImageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1AD0754A2A335B0500A41082 /* SingleImageViewController.swift */,
+			);
+			path = SingleImageViewController;
 			sourceTree = "<group>";
 		};
 		1AFE86072A1FB89100BBEA1B = {
@@ -120,6 +140,8 @@
 		1AFE86122A1FB89100BBEA1B /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				1A4235AB2A32168B009EA9D1 /* ProfileViewController */,
+				1AEC1DBA2A33B20900701990 /* SingleImageViewController */,
 				1AEAF11C2A21EFB3009DA20F /* ImageList */,
 				1AFE86132A1FB89100BBEA1B /* AppDelegate.swift */,
 				1AFE86152A1FB89100BBEA1B /* SceneDelegate.swift */,
@@ -280,8 +302,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1ACCC8242A20DE3C00433E49 /* Extensions UIColor.swift in Sources */,
+				1A71D5132A31E9FA00B70452 /* ProfileViewController.swift in Sources */,
+				1ACCC8242A20DE3C00433E49 /* ExtensionsUIColor.swift in Sources */,
 				1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */,
+				1AD0754B2A335B0500A41082 /* SingleImageViewController.swift in Sources */,
 				1AFE86182A1FB89100BBEA1B /* ImagesListViewController.swift in Sources */,
 				1AFE86142A1FB89100BBEA1B /* AppDelegate.swift in Sources */,
 				1AFE86162A1FB89100BBEA1B /* SceneDelegate.swift in Sources */,
