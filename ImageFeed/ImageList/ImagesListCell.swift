@@ -19,6 +19,6 @@ final class ImagesListCell: UITableViewCell {
         cellImage.image = model.image
         cellButton.imageView?.image = model.buttonImage
         cellLabel.text = model.textLabel
-        }
+    }
 }
 
