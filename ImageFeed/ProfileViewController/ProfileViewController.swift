@@ -2,7 +2,7 @@
 //  ProfileViewController.swift
 //  ImageFeed
 //
-//  Created by Uригорий Машук on 15.06.23.
+//  Created by Григорий Машук on 15.06.23.
 //
 
 import Foundation
