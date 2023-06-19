@@ -76,7 +76,7 @@ extension ImagesListViewController: UITableViewDataSource {
         }
         
         guard let image = UIImage(named: photosName[indexPath.row]) else { return UITableViewCell() }
-        let buttonImage = indexPath.row % 2 == 0 ? UIImage(named: "No Active") : UIImage(named: "Active")
+        let buttonImage = indexPath.row % 2 == 0 ? UIImage(named: "Active") : UIImage(named: "No Active")
         let textLable = Date().dateTimeString
         let model = ImagesListCellModel(image: image, buttonImage: buttonImage, textLabel: textLable)
         
