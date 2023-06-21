@@ -54,8 +54,8 @@ extension SingleImageViewController {
         scrollView.layoutIfNeeded()
         
         let newContentSize = scrollView.contentSize
-        let x = (newContentSize.width - visibleRectSize.width)
-        let y = (newContentSize.height - visibleRectSize.height)
+        let x = (newContentSize.width - visibleRectSize.width) / 2
+        let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
 }

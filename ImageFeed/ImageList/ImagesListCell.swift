@@ -17,6 +17,7 @@ final class ImagesListCell: UITableViewCell {
     
     let gradientLayer = CAGradientLayer()
     static let reuseIdentifier = "ImagesListCell"
+     
     
     func setupGaradient() {
         gradientLayer.colors = [UIColor.ypRed.cgColor, UIColor.ypBlue.cgColor]
