@@ -15,49 +15,18 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet weak var cellLable: UILabel!
     @IBOutlet weak var cellGradienView: UIView!
     
+    let gradientLayer = CAGradientLayer()
     static let reuseIdentifier = "ImagesListCell"
     
-    private let gradientLayer = CAGradientLayer()
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        let cellGradienView = UIView()
-        let layer =  cellGradienView.addGradientBackground(firstColor: .ypBlue, secondColor: .ypRed)
-        cellGradienView.layer.insertSublayer(layer, at: 0)
-        cellGradienView.layoutIfNeeded()
-        self.cellGradienView = cellGradienView
+    func setupGaradient() {
+        gradientLayer.colors = [UIColor.ypRed.cgColor, UIColor.ypBlue.cgColor]
+        cellGradienView.layer.insertSublayer(gradientLayer, at: 0)
+        
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        let layer =  cellGradienView.addGradientBackground(firstColor: .ypBlue, secondColor: .ypRed)
-        cellGradienView.layer.insertSublayer(layer, at: 0)
-        cellGradienView.layoutIfNeeded()
-        
-        func prepareForReuse() {
-            super.prepareForReuse()
-            gradientLayer.frame = cellGradienView.bounds
-            
-            setupGradient()
-        }
-        
-        func setupGradient() {
-            self.cellGradienView.layer.addSublayer(gradientLayer)
-            gradientLayer.colors = [UIColor.ypRed.cgColor, UIColor.ypBlue.cgColor]
-            
-        }
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
+        gradientLayer.frame = cellGradienView.bounds
     }
 }
-    
-    extension UIView{
-        func addGradientBackground(firstColor: UIColor, secondColor: UIColor) -> CAGradientLayer{
-            let gradientLayer = CAGradientLayer()
-            gradientLayer.colors = [firstColor.cgColor, secondColor.cgColor]
-            gradientLayer.frame = self.bounds
-            gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-            gradientLayer.endPoint = CGPoint(x: 0, y: 1)
-            
-            return gradientLayer
-        }
-    }
 

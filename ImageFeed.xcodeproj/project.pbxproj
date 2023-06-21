@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1A0515382A4083BB0011BDC5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0515372A4083BB0011BDC5 /* TabBarController.swift */; };
+		1A26B9B32A40C80B00BAD6D7 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A26B9B22A40C80B00BAD6D7 /* SingleImageViewController.swift */; };
 		1ACA61122A3B2D13009F2141 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA61112A3B2D13009F2141 /* ProfileViewController.swift */; };
 		1ACCC8242A20DE3C00433E49 /* Extensions UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */; };
 		1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */; };
@@ -40,7 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1A0515372A4083BB0011BDC5 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		1A26B9B22A40C80B00BAD6D7 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		1ACA61112A3B2D13009F2141 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions UIColor.swift"; sourceTree = "<group>"; };
 		1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
@@ -84,12 +84,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1A0515362A4083920011BDC5 /* TabBarControllers */ = {
+		1A26B9B12A40C7D800BAD6D7 /* SingleImageViewController */ = {
 			isa = PBXGroup;
 			children = (
-				1A0515372A4083BB0011BDC5 /* TabBarController.swift */,
+				1A26B9B22A40C80B00BAD6D7 /* SingleImageViewController.swift */,
 			);
-			path = TabBarControllers;
+			path = SingleImageViewController;
 			sourceTree = "<group>";
 		};
 		1ACA61132A3B3433009F2141 /* ProfileViewController */ = {
@@ -140,7 +140,7 @@
 		1AFE86122A1FB89100BBEA1B /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				1A0515362A4083920011BDC5 /* TabBarControllers */,
+				1A26B9B12A40C7D800BAD6D7 /* SingleImageViewController */,
 				1ACA61132A3B3433009F2141 /* ProfileViewController */,
 				1AEAF11C2A21EFB3009DA20F /* ImageList */,
 				1AFE86132A1FB89100BBEA1B /* AppDelegate.swift */,
@@ -306,8 +306,8 @@
 				1ACCC8242A20DE3C00433E49 /* Extensions UIColor.swift in Sources */,
 				1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */,
 				1AFE86182A1FB89100BBEA1B /* ImagesListViewController.swift in Sources */,
-				1A0515382A4083BB0011BDC5 /* TabBarController.swift in Sources */,
 				1AFE86142A1FB89100BBEA1B /* AppDelegate.swift in Sources */,
+				1A26B9B32A40C80B00BAD6D7 /* SingleImageViewController.swift in Sources */,
 				1AFE86162A1FB89100BBEA1B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
