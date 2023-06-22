@@ -2,42 +2,56 @@
 //  SingleImageViewController.swift
 //  ImageFeed
 //
-//  Created by Марина Машук on 19.06.23.
+//  Created by Григорий Машук on 9.06.23.
 //
 
+import Foundation
 import UIKit
 
 final class SingleImageViewController: UIViewController {
-    
-    //Итак, если нам нужно подменять изображение уже после viewDidLoad,
-    //мы можем реализовать обработчик didSet для image следующим образом:
-     var image: UIImage! {
+    var image: UIImage! {
         didSet {
             guard isViewLoaded else { return }
             imageView.image = image
             rescaleAndCenterImageInScrollView(image: image)
         }
     }
-
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         imageView.image = image
-        scrollView.minimumZoomScale = 0.1
+        
+        scrollView.maximumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
+        
         rescaleAndCenterImageInScrollView(image: image)
+    }
+    
+    @IBAction private func didTapBackButton(_ sender: UIButton) {
+        dismiss(animated: true)
+    }
+    
+    @IBAction private func didTapShareButton(_ sender: UIButton) {
+        guard let image = image else { return }
+        let content: [Any] = [image]
+        
+        let sharing = UIActivityViewController(activityItems: content, applicationActivities: nil)
+        
+        present(sharing, animated: true)
     }
 }
 
+//MARK: - UIScrollViewDelegate
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
     }
 }
 
+//MARK: - Rescale
 extension SingleImageViewController {
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
