@@ -16,13 +16,16 @@ final class WebViewViewController: UIViewController {
     @IBOutlet private weak var webView: WKWebView!
     var delegate: WebViewViewControllerDelegate?
     
+    @IBOutlet private weak var progressView: UIProgressView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupURL()
         webView.navigationDelegate = self
     }
     
-    @IBAction func didTapBackButton(_ sender: Any?) {
+    
+    @IBAction private func didTapBackButton(_ sender: Any?) {
         delegate?.webViewViewControllerDidCancel(self)
     }
 }
