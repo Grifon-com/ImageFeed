@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+<<<<<<< Updated upstream
+=======
+		1A48AEC52A4B3F3400DF618B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A48AEC42A4B3F3400DF618B /* SplashViewController.swift */; };
+		1A5B7EBC2A447399007FE3EE /* Constans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5B7EBB2A447399007FE3EE /* Constans.swift */; };
+		1A6424E52A47725200D6B46B /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6424E42A47725200D6B46B /* OAuth2Service.swift */; };
+		1A6424E92A4861D400D6B46B /* OAuth2TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6424E82A4861D400D6B46B /* OAuth2TokenStorage.swift */; };
+>>>>>>> Stashed changes
 		1A71D5132A31E9FA00B70452 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A71D5122A31E9FA00B70452 /* ProfileViewController.swift */; };
 		1A83F9542A3E094700EBD8F8 /* ImageListCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A83F9532A3E094700EBD8F8 /* ImageListCellModel.swift */; };
 		1A83F9562A3E139000EBD8F8 /* ExtensionDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A83F9552A3E139000EBD8F8 /* ExtensionDate.swift */; };
@@ -42,6 +49,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+<<<<<<< Updated upstream
+=======
+		1A48AEC42A4B3F3400DF618B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		1A5B7EBB2A447399007FE3EE /* Constans.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constans.swift; sourceTree = "<group>"; };
+		1A6424E42A47725200D6B46B /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
+		1A6424E82A4861D400D6B46B /* OAuth2TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStorage.swift; sourceTree = "<group>"; };
+>>>>>>> Stashed changes
 		1A71D5122A31E9FA00B70452 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1A83F9532A3E094700EBD8F8 /* ImageListCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListCellModel.swift; sourceTree = "<group>"; };
 		1A83F9552A3E139000EBD8F8 /* ExtensionDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDate.swift; sourceTree = "<group>"; };
@@ -96,6 +110,41 @@
 			path = ProfileViewController;
 			sourceTree = "<group>";
 		};
+<<<<<<< Updated upstream
+=======
+		1A48AEC32A4B3EC300DF618B /* SplashViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1A48AEC42A4B3F3400DF618B /* SplashViewController.swift */,
+			);
+			path = SplashViewController;
+			sourceTree = "<group>";
+		};
+		1A48AEC62A4B41A200DF618B /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		1A5B7EBA2A447373007FE3EE /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				1A5B7EBB2A447399007FE3EE /* Constans.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		1A6424E32A4771FB00D6B46B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				1A6424E42A47725200D6B46B /* OAuth2Service.swift */,
+				1A6424E82A4861D400D6B46B /* OAuth2TokenStorage.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+>>>>>>> Stashed changes
 		1A83F9522A3E091200EBD8F8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,7 +202,15 @@
 		1AFE86122A1FB89100BBEA1B /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< Updated upstream
+=======
+				1A48AEC62A4B41A200DF618B /* New Group */,
+				1A6424E32A4771FB00D6B46B /* Services */,
+				1ABF040D2A44D63000EA00B8 /* Auth */,
+				1A5B7EBA2A447373007FE3EE /* Constants */,
+>>>>>>> Stashed changes
 				1A83F9522A3E091200EBD8F8 /* Models */,
+				1A48AEC32A4B3EC300DF618B /* SplashViewController */,
 				1A4235AB2A32168B009EA9D1 /* ProfileViewController */,
 				1AEC1DBA2A33B20900701990 /* SingleImageViewController */,
 				1AEAF11C2A21EFB3009DA20F /* ImageList */,
@@ -318,12 +375,22 @@
 			files = (
 				1A71D5132A31E9FA00B70452 /* ProfileViewController.swift in Sources */,
 				1ACCC8242A20DE3C00433E49 /* ExtensionsUIColor.swift in Sources */,
+<<<<<<< Updated upstream
+=======
+				1A48AEC52A4B3F3400DF618B /* SplashViewController.swift in Sources */,
+				1A5B7EBC2A447399007FE3EE /* Constans.swift in Sources */,
+>>>>>>> Stashed changes
 				1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */,
 				1A83F9542A3E094700EBD8F8 /* ImageListCellModel.swift in Sources */,
 				1AD0754B2A335B0500A41082 /* SingleImageViewController.swift in Sources */,
 				1AFE86182A1FB89100BBEA1B /* ImagesListViewController.swift in Sources */,
 				1AFE86142A1FB89100BBEA1B /* AppDelegate.swift in Sources */,
 				1A83F9562A3E139000EBD8F8 /* ExtensionDate.swift in Sources */,
+<<<<<<< Updated upstream
+=======
+				1A6424E92A4861D400D6B46B /* OAuth2TokenStorage.swift in Sources */,
+				1ABF04152A44DAE400EA00B8 /* WebViewViewController.swift in Sources */,
+>>>>>>> Stashed changes
 				1AFE86162A1FB89100BBEA1B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
