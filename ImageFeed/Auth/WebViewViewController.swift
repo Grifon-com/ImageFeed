@@ -4,12 +4,16 @@
 //
 //  Created by Григорий Машук on 22.06.23.
 //
-let codeR = "3JsDYjWKaQLn3GdgKhueqzylsRpMFKNu1FB_-7nBC8g"
 
 import UIKit
 import WebKit
 
-fileprivate let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+protocol WebViewViewControllerDelegate: AnyObject {
+    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
+    func webViewViewControllerDidCancel(_ vc: WebViewViewController)
+}
+
+private let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
 
 final class WebViewViewController: UIViewController {
     
@@ -25,6 +29,10 @@ final class WebViewViewController: UIViewController {
         setupURL()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+    
     @IBAction private func didTapBackButton(_ sender: Any?) {
         delegate?.webViewViewControllerDidCancel(self)
     }
@@ -35,9 +43,7 @@ extension WebViewViewController {
     private func setupURL() {
         
         guard var urlComponents = URLComponents(string: UnsplashAuthorizeURLString) else
-        { assertionFailure("URL error")
-            return
-        }
+        { fatalError("URL error") }
         
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: AccessKey),
@@ -45,22 +51,20 @@ extension WebViewViewController {
             URLQueryItem(name: "response_type", value: "code"),
             URLQueryItem(name: "scope", value: AccessScope)
         ]
-        guard let url = urlComponents.url else {assertionFailure("URL generation error")
-            return
-        }
+        
+        guard let url = urlComponents.url else { fatalError("URL generation error") }
         
         let request = URLRequest(url: url)
         webView.load(request)
     }
 }
-//MARK: - NavigationDelegate
+//MARK: - WKNavigationDelegate
 extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let code = code(from: navigationAction) {
-            //TODO: process code
+            //TODO: - process code
             decisionHandler(.cancel)
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
-            
         } else {
             decisionHandler(.allow)
         }
@@ -97,12 +101,14 @@ extension WebViewViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //подписываемся на обновления используя KVO
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress),
                             options: .new,context: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        //отписываемся от обновлений
         webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
     }
 }

@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol OAuth2ServiceProtocol {
+    func fetchAuthToken(_ code: String, complition: @escaping (Result <String, Error>) -> Void)
+}
+
 private enum NetworkError: Error {
     case httpStatusCode(Int)
     case urlRequestError(Error)
@@ -17,7 +21,10 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     static let shared = OAuth2Service()
     
     private let urlSession = URLSession.shared
-    private var token: TokenProtocol = OAuth2TokenStorage()
+    private (set) var authToken: String? {
+        get { return OAuth2TokenStorage().token}
+        set { OAuth2TokenStorage().token = newValue }
+    }
     
     func fetchAuthToken(_ code: String, complition: @escaping (Result <String, Error>) -> Void) {
         let request = authTokenRequest(code: code)
@@ -25,8 +32,9 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             guard let self = self else { return }
             switch result {
             case .success(let body):
-                self.token.token = body.accessToken
-                complition(.success(body.accessToken))
+                let authToken = body.accessToken
+                self.authToken = authToken
+                complition(.success(authToken))
             case .failure(let error):
                 complition(.failure(error))
             }
@@ -46,16 +54,6 @@ extension OAuth2Service {
         }
     }
     
-    private func authTokenRequest(code: String) -> URLRequest {
-       URLRequest.makeHTTPRequest(path: "/oauth/token"
-                                  + "?client_id=\(AccessKey)"
-                                  + "&&client_secret=\(SecretKey)"
-                                  + "&&redirect_uri=\(RedirectURI)"
-                                  + "&&code=\(code)"
-                                  + "&&grant_type=authorization_code",
-                                  httpMethod: "POST")
-    }
-    
     private struct OAuthTokenResponseBody: Decodable {
         let accessToken: String
         let tokenType: String
@@ -68,6 +66,21 @@ extension OAuth2Service {
             case scope
             case createdAt = "created_at"
         }
+    }
+    
+    private func authTokenRequest(code: String) -> URLRequest {
+        let urlObsoluteString = DefaultBaseURL.absoluteString + Path
+        guard var urlComponents = URLComponents(string: urlObsoluteString ) else { fatalError("URL error") }
+        urlComponents.queryItems = [
+            URLQueryItem(name: "client_id", value: AccessKey),
+            URLQueryItem(name: "client_secret", value: SecretKey),
+            URLQueryItem(name: "redirect_uri", value: RedirectURI),
+            URLQueryItem(name: "code", value: code),
+            URLQueryItem(name: "grant_type", value: "authorization_code")
+        ]
+        guard let url = urlComponents.url else { fatalError("URL generation error") }
+        
+        return URLRequest.makeHTTPRequest(url: url, httpMethod: "POST")
     }
 }
 
@@ -100,9 +113,8 @@ extension URLSession {
 }
 
 extension URLRequest {
-    
-    static func makeHTTPRequest(path: String, httpMethod: String, baseURL: URL = DefaultBaseURL) -> URLRequest {
-        var request = URLRequest(url: URL(string: path, relativeTo: baseURL)!)
+    static func makeHTTPRequest(url: URL, httpMethod: String) -> URLRequest {
+        var request = URLRequest(url: url)
         request.httpMethod = httpMethod
         return request
     }

@@ -30,6 +30,10 @@ final class SingleImageViewController: UIViewController {
         rescaleAndCenterImageInScrollView(image: image)
     }
     
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        rescaleAndCenterImageInScrollView(image: image)
+    }
+    
     @IBAction private func didTapBackButton(_ sender: UIButton) {
         dismiss(animated: true)
     }
