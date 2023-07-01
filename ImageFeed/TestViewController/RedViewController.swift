@@ -9,6 +9,7 @@ import UIKit
 
 final class RedViewController: UIViewController {
     private var segue: UIStoryboardSegue?
+    private var navigVc: UINavigationController?
     
     private let buttonView: UIButton = {
         let size = CGSize.init(width: 100, height: 50)
@@ -29,18 +30,18 @@ final class RedViewController: UIViewController {
         let greenVc = storybord.instantiateViewController(identifier: "greenViewController")
         let redVc = storybord.instantiateViewController(withIdentifier: "redViewController")
         
-        segue = UIStoryboardSegue(identifier: "ShowGreenViewController", source: greenVc, destination: redVc)
+        segue = UIStoryboardSegue(identifier: "ShowGreenViewController", source: redVc, destination: greenVc)
         
         buttonView.addTarget(self, action: #selector(didShowGreenVc), for: .touchUpInside)
-        
     }
     
-    
     @objc private func didShowGreenVc(_ sender: UIButton) {
-        if self.segue?.identifier == "ShowGreenViewController" {
-            guard let vc = navigationController?.viewControllers.first(where: {$0.}) else { return }
-            present(vc, animated: true)
+        if segue?.identifier == "ShowGreenViewController" {
+            if var vc = segue?.source as? GreenViewController {
+                present(vc, animated: true)
+            }
         }
     }
 }
+
 
