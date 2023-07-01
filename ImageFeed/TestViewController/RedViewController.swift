@@ -18,6 +18,7 @@ final class RedViewController: UIViewController {
         let buttonView = UIButton(frame: frame)
         buttonView.titleLabel?.textColor = .ypBackground
         buttonView.setTitle("Переход", for: .normal)
+       
         
         return buttonView
     }()
@@ -29,19 +30,19 @@ final class RedViewController: UIViewController {
         let storybord = UIStoryboard(name: "Main", bundle: .main)
         let greenVc = storybord.instantiateViewController(identifier: "greenViewController")
         let redVc = storybord.instantiateViewController(withIdentifier: "redViewController")
+
+        buttonView.addTarget(RedViewController.self, action: #selector(didShowGreenVc), for: .touchUpInside)
         
         segue = UIStoryboardSegue(identifier: "ShowGreenViewController", source: redVc, destination: greenVc)
         
-        buttonView.addTarget(self, action: #selector(didShowGreenVc), for: .touchUpInside)
+        
     }
     
     @objc private func didShowGreenVc(_ sender: UIButton) {
         if segue?.identifier == "ShowGreenViewController" {
-            if var vc = segue?.source as? GreenViewController {
-                present(vc, animated: true)
-            }
-        }
+            if  let vc = segue?.destination as? GreenViewController  {
+                self.present(vc, animated: true)
+            }}
     }
 }
-
 
