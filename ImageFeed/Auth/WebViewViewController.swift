@@ -13,13 +13,11 @@ protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
 }
 
-private let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-
 final class WebViewViewController: UIViewController {
     
     @IBOutlet private weak var webView: WKWebView!
     
-    var delegate: WebViewViewControllerDelegate?
+    weak var delegate: WebViewViewControllerDelegate?
     
     @IBOutlet private weak var progressView: UIProgressView!
     
@@ -42,17 +40,16 @@ final class WebViewViewController: UIViewController {
 extension WebViewViewController {
     private func setupURL() {
         
-        guard var urlComponents = URLComponents(string: UnsplashAuthorizeURLString) else
-        { fatalError("URL error") }
+        guard var urlComponents = URLComponents(string: ConstantsUnSplash.unSplashAuthorizeURLString) else { return }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: AccessKey),
-            URLQueryItem(name: "redirect_uri", value: RedirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: AccessScope)
+            URLQueryItem(name: "client_id", value: ConstantsUnSplash.accessKey),
+            URLQueryItem(name: "redirect_uri", value: ConstantsUnSplash.redirectURI),
+            URLQueryItem(name: "response_type", value: ConstantsUnSplash.code),
+            URLQueryItem(name: "scope", value: ConstantsUnSplash.accessScope)
         ]
         
-        guard let url = urlComponents.url else { fatalError("URL generation error") }
+        guard let url = urlComponents.url else { return }
         
         let request = URLRequest(url: url)
         webView.load(request)
@@ -74,9 +71,9 @@ extension WebViewViewController: WKNavigationDelegate {
         if
             let url = navigationAction.request.url,
             let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == "/oauth/authorize/native",
+            urlComponents.path == ConstantsUnSplash.authNativePath,
             let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == "code"}) {
+            let codeItem = items.first(where: { $0.name == ConstantsUnSplash.code}) {
             
             return codeItem.value
         } else {

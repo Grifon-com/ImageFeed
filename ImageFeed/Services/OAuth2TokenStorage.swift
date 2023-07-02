@@ -20,8 +20,7 @@ final class OAuth2TokenStorage: StorageTokenProtocol {
     
     var token: String? {
         get {
-            let token = userDefault.string(forKey: Keys.token.rawValue) ?? nil
-            return token
+            userDefault.string(forKey: Keys.token.rawValue)
         }
         set {
             userDefault.set(newValue, forKey: Keys.token.rawValue)

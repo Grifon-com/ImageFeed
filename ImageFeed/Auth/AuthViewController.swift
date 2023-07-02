@@ -7,17 +7,17 @@
 
 import UIKit
 
-protocol AuthViewControllerDelegate {
+protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
 }
  
 final class AuthViewController: UIViewController{
-    let showWebSegueIdentifier = "ShowWebView"
+    private let showWebSegueIdentifier = "ShowWebView"
     
     private var oAuth2Service: OAuth2ServiceProtocol?
     private var authToken: StorageTokenProtocol?
     
-    var delegate: AuthViewControllerDelegate?
+    weak var delegate: AuthViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +25,14 @@ final class AuthViewController: UIViewController{
         authToken = OAuth2TokenStorage()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebSegueIdentifier {
-            guard let webViewViewController = segue.destination as? WebViewViewController else { fatalError("Failed to prepare for \(showWebSegueIdentifier)") }
+            guard let webViewViewController = segue.destination as? WebViewViewController
+            else { return }
             webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)

@@ -20,7 +20,7 @@ final class ProfileViewController: UIViewController {
         let nameLabel = UILabel()
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = .ypWhite
-        nameLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 23.0)
+        nameLabel.font = .boldSystemFont(ofSize: 23)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         return nameLabel
@@ -82,7 +82,7 @@ extension ProfileViewController {
         NSLayoutConstraint.activate([
             avatarImageView.heightAnchor.constraint(equalToConstant: 70),
             avatarImageView.widthAnchor.constraint(equalToConstant: 70),
-            avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 76),
+            avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
             avatarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             
             nameLabel.topAnchor.constraint(equalTo:avatarImageView.bottomAnchor, constant: 8),
