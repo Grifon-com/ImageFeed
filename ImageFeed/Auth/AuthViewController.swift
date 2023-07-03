@@ -12,12 +12,12 @@ protocol AuthViewControllerDelegate: AnyObject {
 }
  
 final class AuthViewController: UIViewController{
+    weak var delegate: AuthViewControllerDelegate?
+    
     private let showWebSegueIdentifier = "ShowWebView"
     
     private var oAuth2Service: OAuth2ServiceProtocol?
     private var authToken: StorageTokenProtocol?
-    
-    weak var delegate: AuthViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

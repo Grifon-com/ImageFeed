@@ -70,9 +70,8 @@ final class ProfileViewController: UIViewController {
 
 //MARK: - SetupUIElement
 extension ProfileViewController {
-    
     private func addSubviewAndSetupBackgraundColor() {
-        [avatarImageView, nameLabel, loginNameLabel, descriptionLabel, logoutButton].map {
+        [avatarImageView, nameLabel, loginNameLabel, descriptionLabel, logoutButton].forEach {
             view.addSubview($0)
             $0.backgroundColor = .clear
         }

@@ -14,12 +14,10 @@ protocol WebViewViewControllerDelegate: AnyObject {
 }
 
 final class WebViewViewController: UIViewController {
-    
     @IBOutlet private weak var webView: WKWebView!
+    @IBOutlet private weak var progressView: UIProgressView!
     
     weak var delegate: WebViewViewControllerDelegate?
-    
-    @IBOutlet private weak var progressView: UIProgressView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

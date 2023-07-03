@@ -8,7 +8,6 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
-    
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     
     private var oAuth2Service: OAuth2ServiceProtocol?
@@ -81,7 +80,7 @@ extension SplashViewController {
         if segue.identifier == showAuthenticationScreenSegueIdentifier {
             //Находим первый контроллер
             guard let navigationController = segue.destination as? UINavigationController,
-                  let viewController = navigationController.viewControllers[0] as? AuthViewController else { return }
+                  let viewController = navigationController.viewControllers.first as? AuthViewController else { return }
             viewController.delegate = self
         } else { super.prepare(for: segue, sender: sender) }
     }

@@ -17,7 +17,7 @@ private enum NetworkError: Error {
     case urlSessionError
 }
 
-class SnakeCaseJsonDecoder: JSONDecoder {
+final class SnakeCaseJsonDecoder: JSONDecoder {
     override init() {
         super.init()
         keyDecodingStrategy = .convertFromSnakeCase
@@ -61,16 +61,10 @@ extension OAuth2Service {
         }
     }
     
-    private struct OAuthTokenResponseBody: Decodable {
-        let accessToken: String
-        let tokenType: String
-        let scope: String
-        let createdAt: Int
-    }
-    
     private func authTokenRequest(code: String) -> URLRequest {
         let urlAbsoluteString = ConstantsUnSplash.defaultBaseURL.absoluteString + ConstantsUnSplash.path
-        guard var urlComponents = URLComponents(string: urlAbsoluteString ) else { fatalError("URL error") }
+        var urlComponents = URLComponents(string: urlAbsoluteString)!
+        
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: ConstantsUnSplash.accessKey),
             URLQueryItem(name: "client_secret", value: ConstantsUnSplash.secretKey),
@@ -99,7 +93,6 @@ extension URLSession {
                     fulfillCompletion(.success(data))
                 } else {
                     fulfillCompletion(.failure(NetworkError.httpStatusCode(statusCode)))
-                    print(statusCode)
                 }
             } else if let error = error {
                 fulfillCompletion(.failure(NetworkError.urlRequestError(error)))
