@@ -30,6 +30,14 @@ final class SingleImageViewController: UIViewController {
         rescaleAndCenterImageInScrollView(image: image)
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        rescaleAndCenterImageInScrollView(image: image)
+    }
+    
     @IBAction private func didTapBackButton(_ sender: UIButton) {
         dismiss(animated: true)
     }

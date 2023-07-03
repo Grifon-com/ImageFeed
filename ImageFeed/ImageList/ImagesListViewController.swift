@@ -14,10 +14,6 @@ final class ImagesListViewController: UIViewController {
     
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
-    
     @IBOutlet private var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -39,10 +35,14 @@ final class ImagesListViewController: UIViewController {
             super.prepare(for: segue, sender: sender)
         }
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
 }
 
 
-//MARK: - TableViewDlegate
+//MARK: - TableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
@@ -53,12 +53,12 @@ extension ImagesListViewController: UITableViewDelegate {
             return 0
         }
         let indents = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
-        let weithImageView = tableView.bounds.width - indents.left - indents.right
+        let widthImageView = tableView.bounds.width - indents.left - indents.right
         let widthImage = image.size.width
-        let coefficient = weithImageView / widthImage
-        let heigtImageView = image.size.height * coefficient + indents.top + indents.bottom
+        let coefficient = widthImageView / widthImage
+        let heightImageView = image.size.height * coefficient + indents.top + indents.bottom
         
-        return heigtImageView
+        return heightImageView
     }
 }
 
@@ -76,9 +76,9 @@ extension ImagesListViewController: UITableViewDataSource {
         }
         
         guard let image = UIImage(named: photosName[indexPath.row]) else { return UITableViewCell() }
-        let buttonImage = indexPath.row % 2 == 0 ? UIImage(named: "No Active") : UIImage(named: "Active")
-        let textLable = Date().dateTimeString
-        let model = ImagesListCellModel(image: image, buttonImage: buttonImage, textLabel: textLable)
+        let buttonImage = indexPath.row % 2 == 0 ? UIImage(named: "Active") : UIImage(named: "No Active")
+        let textLabel = Date().dateTimeString
+        let model = ImagesListCellModel(image: image, buttonImage: buttonImage, textLabel: textLabel)
         
         imageListCell.configure(model: model)
         
