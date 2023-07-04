@@ -56,7 +56,7 @@ final class ProfileViewController: UIViewController {
         .lightContent
     }
     
-    override func viewDidLoad() {
+    override; func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
         
