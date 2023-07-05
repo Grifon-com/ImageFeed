@@ -132,7 +132,6 @@
 			isa = PBXGroup;
 			children = (
 				1A6424E42A47725200D6B46B /* OAuth2Service.swift */,
-				1A83F9532A3E094700EBD8F8 /* ImageListCellModel.swift */,
 				1A6424E82A4861D400D6B46B /* OAuth2TokenStorage.swift */,
 			);
 			path = Services;
@@ -141,6 +140,7 @@
 		1A83F9522A3E091200EBD8F8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1A83F9532A3E094700EBD8F8 /* ImageListCellModel.swift */,
 				1ABEFF7A2A52AA7A00D38C90 /* OAuthTokenResponseBody.swift */,
 			);
 			path = Models;
