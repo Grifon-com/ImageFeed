@@ -7,9 +7,10 @@
 
 import UIKit
 
-private enum Keys {
+enum Keys {
     static let vcRedIdentifier = "redViewController"
     static let vcGreenIdentifier = "greenViewController"
+    static let segueIdentifier = "ShowGreenViewCotroller"
 }
 
 final class RedViewController: UIViewController {
