@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ROj-1w-gfg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="drp-Vg-ecK">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -221,9 +221,30 @@
                     <view key="view" contentMode="scaleToFill" id="Hcc-fT-6Ip">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u2S-7J-TB0">
+                                <rect key="frame" x="123" y="62" width="75" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="75" id="PcQ-cD-gu7"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="didTapButton:" destination="ROj-1w-gfg" eventType="touchUpInside" id="hrE-Of-3uf"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="XgM-AD-ha6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="u2S-7J-TB0" firstAttribute="top" secondItem="XgM-AD-ha6" secondAttribute="top" constant="42" id="Nya-Fv-Ouj"/>
+                            <constraint firstItem="u2S-7J-TB0" firstAttribute="leading" secondItem="XgM-AD-ha6" secondAttribute="leading" constant="123" id="cWN-mI-TkH"/>
+                            <constraint firstItem="XgM-AD-ha6" firstAttribute="trailing" secondItem="u2S-7J-TB0" secondAttribute="trailing" constant="122" id="duX-jI-veo"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="buttonView" destination="u2S-7J-TB0" id="bRe-7F-VaM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WAU-lF-NxN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -236,6 +257,17 @@
                     <view key="view" contentMode="scaleToFill" id="lB5-15-ePG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SXq-om-oOi">
+                                <rect key="frame" x="123" y="267" width="75" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="buttonDidSegue:" destination="hZp-2b-CWH" eventType="touchUpInside" id="KwP-Lc-5vc"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="BN6-o0-qD7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
