@@ -11,7 +11,6 @@
 		1A26B9B32A40C80B00BAD6D7 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A26B9B22A40C80B00BAD6D7 /* SingleImageViewController.swift */; };
 		1A32BD762A503DF500187B05 /* RedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32BD752A503DF500187B05 /* RedViewController.swift */; };
 		1A32BD7A2A503E7000187B05 /* GreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32BD792A503E7000187B05 /* GreenViewController.swift */; };
-		1A8040502A556AD40040FA99 /* UIActivityActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A80404F2A556AD40040FA99 /* UIActivityActivityType.swift */; };
 		1ACA61122A3B2D13009F2141 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA61112A3B2D13009F2141 /* ProfileViewController.swift */; };
 		1ACCC8242A20DE3C00433E49 /* Extensions UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */; };
 		1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */; };
@@ -48,7 +47,6 @@
 		1A26B9B22A40C80B00BAD6D7 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		1A32BD752A503DF500187B05 /* RedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedViewController.swift; sourceTree = "<group>"; };
 		1A32BD792A503E7000187B05 /* GreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenViewController.swift; sourceTree = "<group>"; };
-		1A80404F2A556AD40040FA99 /* UIActivityActivityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIActivityActivityType.swift; sourceTree = "<group>"; };
 		1ACA61112A3B2D13009F2141 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions UIColor.swift"; sourceTree = "<group>"; };
 		1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
@@ -96,7 +94,6 @@
 			isa = PBXGroup;
 			children = (
 				1A26B9B22A40C80B00BAD6D7 /* SingleImageViewController.swift */,
-				1A80404F2A556AD40040FA99 /* UIActivityActivityType.swift */,
 			);
 			path = SingleImageViewController;
 			sourceTree = "<group>";
@@ -330,7 +327,6 @@
 				1AFE86182A1FB89100BBEA1B /* ImagesListViewController.swift in Sources */,
 				1A32BD762A503DF500187B05 /* RedViewController.swift in Sources */,
 				1AFE86142A1FB89100BBEA1B /* AppDelegate.swift in Sources */,
-				1A8040502A556AD40040FA99 /* UIActivityActivityType.swift in Sources */,
 				1A26B9B32A40C80B00BAD6D7 /* SingleImageViewController.swift in Sources */,
 				1AFE86162A1FB89100BBEA1B /* SceneDelegate.swift in Sources */,
 			);
