@@ -13,6 +13,7 @@
 		1A32BD7A2A503E7000187B05 /* GreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32BD792A503E7000187B05 /* GreenViewController.swift */; };
 		1A8040522A5574400040FA99 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8040512A55743F0040FA99 /* SplashViewController.swift */; };
 		1A8040542A55808A0040FA99 /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8040532A55808A0040FA99 /* TokenStorage.swift */; };
+		1A83BA362A55AB1700B75C91 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A83BA352A55AB1700B75C91 /* AuthViewController.swift */; };
 		1ACA61122A3B2D13009F2141 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA61112A3B2D13009F2141 /* ProfileViewController.swift */; };
 		1ACCC8242A20DE3C00433E49 /* Extensions UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */; };
 		1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */; };
@@ -51,6 +52,7 @@
 		1A32BD792A503E7000187B05 /* GreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenViewController.swift; sourceTree = "<group>"; };
 		1A8040512A55743F0040FA99 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		1A8040532A55808A0040FA99 /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
+		1A83BA352A55AB1700B75C91 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		1ACA61112A3B2D13009F2141 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		1ACCC8232A20DE3C00433E49 /* Extensions UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions UIColor.swift"; sourceTree = "<group>"; };
 		1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
@@ -114,6 +116,14 @@
 			path = TestViewController;
 			sourceTree = "<group>";
 		};
+		1A83BA342A55AAEC00B75C91 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				1A83BA352A55AB1700B75C91 /* AuthViewController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		1ACA61132A3B3433009F2141 /* ProfileViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +172,7 @@
 		1AFE86122A1FB89100BBEA1B /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				1A83BA342A55AAEC00B75C91 /* Auth */,
 				1A32BD702A50375500187B05 /* TestViewController */,
 				1A26B9B12A40C7D800BAD6D7 /* SingleImageViewController */,
 				1ACA61132A3B3433009F2141 /* ProfileViewController */,
@@ -333,6 +344,7 @@
 				1AFE86182A1FB89100BBEA1B /* ImagesListViewController.swift in Sources */,
 				1A32BD762A503DF500187B05 /* RedViewController.swift in Sources */,
 				1A8040542A55808A0040FA99 /* TokenStorage.swift in Sources */,
+				1A83BA362A55AB1700B75C91 /* AuthViewController.swift in Sources */,
 				1AFE86142A1FB89100BBEA1B /* AppDelegate.swift in Sources */,
 				1A26B9B32A40C80B00BAD6D7 /* SingleImageViewController.swift in Sources */,
 				1A8040522A5574400040FA99 /* SplashViewController.swift in Sources */,
