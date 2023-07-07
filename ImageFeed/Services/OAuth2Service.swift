@@ -28,12 +28,19 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     static let shared = OAuth2Service()
     
     private let urlSession = URLSession.shared
+    private var task: URLSessionTask?
+    private var lastCode: String?
+    
     private (set) var authToken: String? {
         get { return OAuth2TokenStorage().token}
         set { OAuth2TokenStorage().token = newValue }
     }
     
     func fetchAuthToken(_ code: String, completion: @escaping (Result <String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
         let request = authTokenRequest(code: code)
         let task = object(for: request) { [weak self] result in
             guard let self = self else { return }
@@ -42,15 +49,17 @@ final class OAuth2Service: OAuth2ServiceProtocol {
                 let authToken = body.accessToken
                 self.authToken = authToken
                 completion(.success(authToken))
+                self.task = nil
             case .failure(let error):
                 completion(.failure(error))
+                self.lastCode = nil
             }
         }
         task.resume()
     }
 }
 
-extension OAuth2Service {
+private extension OAuth2Service {
     private func object(for request: URLRequest, completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) -> URLSessionTask {
         let decoder = SnakeCaseJsonDecoder()
         return urlSession.data(for: request) {(result: Result<Data, Error>) in
@@ -77,8 +86,7 @@ extension OAuth2Service {
         return URLRequest.makeHTTPRequest(url: url, httpMethod: "POST")
     }
 }
-
-extension URLSession {
+private extension URLSession {
     func data(for request: URLRequest, completion: @escaping (Result <Data, Error>) -> Void) -> URLSessionTask {
         let fulfillCompletion: (Result<Data, Error>) -> Void = { result in
             DispatchQueue.main.async {
@@ -104,8 +112,7 @@ extension URLSession {
         return task
     }
 }
-
-extension URLRequest {
+private extension URLRequest {
     static func makeHTTPRequest(url: URL, httpMethod: String) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod
