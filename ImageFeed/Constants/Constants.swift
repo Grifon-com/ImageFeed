@@ -13,10 +13,12 @@ enum ConstantsUnSplash {
     static let redirectURI = "urn:ietf:wg:oauth:2.0:oob"
     static let accessScope = "public+read_user+write_likes"
     static let defaultBaseURL: URL = URL(string: "https://unsplash.com")!
+    static let jsondefaultBaseURL: URL = URL(string: "https://api.unsplash.com")!
     static let path = "/oauth/token"
     static let unSplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     static let authNativePath = "/oauth/authorize/native"
     static let code = "code"
+    
 }
 
 

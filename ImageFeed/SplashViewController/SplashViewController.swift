@@ -13,6 +13,7 @@ final class SplashViewController: UIViewController {
     
     private var oAuth2Service: OAuth2ServiceProtocol?
     private var oauth2TokenStorage: StorageTokenProtocol?
+    private var profileService: ProfileServiseProtocol = ProfileService.shared
     
     private var imageView: UIImageView = {
         let image = UIImage(named: "Vector")
@@ -35,9 +36,8 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if let _ = oauth2TokenStorage?.token {
-            switchToTabBarController()
+        if let token = oauth2TokenStorage?.token {
+            fetchProfile(token: token)
         } else { performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil) }
     }
     
@@ -67,10 +67,24 @@ extension SplashViewController: AuthViewControllerDelegate {
         oAuth2Service.fetchAuthToken(code) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success:
-                self.switchToTabBarController()
+            case .success(let token):
+                self.fetchProfile(token: token)
+            case .failure:
                 UIBlockingProgressHUD.dismiss()
-            case .failure(_):
+                break
+            }
+        }
+    }
+    
+    private func fetchProfile(token: String) {
+        profileService.fetchProfile(token) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                UIBlockingProgressHUD.dismiss()
+                self.switchToTabBarController()
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
                 break
             }
         }
@@ -101,3 +115,4 @@ extension SplashViewController {
         window.rootViewController = tabBarController
     }
 }
+

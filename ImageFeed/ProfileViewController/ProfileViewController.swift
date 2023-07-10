@@ -8,6 +8,9 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
+    private var profileService = ProfileService.shared
+    private var profileModel: Profile?
+    
     private let avatarImageView: UIImageView = {
         let avatarImage = UIImage(named: "Avatar")
         let avatarImageView = UIImageView(image: avatarImage)
@@ -34,7 +37,7 @@ final class ProfileViewController: UIViewController {
         
         return loginNameLabel
     }()
-    private let descriptionLabel: UILabel = { let descriptionLabel = UILabel()
+    private var descriptionLabel: UILabel = { let descriptionLabel = UILabel()
         descriptionLabel.text = "Hello, world!"
         descriptionLabel.textColor = .ypWhite
         descriptionLabel.font = UIFont.systemFont(ofSize: 13)
@@ -62,8 +65,10 @@ final class ProfileViewController: UIViewController {
         
         addSubviewAndSetupBackgraundColor()
         applyConstraints()
+        
+        updateProfileDetails(profile: profileService.profile)
     }
-    
+        
     @objc
     private func didTapLogoutButton() {}
 }
@@ -98,5 +103,14 @@ extension ProfileViewController {
             logoutButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
             logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
+    }
+}
+
+extension ProfileViewController {
+    private func updateProfileDetails(profile: Profile?) {
+        guard let profile = profile else { return }
+        nameLabel.text = profile.name
+        loginNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
     }
 }
