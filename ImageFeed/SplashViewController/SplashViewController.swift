@@ -13,7 +13,7 @@ final class SplashViewController: UIViewController {
     
     private var oAuth2Service: OAuth2ServiceProtocol?
     private var oauth2TokenStorage: StorageTokenProtocol?
-    private var profileService: ProfileServiseProtocol = ProfileService.shared
+    private var profileService = ProfileService.shared
     
     private var imageView: UIImageView = {
         let image = UIImage(named: "Vector")
@@ -53,6 +53,7 @@ final class SplashViewController: UIViewController {
     }
 }
 
+//MARK: - Delegate
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
@@ -61,7 +62,10 @@ extension SplashViewController: AuthViewControllerDelegate {
             self.fetchOAuthToken(code)
         }
     }
-    
+}
+
+//MARK: - Service
+extension SplashViewController {
     private func fetchOAuthToken(_ code: String) {
         guard let oAuth2Service = oAuth2Service else { return }
         oAuth2Service.fetchAuthToken(code) { [weak self] result in
@@ -71,7 +75,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.fetchProfile(token: token)
             case .failure:
                 UIBlockingProgressHUD.dismiss()
-                break
             }
         }
     }
@@ -81,16 +84,18 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success:
-                UIBlockingProgressHUD.dismiss()
+                guard let username = self.profileService.profile?.username else { return }
+                ProfileImageService.shared.fetchProfileImageUrl(username: username) { _ in
+                }
                 self.switchToTabBarController()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
-                break
             }
         }
     }
 }
 
+//MARK: - prepare
 extension SplashViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //Проверим, что переходим на авторизацию
@@ -103,7 +108,8 @@ extension SplashViewController {
     }
 }
 
-extension SplashViewController {
+//MARK: - switchToTabBarController
+private extension SplashViewController {
     private func switchToTabBarController() {
         //Получаем экземпляр Window приложения
         guard let window = UIApplication.shared.windows.first else { return }

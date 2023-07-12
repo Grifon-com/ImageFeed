@@ -22,6 +22,8 @@
 		1A83F9562A3E139000EBD8F8 /* ExtensionDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A83F9552A3E139000EBD8F8 /* ExtensionDate.swift */; };
 		1A9B8E8C2A5C808900A8E2D5 /* ExtentionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9B8E8B2A5C808900A8E2D5 /* ExtentionRequest.swift */; };
 		1A9B8E8E2A5C81B200A8E2D5 /* ExtentionURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9B8E8D2A5C81B200A8E2D5 /* ExtentionURLSession.swift */; };
+		1A9B8E902A5C94B500A8E2D5 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9B8E8F2A5C94B500A8E2D5 /* ProfileImageService.swift */; };
+		1A9B8E922A5C951F00A8E2D5 /* UserResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9B8E912A5C951F00A8E2D5 /* UserResult.swift */; };
 		1ABEFF7B2A52AA7A00D38C90 /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABEFF7A2A52AA7A00D38C90 /* OAuthTokenResponseBody.swift */; };
 		1ABF04132A44D96D00EA00B8 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABF04122A44D96D00EA00B8 /* AuthViewController.swift */; };
 		1ABF04152A44DAE400EA00B8 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABF04142A44DAE400EA00B8 /* WebViewViewController.swift */; };
@@ -73,6 +75,8 @@
 		1A83F9552A3E139000EBD8F8 /* ExtensionDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDate.swift; sourceTree = "<group>"; };
 		1A9B8E8B2A5C808900A8E2D5 /* ExtentionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtentionRequest.swift; sourceTree = "<group>"; };
 		1A9B8E8D2A5C81B200A8E2D5 /* ExtentionURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtentionURLSession.swift; sourceTree = "<group>"; };
+		1A9B8E8F2A5C94B500A8E2D5 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
+		1A9B8E912A5C951F00A8E2D5 /* UserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResult.swift; sourceTree = "<group>"; };
 		1ABEFF7A2A52AA7A00D38C90 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
 		1ABF04122A44D96D00EA00B8 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		1ABF04142A44DAE400EA00B8 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
@@ -164,6 +168,7 @@
 				1A3170342A584FA2001C4A26 /* SnakeCaseJsonDecoder.swift */,
 				1A9B8E8B2A5C808900A8E2D5 /* ExtentionRequest.swift */,
 				1A9B8E8D2A5C81B200A8E2D5 /* ExtentionURLSession.swift */,
+				1A9B8E8F2A5C94B500A8E2D5 /* ProfileImageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -175,6 +180,7 @@
 				1ABEFF7A2A52AA7A00D38C90 /* OAuthTokenResponseBody.swift */,
 				1A3170322A584F02001C4A26 /* PrifileResultModel.swift */,
 				1A6236142A585BDE00710E80 /* ProfileModel.swift */,
+				1A9B8E912A5C951F00A8E2D5 /* UserResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -420,6 +426,7 @@
 				1A9B8E8E2A5C81B200A8E2D5 /* ExtentionURLSession.swift in Sources */,
 				1AEAF11E2A21EFE1009DA20F /* ImagesListCell.swift in Sources */,
 				1ABEFF7B2A52AA7A00D38C90 /* OAuthTokenResponseBody.swift in Sources */,
+				1A9B8E922A5C951F00A8E2D5 /* UserResult.swift in Sources */,
 				1A83F9542A3E094700EBD8F8 /* ImageListCellModel.swift in Sources */,
 				1A6424E52A47725200D6B46B /* OAuth2Service.swift in Sources */,
 				1A3170352A584FA2001C4A26 /* SnakeCaseJsonDecoder.swift in Sources */,
@@ -437,6 +444,7 @@
 				1AFE86162A1FB89100BBEA1B /* SceneDelegate.swift in Sources */,
 				1A20EF662A51986C00B7A1D9 /* AuthNavigationController.swift in Sources */,
 				1AC0F1D42A583B5B00A2502F /* UIBlockingProgressHUD.swift in Sources */,
+				1A9B8E902A5C94B500A8E2D5 /* ProfileImageService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

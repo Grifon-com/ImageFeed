@@ -8,7 +8,7 @@
 import Foundation
 
 extension URLRequest {
-    static func makeHTTPRequestForProfileModel(url: URL, bearerToken: String, forHTTPHeaderField: String) -> URLRequest {
+    static func makeHTTPRequestForModel(url: URL, bearerToken: String, forHTTPHeaderField: String) -> URLRequest {
         var request = URLRequest(url: url)
         request.setValue(bearerToken, forHTTPHeaderField: forHTTPHeaderField)
         return request
@@ -19,5 +19,4 @@ extension URLRequest {
         request.httpMethod = httpMethod
         return request
     }
-    
 }

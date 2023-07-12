@@ -10,6 +10,7 @@ import UIKit
 final class ProfileViewController: UIViewController {
     private var profileService = ProfileService.shared
     private var profileModel: Profile?
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     private let avatarImageView: UIImageView = {
         let avatarImage = UIImage(named: "Avatar")
@@ -65,12 +66,27 @@ final class ProfileViewController: UIViewController {
         
         addSubviewAndSetupBackgraundColor()
         applyConstraints()
-        
         updateProfileDetails(profile: profileService.profile)
-    }
         
+        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
+            guard let self = self else { return }
+            self.updateAvatar()
+        }
+        updateAvatar()
+    }
+    
     @objc
     private func didTapLogoutButton() {}
+}
+
+//MARK: - Observer
+private extension ProfileViewController {
+    private func updateAvatar() {
+        guard let profileImageURL = ProfileImageService.shared.avatarURL,
+              let _ = URL(string: profileImageURL)
+        else { return }
+        //TODO: обновить аватар использую KingFisher
+    }
 }
 
 //MARK: - SetupUIElement
@@ -106,6 +122,7 @@ extension ProfileViewController {
     }
 }
 
+//MARK: UpdateProfileDetails
 extension ProfileViewController {
     private func updateProfileDetails(profile: Profile?) {
         guard let profile = profile else { return }

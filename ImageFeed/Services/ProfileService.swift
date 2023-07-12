@@ -12,12 +12,10 @@ protocol ProfileServiseProtocol {
 }
 
 final class ProfileService: ProfileServiseProtocol {
-    static let shared: ProfileService = ProfileService()
+    static let shared = ProfileService()
     
     private static let at = "@"
-    private static let bearer = "Bearer"
-    private static let hTTPHeaderField = "Authorization"
-    private static let me = "/me"
+    private static let path = "/me"
     
     private let urlSession = URLSession.shared
     
@@ -37,6 +35,7 @@ final class ProfileService: ProfileServiseProtocol {
             case .success(let model):
                 profile = convertModel(model: model)
                 completion(.success(model))
+                self.task = nil
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -45,15 +44,16 @@ final class ProfileService: ProfileServiseProtocol {
         task.resume()
     }
 }
-
+//MARK: - Request
 private extension ProfileService {
     private func profileModelRequest(token: String) -> URLRequest {
-        let bearerToken = "\(ProfileService.bearer) \(token)"
-        let urlAbsoluteString = "\(ConstantsUnSplash.jsondefaultBaseURL.absoluteString)\(ProfileService.me)"
+        let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
+        let urlAbsoluteString = "\(ConstantsUnSplash.jsondefaultBaseURL.absoluteString)\(ProfileService.path)"
         let url = URL(string: urlAbsoluteString)!
-        let request = URLRequest.makeHTTPRequestForProfileModel(url: url,
-                                                                bearerToken: bearerToken,
-                                                                forHTTPHeaderField: ProfileService.hTTPHeaderField)
+        
+        let request = URLRequest.makeHTTPRequestForModel(url: url,
+                                                         bearerToken: bearerToken,
+                                                         forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField)
         return request
     }
     
@@ -68,7 +68,7 @@ private extension ProfileService {
     }
 }
 
-//
+//MARK: - Convert Model
 private extension ProfileService {
     private func convertModel(model: ProfileResult) -> Profile {
         let username = model.username ?? ""
