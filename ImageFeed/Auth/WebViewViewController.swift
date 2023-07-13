@@ -14,6 +14,8 @@ protocol WebViewViewControllerDelegate: AnyObject {
 }
 
 final class WebViewViewController: UIViewController {
+    private var estimatedProgressObservation: NSKeyValueObservation?
+    
     @IBOutlet private weak var webView: WKWebView!
     @IBOutlet private weak var progressView: UIProgressView!
     
@@ -23,6 +25,11 @@ final class WebViewViewController: UIViewController {
         super.viewDidLoad()
         webView.navigationDelegate = self
         setupURL()
+        
+        estimatedProgressObservation = webView.observe(\.estimatedProgress, options: []) { [weak self] _, _ in
+            guard let self = self else { return }
+            self.updateProgress()
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -57,7 +64,6 @@ extension WebViewViewController {
 extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let code = code(from: navigationAction) {
-            //TODO: - process code
             decisionHandler(.cancel)
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
         } else {
@@ -82,28 +88,8 @@ extension WebViewViewController: WKNavigationDelegate {
 
 //MARK: - KVO
 extension WebViewViewController {
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1) <= 0.0001
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //подписываемся на обновления используя KVO
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress),
-                            options: .new,context: nil)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        //отписываемся от обновлений
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
     }
 }

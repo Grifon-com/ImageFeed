@@ -29,7 +29,7 @@ final class ProfileService: ProfileServiseProtocol {
         task?.cancel()
         lastToken = token
         let request = profileModelRequest(token: token)
-        let task = object(for: request) {[weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let model):
@@ -55,16 +55,6 @@ private extension ProfileService {
                                                          bearerToken: bearerToken,
                                                          forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField)
         return request
-    }
-    
-    private func object(for request: URLRequest, completion: @escaping (Result<ProfileResult, Error>) -> Void) -> URLSessionTask {
-        let decoder = SnakeCaseJsonDecoder()
-        return urlSession.data(for: request) {(result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<ProfileResult, Error> in
-                Result { try  decoder.decode(ProfileResult.self, from: data)}
-            }
-            completion(response)
-        }
     }
 }
 

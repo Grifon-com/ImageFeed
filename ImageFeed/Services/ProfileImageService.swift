@@ -30,7 +30,7 @@ final class ProfileImageService: ProfileImageServiceProtocol {
         task?.cancel()
         lastToken = token
         let request = profileImageRequest(token: token, username: username)
-        let task = object(for: request) { [weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let profileImageURL):
@@ -55,16 +55,6 @@ private extension ProfileImageService {
         let url = URL(string: urlString)!
         print(urlString)
         return URLRequest.makeHTTPRequestForModel(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField)
-    }
-    
-    private func object(for request: URLRequest, completion: @escaping (Result<UserResult, Error>) -> Void) -> URLSessionTask {
-        let decoder = SnakeCaseJsonDecoder()
-        return urlSession.data(for: request) {(result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<UserResult, Error> in
-                Result { try decoder.decode(UserResult.self, from: data) }
-            }
-            completion(response)
-        }
     }
 }
 

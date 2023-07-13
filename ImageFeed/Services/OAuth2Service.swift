@@ -37,7 +37,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         task?.cancel()
         lastCode = code
         let request = authTokenRequest(code: code)
-        let task = object(for: request) { [weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let body):
@@ -55,16 +55,6 @@ final class OAuth2Service: OAuth2ServiceProtocol {
 }
 
 private extension OAuth2Service {
-    private func object(for request: URLRequest, completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) -> URLSessionTask {
-        let decoder = SnakeCaseJsonDecoder()
-        return urlSession.data(for: request) {(result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<OAuthTokenResponseBody, Error> in
-                Result { try decoder.decode(OAuthTokenResponseBody.self, from: data) }
-            }
-            completion(response)
-        }
-    }
-    
     private func authTokenRequest(code: String) -> URLRequest {
         let urlAbsoluteString = ConstantsUnSplash.defaultBaseURL.absoluteString + ConstantsUnSplash.path
         var urlComponents = URLComponents(string: urlAbsoluteString)!
