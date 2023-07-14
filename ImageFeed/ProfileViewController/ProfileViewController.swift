@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     private var profileService = ProfileService.shared
@@ -15,6 +16,8 @@ final class ProfileViewController: UIViewController {
     private let avatarImageView: UIImageView = {
         let avatarImage = UIImage(named: "Avatar")
         let avatarImageView = UIImageView(image: avatarImage)
+        avatarImageView.clipsToBounds = true
+        avatarImageView.layer.cornerRadius = avatarImageView.bounds.width / 2
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         
         return avatarImageView
@@ -30,7 +33,8 @@ final class ProfileViewController: UIViewController {
         return nameLabel
     }()
     
-    private let loginNameLabel: UILabel = {let loginNameLabel = UILabel()
+    private let loginNameLabel: UILabel = {
+        let loginNameLabel = UILabel()
         loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.textColor = .ypGrey
         loginNameLabel.font = UIFont.systemFont(ofSize: 13)
@@ -38,7 +42,8 @@ final class ProfileViewController: UIViewController {
         
         return loginNameLabel
     }()
-    private var descriptionLabel: UILabel = { let descriptionLabel = UILabel()
+    private var descriptionLabel: UILabel = {
+        let descriptionLabel = UILabel()
         descriptionLabel.text = "Hello, world!"
         descriptionLabel.textColor = .ypWhite
         descriptionLabel.font = UIFont.systemFont(ofSize: 13)
@@ -79,13 +84,13 @@ final class ProfileViewController: UIViewController {
     private func didTapLogoutButton() {}
 }
 
-//MARK: - Observer
+//MARK: - Update profile image for kingfisher
 private extension ProfileViewController {
     private func updateAvatar() {
         guard let profileImageURL = ProfileImageService.shared.avatarURL,
-              let _ = URL(string: profileImageURL)
+              let url = URL(string: profileImageURL)
         else { return }
-        //TODO: обновить аватар использую KingFisher
+        avatarImageView.kf.setImage(with: url)
     }
 }
 

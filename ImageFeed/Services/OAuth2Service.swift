@@ -15,9 +15,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     private static let shared = OAuth2Service()
     
     private static let httpMethod = "POST"
-    private static let clientIdString = "client_id"
     private static let clientSecretString = "client_secret"
-    private static let redirectUriString = "redirect_uri"
     private static let codeString = "code"
     private static let grantTypeString = "grant_type"
     private static let authorizationCodeString = "authorization_code"
@@ -36,7 +34,8 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         if lastCode == code { return }
         task?.cancel()
         lastCode = code
-        let request = authTokenRequest(code: code)
+        let request = try? authTokenRequest(code: code)
+        guard let request = request else { return }
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             guard let self = self else { return }
             switch result {
@@ -55,18 +54,20 @@ final class OAuth2Service: OAuth2ServiceProtocol {
 }
 
 private extension OAuth2Service {
-    private func authTokenRequest(code: String) -> URLRequest {
-        let urlAbsoluteString = ConstantsUnSplash.defaultBaseURL.absoluteString + ConstantsUnSplash.path
-        var urlComponents = URLComponents(string: urlAbsoluteString)!
+    private func authTokenRequest(code: String) throws -> URLRequest {
+        let urlAbsoluteString = ConstantsUnSplash.defaultBaseURL + ConstantsUnSplash.path
+        guard var urlComponents = URLComponents(string: urlAbsoluteString) else {
+            throw NetworkError.urlComponents
+        }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: OAuth2Service.clientIdString, value: ConstantsUnSplash.accessKey),
+            URLQueryItem(name: ConstantsUnSplash.clientIdString, value: ConstantsUnSplash.accessKey),
             URLQueryItem(name: OAuth2Service.clientSecretString, value: ConstantsUnSplash.secretKey),
-            URLQueryItem(name: OAuth2Service.redirectUriString, value: ConstantsUnSplash.redirectURI),
+            URLQueryItem(name: ConstantsUnSplash.redirectUriString, value: ConstantsUnSplash.redirectURI),
             URLQueryItem(name: OAuth2Service.codeString, value: code),
             URLQueryItem(name: OAuth2Service.grantTypeString, value: OAuth2Service.authorizationCodeString)
         ]
-        let url = urlComponents.url!
+        guard let url = urlComponents.url else { throw NetworkError.urlError}
         
         return URLRequest.makeHTTPRequestForToken(url: url, httpMethod: OAuth2Service.httpMethod)
     }

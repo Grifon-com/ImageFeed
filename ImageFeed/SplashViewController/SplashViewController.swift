@@ -88,6 +88,7 @@ extension SplashViewController {
                 guard let username = self.profileService.profile?.username else { return }
                 ProfileImageService.shared.fetchProfileImageUrl(username: username) {_ in }
                 self.switchToTabBarController()
+                UIBlockingProgressHUD.dismiss()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
             }

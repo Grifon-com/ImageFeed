@@ -14,6 +14,9 @@ protocol WebViewViewControllerDelegate: AnyObject {
 }
 
 final class WebViewViewController: UIViewController {
+    static private let responseTypeString = "response_type"
+    static private let scopeString = "scope"
+    
     private var estimatedProgressObservation: NSKeyValueObservation?
     
     @IBOutlet private weak var webView: WKWebView!
@@ -48,10 +51,10 @@ extension WebViewViewController {
         guard var urlComponents = URLComponents(string: ConstantsUnSplash.unSplashAuthorizeURLString) else { return }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: ConstantsUnSplash.accessKey),
-            URLQueryItem(name: "redirect_uri", value: ConstantsUnSplash.redirectURI),
-            URLQueryItem(name: "response_type", value: ConstantsUnSplash.code),
-            URLQueryItem(name: "scope", value: ConstantsUnSplash.accessScope)
+            URLQueryItem(name: ConstantsUnSplash.clientIdString, value: ConstantsUnSplash.accessKey),
+            URLQueryItem(name: ConstantsUnSplash.redirectUriString, value: ConstantsUnSplash.redirectURI),
+            URLQueryItem(name: WebViewViewController.responseTypeString, value: ConstantsUnSplash.code),
+            URLQueryItem(name: WebViewViewController.scopeString, value: ConstantsUnSplash.accessScope)
         ]
         
         guard let url = urlComponents.url else { return }

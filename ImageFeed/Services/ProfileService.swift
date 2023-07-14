@@ -28,7 +28,8 @@ final class ProfileService: ProfileServiseProtocol {
         if lastToken == token { return }
         task?.cancel()
         lastToken = token
-        let request = profileModelRequest(token: token)
+        let request = try? profileModelRequest(token: token)
+        guard let request = request else { return }
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             guard let self = self else { return }
             switch result {
@@ -46,10 +47,10 @@ final class ProfileService: ProfileServiseProtocol {
 }
 //MARK: - Request
 private extension ProfileService {
-    private func profileModelRequest(token: String) -> URLRequest {
+    private func profileModelRequest(token: String) throws -> URLRequest {
         let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
-        let urlAbsoluteString = "\(ConstantsUnSplash.jsondefaultBaseURL.absoluteString)\(ProfileService.path)"
-        let url = URL(string: urlAbsoluteString)!
+        let urlAbsoluteString = "\(ConstantsUnSplash.jsondefaultBaseURL)\(ProfileService.path)"
+        guard let url = URL(string: urlAbsoluteString) else { throw NetworkError.urlError }
         
         let request = URLRequest.makeHTTPRequestForModel(url: url,
                                                          bearerToken: bearerToken,
