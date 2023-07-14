@@ -81,7 +81,8 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc
-    private func didTapLogoutButton() {}
+    private func didTapLogoutButton() {
+    }
 }
 
 //MARK: - Update profile image for kingfisher

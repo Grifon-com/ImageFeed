@@ -28,9 +28,16 @@ final class ProfileService: ProfileServiseProtocol {
         if lastToken == token { return }
         task?.cancel()
         lastToken = token
-        let request = try? profileModelRequest(token: token)
-        guard let request = request else { return }
-        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+        var requet: URLRequest?
+        do { let modelRequest = try profileModelRequest(token: token)
+            requet = modelRequest
+        }
+        catch {
+            let errorRequest = NetworkError.urlComponentsError
+            completion(.failure(errorRequest))
+        }
+        guard let requet = requet else { return }
+        let task = urlSession.objectTask(for: requet) { [weak self] (result: Result<ProfileResult, Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let model):

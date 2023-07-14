@@ -24,10 +24,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     private var task: URLSessionTask?
     private var lastCode: String?
     
-    private (set) var authToken: String? {
-        get { return OAuth2TokenStorage().token}
-        set { OAuth2TokenStorage().token = newValue }
-    }
+    private let authToken = OAuth2TokenKeycheinStorage()
     
     func fetchAuthToken(_ code: String, completion: @escaping (Result <String, Error>) -> Void) {
         assert(Thread.isMainThread)
@@ -41,7 +38,11 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             switch result {
             case .success(let body):
                 let authToken = body.accessToken
-                self.authToken = authToken
+                do { try self.authToken.storageToken(newToken: authToken)
+                } catch {
+                    let errorStorage = KeycheynError.errorStorageToken
+                    completion(.failure(errorStorage))
+                }
                 completion(.success(authToken))
                 self.task = nil
             case .failure(let error):
@@ -55,9 +56,9 @@ final class OAuth2Service: OAuth2ServiceProtocol {
 
 private extension OAuth2Service {
     private func authTokenRequest(code: String) throws -> URLRequest {
-        let urlAbsoluteString = ConstantsUnSplash.defaultBaseURL + ConstantsUnSplash.path
+        let urlAbsoluteString = "\(ConstantsUnSplash.defaultBaseURL)\(ConstantsUnSplash.path)"
         guard var urlComponents = URLComponents(string: urlAbsoluteString) else {
-            throw NetworkError.urlComponents
+            throw NetworkError.urlComponentsError
         }
         
         urlComponents.queryItems = [

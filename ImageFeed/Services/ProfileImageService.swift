@@ -17,7 +17,7 @@ final class ProfileImageService: ProfileImageServiceProtocol {
     static let didChangeNotification = Notification.Name(rawValue: "ProfileimageproviderDidChange")
     
     private let profileService = ProfileService.shared
-    private let oAuth2TokenStorage = OAuth2TokenStorage.shared
+    private let oAuth2Token = OAuth2TokenKeycheinStorage()
     private let urlSession = URLSession.shared
     
     private (set) var avatarURL: String?
@@ -26,7 +26,7 @@ final class ProfileImageService: ProfileImageServiceProtocol {
     
     func fetchProfileImageUrl(username: String, completion: @escaping (Result <String, Error>) -> Void) {
         assert(Thread.isMainThread)
-        guard let token = oAuth2TokenStorage.token else { return }
+        guard let token = oAuth2Token.getToken() else { return }
         if lastToken == token { return }
         task?.cancel()
         lastToken = token

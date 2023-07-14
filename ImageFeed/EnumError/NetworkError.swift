@@ -12,5 +12,5 @@ enum NetworkError: Error {
     case urlRequestError(Error)
     case urlSessionError
     case urlError
-    case urlComponents
+    case urlComponentsError
 }

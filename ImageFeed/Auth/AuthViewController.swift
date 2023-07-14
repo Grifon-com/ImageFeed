@@ -17,12 +17,10 @@ final class AuthViewController: UIViewController{
     private let showWebSegueIdentifier = "ShowWebView"
     
     private var oAuth2Service: OAuth2ServiceProtocol?
-    private var authToken: StorageTokenProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         oAuth2Service = OAuth2Service()
-        authToken = OAuth2TokenStorage()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

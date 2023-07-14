@@ -6,26 +6,32 @@
 //
 
 import Foundation
+import SwiftKeychainWrapper
 
-protocol StorageTokenProtocol {
-    var token: String? { get set }
-}
-
-final class OAuth2TokenStorage: StorageTokenProtocol {
-    static let shared = OAuth2TokenStorage()
-    
-    private enum Keys: String {
+final class OAuth2TokenKeycheinStorage {    
+    private enum Key: String {
         case token
     }
     
-    private let userDefault = UserDefaults.standard
-    
-    var token: String? {
+    private var token: String? {
         get {
-            userDefault.string(forKey: Keys.token.rawValue)
+            KeychainWrapper.standard.string(forKey: Key.token.rawValue)
         }
-        set {
-            userDefault.set(newValue, forKey: Keys.token.rawValue)
-        }
+        set {}
     }
+    
+    func getToken() -> String? {
+        token
+    }
+    
+    func storageToken(newToken: String?) throws {
+        guard let newToken = newToken else { return }
+        let isSucsses = KeychainWrapper.standard.set(newToken, forKey: Key.token.rawValue)
+        guard isSucsses else { throw KeycheynError.errorStorageToken }
+    }
+    
+    func removeSuccessful() {
+        KeychainWrapper.standard.removeObject(forKey: Key.token.rawValue)
+    }
+    
 }
