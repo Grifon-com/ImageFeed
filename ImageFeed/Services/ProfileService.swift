@@ -1,5 +1,5 @@
 //
-//  ProfileServise.swift
+//  Profile.swift
 //  ImageFeed
 //
 //  Created by Григорий Машук on 7.07.23.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol ProfileServiseProtocol {
+protocol ProfileServiceProtocol {
     func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void)
 }
 
-final class ProfileService: ProfileServiseProtocol {
+final class ProfileService: ProfileServiceProtocol {
     static let shared = ProfileService()
     
     private static let at = "@"
@@ -28,16 +28,16 @@ final class ProfileService: ProfileServiseProtocol {
         if lastToken == token { return }
         task?.cancel()
         lastToken = token
-        var requet: URLRequest?
+        var request: URLRequest?
         do { let modelRequest = try profileModelRequest(token: token)
-            requet = modelRequest
+            request = modelRequest
         }
         catch {
             let errorRequest = NetworkError.urlComponentsError
             completion(.failure(errorRequest))
         }
-        guard let requet = requet else { return }
-        let task = urlSession.objectTask(for: requet) { [weak self] (result: Result<ProfileResult, Error>) in
+        guard let request = request else { return }
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let model):
@@ -56,7 +56,7 @@ final class ProfileService: ProfileServiseProtocol {
 private extension ProfileService {
     private func profileModelRequest(token: String) throws -> URLRequest {
         let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
-        let urlAbsoluteString = "\(ConstantsUnSplash.jsondefaultBaseURL)\(ProfileService.path)"
+        let urlAbsoluteString = "\(ConstantsUnSplash.jsonDefaultBaseURL)\(ProfileService.path)"
         guard let url = URL(string: urlAbsoluteString) else { throw NetworkError.urlError }
         
         let request = URLRequest.makeHTTPRequestForModel(url: url,

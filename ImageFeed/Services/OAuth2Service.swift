@@ -24,7 +24,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     private var task: URLSessionTask?
     private var lastCode: String?
     
-    private let authToken = OAuth2TokenKeycheinStorage()
+    private let authToken = OAuth2TokenKeychainStorage()
     
     func fetchAuthToken(_ code: String, completion: @escaping (Result <String, Error>) -> Void) {
         assert(Thread.isMainThread)
@@ -40,7 +40,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
                 let authToken = body.accessToken
                 do { try self.authToken.storageToken(newToken: authToken)
                 } catch {
-                    let errorStorage = KeycheynError.errorStorageToken
+                    let errorStorage = KeychainError.errorStorageToken
                     completion(.failure(errorStorage))
                 }
                 completion(.success(authToken))

@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum KeycheynError: Error {
+enum KeychainError: Error {
     case errorStorageToken
 }

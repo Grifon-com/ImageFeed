@@ -1,5 +1,5 @@
 //
-//  ExtentionURLSession.swift
+//  ExtensionsURLSession.swift
 //  ImageFeed
 //
 //  Created by Григорий Машук on 10.07.23.

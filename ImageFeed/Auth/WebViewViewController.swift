@@ -14,18 +14,43 @@ protocol WebViewViewControllerDelegate: AnyObject {
 }
 
 final class WebViewViewController: UIViewController {
-    static private let responseTypeString = "response_type"
-    static private let scopeString = "scope"
+    private static let responseTypeString = "response_type"
+    private static let scopeString = "scope"
     
     private var estimatedProgressObservation: NSKeyValueObservation?
     
-    @IBOutlet private weak var webView: WKWebView!
-    @IBOutlet private weak var progressView: UIProgressView!
+    private var webView: WKWebView = {
+        let webView = WKWebView()
+        
+        return webView
+    }()
+    
+    private var progressView: UIProgressView = {
+        let progressView = UIProgressView()
+        progressView.progressTintColor = .ypBlack
+        
+        return progressView
+    }()
+    
+    private var backButton: UIButton = {
+        let backButton = UIButton()
+        let image = UIImage(named: "nav_back_button")
+        backButton.setImage(image, for: .normal)
+        
+        return backButton
+    }()
     
     weak var delegate: WebViewViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .ypWhite
+        
+        backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        
+        setupUIElement()
+        applyConstraint()
+        
         webView.navigationDelegate = self
         setupURL()
         
@@ -39,7 +64,7 @@ final class WebViewViewController: UIViewController {
         .darkContent
     }
     
-    @IBAction private func didTapBackButton(_ sender: Any?) {
+    @objc private func didTapBackButton(_ sender: Any?) {
         delegate?.webViewViewControllerDidCancel(self)
     }
 }
@@ -63,6 +88,7 @@ extension WebViewViewController {
         webView.load(request)
     }
 }
+
 //MARK: - WKNavigationDelegate
 extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -90,9 +116,38 @@ extension WebViewViewController: WKNavigationDelegate {
 }
 
 //MARK: - KVO
-extension WebViewViewController {
+private extension WebViewViewController {
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1) <= 0.0001
+    }
+}
+
+//MARK: - Setup UIElement
+private extension WebViewViewController {
+    private func setupUIElement() {
+        [webView, progressView, backButton].forEach {
+            view.addSubview($0)
+            $0.backgroundColor = .clear
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+    }
+    
+    private func applyConstraint() {
+        NSLayoutConstraint.activate([
+            webView.topAnchor.constraint(equalTo: view.topAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            webView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            webView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            
+            progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 44),
+            progressView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            progressView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            
+            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            backButton.leftAnchor.constraint(equalTo: view.leftAnchor),
+            backButton.heightAnchor.constraint(equalToConstant: 44),
+            backButton.widthAnchor.constraint(equalToConstant: 44)
+        ])
     }
 }

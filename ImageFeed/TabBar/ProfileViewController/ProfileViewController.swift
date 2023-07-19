@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
-    private var profileService = ProfileService.shared
+    private let profileService = ProfileService.shared
     private var profileModel: Profile?
     private var profileImageServiceObserver: NSObjectProtocol?
     
@@ -18,7 +18,6 @@ final class ProfileViewController: UIViewController {
         let avatarImageView = UIImageView(image: avatarImage)
         avatarImageView.clipsToBounds = true
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.width / 2
-        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         
         return avatarImageView
     }()
@@ -28,7 +27,6 @@ final class ProfileViewController: UIViewController {
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = .ypWhite
         nameLabel.font = .boldSystemFont(ofSize: 23)
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         return nameLabel
     }()
@@ -38,25 +36,25 @@ final class ProfileViewController: UIViewController {
         loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.textColor = .ypGrey
         loginNameLabel.font = UIFont.systemFont(ofSize: 13)
-        loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
         return loginNameLabel
     }()
+    
     private var descriptionLabel: UILabel = {
         let descriptionLabel = UILabel()
         descriptionLabel.text = "Hello, world!"
         descriptionLabel.textColor = .ypWhite
         descriptionLabel.font = UIFont.systemFont(ofSize: 13)
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         
         return descriptionLabel
     }()
     
     private let logoutButton: UIButton = {
-        guard let imageButton = UIImage(named: "ipad.and.arrow.forward") else { return UIButton()}
-        let logoutButton = UIButton.systemButton(with: imageButton, target: ProfileViewController.self, action: #selector(didTapLogoutButton))
+        let logoutButton = UIButton()
+        let imageButton = UIImage(named: "ipad.and.arrow.forward")
+        logoutButton.setImage(imageButton, for: .normal)
+        logoutButton.addTarget(nil, action: #selector(didTapLogoutButton), for: .allTouchEvents)
         logoutButton.tintColor = .ypRed
-        logoutButton.translatesAutoresizingMaskIntoConstraints = false
         
         return logoutButton
     }()
@@ -69,7 +67,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
         
-        addSubviewAndSetupBackgraundColor()
+        addSubviewAndSetupBackgroundColor()
         applyConstraints()
         updateProfileDetails(profile: profileService.profile)
         
@@ -81,8 +79,7 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc
-    private func didTapLogoutButton() {
-    }
+    private func didTapLogoutButton() {}
 }
 
 //MARK: - Update profile image for kingfisher
@@ -91,16 +88,17 @@ private extension ProfileViewController {
         guard let profileImageURL = ProfileImageService.shared.avatarURL,
               let url = URL(string: profileImageURL)
         else { return }
-        avatarImageView.kf.setImage(with: url)
+        avatarImageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder.jpeg"))
     }
 }
 
 //MARK: - SetupUIElement
-extension ProfileViewController {
-    private func addSubviewAndSetupBackgraundColor() {
+private extension ProfileViewController {
+    private func addSubviewAndSetupBackgroundColor() {
         [avatarImageView, nameLabel, loginNameLabel, descriptionLabel, logoutButton].forEach {
             view.addSubview($0)
             $0.backgroundColor = .clear
+            $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
     

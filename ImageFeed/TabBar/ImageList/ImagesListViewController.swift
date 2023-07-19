@@ -7,33 +7,29 @@
 
 import UIKit
 
-
 final class ImagesListViewController: UIViewController {
-    
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
     
-    private let showSingleImageSegueIdentifier = "ShowSingleImage"
-    
-    @IBOutlet private var tableView: UITableView!
+    private var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = .clear
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(tableView)
+        applyConstraints()
+        view.backgroundColor = .ypBlack
         
         tableView.dataSource = self
         tableView.delegate = self
         
+        self.tableView.register(ImagesListCell.classForKeyedArchiver(), forCellReuseIdentifier: "ImagesListCell")
+        
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showSingleImageSegueIdentifier {
-            guard let viewController = segue.destination as? SingleImageViewController,
-                  let indexPath = sender as? IndexPath else { return }
-            let image = UIImage(named: photosName[indexPath.row])
-            viewController.image = image
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -41,11 +37,18 @@ final class ImagesListViewController: UIViewController {
     }
 }
 
-
 //MARK: - TableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
+        //TODO: REMOVE
+        OAuth2TokenKeychainStorage().removeSuccessful()
+        
+        let singleVc = SingleImageViewController()
+        singleVc.modalTransitionStyle = .crossDissolve
+        singleVc.modalPresentationStyle = .fullScreen
+        let image = UIImage(named: photosName[indexPath.row])
+        singleVc.image = image
+        present(singleVc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -70,7 +73,6 @@ extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-        
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
@@ -83,5 +85,16 @@ extension ImagesListViewController: UITableViewDataSource {
         imageListCell.configure(model: model)
         
         return imageListCell
+    }
+}
+
+private extension ImagesListViewController {
+    private func applyConstraints() {
+        NSLayoutConstraint.activate([
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -12),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 12)
+        ])
     }
 }

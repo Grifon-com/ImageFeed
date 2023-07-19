@@ -1,5 +1,5 @@
 //
-//  Extentions.swift
+//  Extensions.swift
 //  ImageFeed
 //
 //  Created by Григорий Машук on 10.07.23.

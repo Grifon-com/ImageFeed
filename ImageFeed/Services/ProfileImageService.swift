@@ -17,7 +17,7 @@ final class ProfileImageService: ProfileImageServiceProtocol {
     static let didChangeNotification = Notification.Name(rawValue: "ProfileimageproviderDidChange")
     
     private let profileService = ProfileService.shared
-    private let oAuth2Token = OAuth2TokenKeycheinStorage()
+    private let oAuth2Token = OAuth2TokenKeychainStorage()
     private let urlSession = URLSession.shared
     
     private (set) var avatarURL: String?
@@ -49,11 +49,11 @@ final class ProfileImageService: ProfileImageServiceProtocol {
     }
 }
 
-//MARK: - RequestAndURL
+//MARK: - Request
 private extension ProfileImageService {
     private func profileImageRequest(token: String, username: String) throws -> URLRequest {
         let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
-        let urlString =  "\(ConstantsUnSplash.jsondefaultBaseURL)\(ProfileImageService.path)"
+        let urlString =  "\(ConstantsUnSplash.jsonDefaultBaseURL)\(ProfileImageService.path)"
         guard let url = URL(string: urlString) else { throw NetworkError.urlError }
         
         return URLRequest.makeHTTPRequestForModel(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField)
