@@ -40,9 +40,6 @@ final class ImagesListViewController: UIViewController {
 //MARK: - TableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //TODO: REMOVE
-        OAuth2TokenKeychainStorage().removeSuccessful()
-        
         let singleVc = SingleImageViewController()
         singleVc.modalTransitionStyle = .crossDissolve
         singleVc.modalPresentationStyle = .fullScreen
