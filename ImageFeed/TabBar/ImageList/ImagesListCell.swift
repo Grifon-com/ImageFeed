@@ -8,27 +8,30 @@
 import UIKit
 
 final class ImagesListCell: UITableViewCell {
+    private static let imageLikeName = "Active"
+    private static let cornerRadiusCellImage = CGFloat(16)
+    private static let fontCellLabel = CGFloat(13)
     static let reuseIdentifier = "ImagesListCell"
     
-    private var cellImage: UIImageView = {
+    private lazy var cellImage: UIImageView = {
         let cellImage = UIImageView()
         cellImage.layer.masksToBounds = true
-        cellImage.layer.cornerRadius = 16
+        cellImage.layer.cornerRadius = ImagesListCell.cornerRadiusCellImage
         
         return cellImage
     }()
     
-    private var cellButton: UIButton = {
+    private lazy var cellButton: UIButton = {
         let cellButton = UIButton()
-        let image = UIImage(named: "Active")
+        let image = UIImage(named: ImagesListCell.imageLikeName)
         cellButton.setImage(image, for: .normal)
         
         return cellButton
     }()
     
-    private var cellLabel: UILabel = {
+    private lazy var cellLabel: UILabel = {
         let cellLabel = UILabel()
-        cellLabel.font = UIFont.systemFont(ofSize: 13)
+        cellLabel.font = UIFont.systemFont(ofSize: ImagesListCell.fontCellLabel)
         cellLabel.textColor = .ypWhite
         
         return cellLabel
@@ -36,9 +39,9 @@ final class ImagesListCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupSubView()
+        setupUIElement()
         applyConstraints()
-        self.backgroundColor = .clear
+        
         self.selectionStyle = .none
     }
     
@@ -55,7 +58,8 @@ final class ImagesListCell: UITableViewCell {
 
 //MARK: - SetupUIElement
 private extension ImagesListCell {
-    private func setupSubView() {
+    private func setupUIElement() {
+        self.backgroundColor = .clear
         [cellImage, cellButton, cellLabel].forEach {
             self.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false

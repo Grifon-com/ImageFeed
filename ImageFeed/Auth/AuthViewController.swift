@@ -12,27 +12,31 @@ protocol AuthViewControllerDelegate: AnyObject {
 }
 
 final class AuthViewController: UIViewController{
-    private let showWebSegueIdentifier = "ShowWebView"
+    private static let imageViewName = "Logo_of_Unsplash"
+    private static let titleLogoutButton = "Войти"
+    private static let fontTitleLabelLogoutButton = CGFloat(17)
+    private static let cornerRadiusLogoutButton = CGFloat(16)
+    
     private var oAuth2Service: OAuth2ServiceProtocol?
     
     weak var delegate: AuthViewControllerDelegate?
     
-    private var imageView: UIImageView = {
-        let image = UIImage(named: "Logo_of_Unsplash")
+    private lazy var imageView: UIImageView = {
+        let image = UIImage(named: AuthViewController.imageViewName)
         let imageView = UIImageView(image: image)
         imageView.backgroundColor = .clear
         
         return imageView
     }()
     
-    private var logoutButton: UIButton = {
+    private lazy var logoutButton: UIButton = {
         let logoutButton = UIButton()
         logoutButton.backgroundColor = .ypWhite
-        logoutButton.layer.cornerRadius = 16
+        logoutButton.layer.cornerRadius = AuthViewController.cornerRadiusLogoutButton
         logoutButton.layer.masksToBounds = true
-        logoutButton.setTitle("Войти", for: .normal)
+        logoutButton.setTitle(AuthViewController.titleLogoutButton, for: .normal)
         logoutButton.setTitleColor(.ypBlack, for: .normal)
-        logoutButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
+        logoutButton.titleLabel?.font = .boldSystemFont(ofSize: AuthViewController.fontTitleLabelLogoutButton)
         logoutButton.tintColor = .ypWhite
         logoutButton.addTarget(nil, action: #selector(didTapPushVc), for: .touchUpInside)
         
@@ -42,7 +46,6 @@ final class AuthViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         oAuth2Service = OAuth2Service()
-        view.backgroundColor = .ypBlack
         
         setupUIElement()
         applyConstraint()
@@ -57,16 +60,6 @@ final class AuthViewController: UIViewController{
         webVc.delegate = self
         webVc.modalPresentationStyle = .fullScreen
         self.present(webVc, animated: true)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showWebSegueIdentifier {
-            guard let webViewViewController = segue.destination as? WebViewViewController
-            else { return }
-            webViewViewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
     }
 }
 
@@ -83,14 +76,15 @@ extension AuthViewController: WebViewViewControllerDelegate {
 
 //MARK: - Setup UIElement
 private extension AuthViewController {
-    private func setupUIElement() {
+    func setupUIElement() {
+        view.backgroundColor = .ypBlack
         [imageView, logoutButton].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
     
-    private func applyConstraint() {
+    func applyConstraint() {
         NSLayoutConstraint.activate([
             imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),

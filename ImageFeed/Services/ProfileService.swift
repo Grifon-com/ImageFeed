@@ -12,11 +12,12 @@ protocol ProfileServiceProtocol {
 }
 
 final class ProfileService: ProfileServiceProtocol {
-    static let shared = ProfileService()
-    
     private static let at = "@"
     private static let path = "/me"
+    private static let emptyLine = ""
     
+    static let shared = ProfileService()
+
     private let urlSession = URLSession.shared
     
     private var lastToken: String?
@@ -41,7 +42,7 @@ final class ProfileService: ProfileServiceProtocol {
             guard let self = self else { return }
             switch result {
             case .success(let model):
-                profile = convertModel(model: model)
+                self.profile = convertModel(model: model)
                 completion(.success(model))
                 self.task = nil
             case .failure(let error):
@@ -69,11 +70,11 @@ private extension ProfileService {
 //MARK: - Convert Model
 private extension ProfileService {
     private func convertModel(model: ProfileResult) -> Profile {
-        let username = model.username ?? ""
-        let firstName = model.firstName ?? ""
-        let lastName = model.lastName ?? ""
+        let username = model.username ?? ProfileService.emptyLine
+        let firstName = model.firstName ?? ProfileService.emptyLine
+        let lastName = model.lastName ?? ProfileService.emptyLine
         let loginName = "\(ProfileService.at)\(username)"
-        let bio = model.bio ?? ""
+        let bio = model.bio ?? ProfileService.emptyLine
         let name = "\(firstName)\(lastName)"
         
         let profile = Profile(username: username,

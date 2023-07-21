@@ -12,10 +12,11 @@ final class OAuth2TokenKeychainStorage {
     private enum Key: String {
         case token
     }
+    private let keychain = KeychainWrapper.standard
     
     private var token: String? {
         get {
-            KeychainWrapper.standard.string(forKey: Key.token.rawValue)
+            keychain.string(forKey: Key.token.rawValue)
         }
     }
     
@@ -25,12 +26,12 @@ final class OAuth2TokenKeychainStorage {
     
     func storageToken(newToken: String?) throws {
         guard let newToken = newToken else { return }
-        let isSucces = KeychainWrapper.standard.set(newToken, forKey: Key.token.rawValue)
+        let isSucces = keychain.set(newToken, forKey: Key.token.rawValue)
         guard isSucces else { throw KeychainError.errorStorageToken }
     }
     
     func removeSuccessful() {
-        KeychainWrapper.standard.removeObject(forKey: Key.token.rawValue)
+        keychain.removeObject(forKey: Key.token.rawValue)
     }
 }
 

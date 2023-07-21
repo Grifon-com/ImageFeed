@@ -14,38 +14,36 @@ protocol WebViewViewControllerDelegate: AnyObject {
 }
 
 final class WebViewViewController: UIViewController {
+    private static let backButtonImageName = "nav_back_button"
     private static let responseTypeString = "response_type"
     private static let scopeString = "scope"
     
     private var estimatedProgressObservation: NSKeyValueObservation?
+    weak var delegate: WebViewViewControllerDelegate?
     
-    private var webView: WKWebView = {
+    private lazy var webView: WKWebView = {
         let webView = WKWebView()
         
         return webView
     }()
     
-    private var progressView: UIProgressView = {
+    private lazy var progressView: UIProgressView = {
         let progressView = UIProgressView()
         progressView.progressTintColor = .ypBlack
         
         return progressView
     }()
     
-    private var backButton: UIButton = {
+    private lazy var backButton: UIButton = {
         let backButton = UIButton()
-        let image = UIImage(named: "nav_back_button")
+        let image = UIImage(named: WebViewViewController.backButtonImageName)
         backButton.setImage(image, for: .normal)
         
         return backButton
     }()
     
-    weak var delegate: WebViewViewControllerDelegate?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .ypWhite
-        
         backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         
         setupUIElement()
@@ -72,7 +70,6 @@ final class WebViewViewController: UIViewController {
 //MARK: - SetupURL
 extension WebViewViewController {
     private func setupURL() {
-        
         guard var urlComponents = URLComponents(string: ConstantsUnSplash.unSplashAuthorizeURLString) else { return }
         
         urlComponents.queryItems = [
@@ -99,33 +96,12 @@ extension WebViewViewController: WKNavigationDelegate {
             decisionHandler(.allow)
         }
     }
-    
-    private func code(from navigationAction: WKNavigationAction) -> String? {
-        if
-            let url = navigationAction.request.url,
-            let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == ConstantsUnSplash.authNativePath,
-            let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == ConstantsUnSplash.code}) {
-            
-            return codeItem.value
-        } else {
-            return nil
-        }
-    }
 }
 
-//MARK: - KVO
 private extension WebViewViewController {
-    private func updateProgress() {
-        progressView.progress = Float(webView.estimatedProgress)
-        progressView.isHidden = fabs(webView.estimatedProgress - 1) <= 0.0001
-    }
-}
-
-//MARK: - Setup UIElement
-private extension WebViewViewController {
-    private func setupUIElement() {
+    //MARK: Setup UIElement
+    func setupUIElement() {
+        view.backgroundColor = .ypWhite
         [webView, progressView, backButton].forEach {
             view.addSubview($0)
             $0.backgroundColor = .clear
@@ -133,7 +109,7 @@ private extension WebViewViewController {
         }
     }
     
-    private func applyConstraint() {
+    func applyConstraint() {
         NSLayoutConstraint.activate([
             webView.topAnchor.constraint(equalTo: view.topAnchor),
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -149,5 +125,26 @@ private extension WebViewViewController {
             backButton.heightAnchor.constraint(equalToConstant: 44),
             backButton.widthAnchor.constraint(equalToConstant: 44)
         ])
+    }
+    
+    //MARK: KVO
+    func updateProgress() {
+        progressView.progress = Float(webView.estimatedProgress)
+        progressView.isHidden = fabs(webView.estimatedProgress - 1) <= 0.0001
+    }
+    
+    //MARK: Get code
+    func code(from navigationAction: WKNavigationAction) -> String? {
+        if
+            let url = navigationAction.request.url,
+            let urlComponents = URLComponents(string: url.absoluteString),
+            urlComponents.path == ConstantsUnSplash.authNativePath,
+            let items = urlComponents.queryItems,
+            let codeItem = items.first(where: { $0.name == ConstantsUnSplash.code}) {
+            
+            return codeItem.value
+        } else {
+            return nil
+        }
     }
 }

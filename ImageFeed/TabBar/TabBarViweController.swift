@@ -8,6 +8,9 @@
 import UIKit
 
 final class TabBarViewController: UITabBarController {
+    private static let tabBarImageList = "tab_editorial_active"
+    private static let tabBarImageProfile = "tab_profile_active"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
@@ -23,16 +26,16 @@ final class TabBarViewController: UITabBarController {
         self.viewControllers = [
             generateVC(viewController: ImagesListViewController(),
                        title: nil,
-                       image: UIImage(named: "tab_editorial_active")),
+                       image: UIImage(named: TabBarViewController.tabBarImageList)),
             generateVC(viewController: ProfileViewController(),
                        title: nil,
-                       image: UIImage(named: "tab_profile_active"))]
+                       image: UIImage(named: TabBarViewController.tabBarImageProfile))]
     }
 }
 
 //MARK: - GenerateVC
 private extension TabBarViewController {
-    private func generateVC(viewController: UIViewController, title: String?, image: UIImage?) -> UIViewController{
+    func generateVC(viewController: UIViewController, title: String?, image: UIImage?) -> UIViewController{
         viewController.tabBarItem.title = title
         viewController.tabBarItem.image = image
         

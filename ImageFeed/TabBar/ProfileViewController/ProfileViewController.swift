@@ -9,12 +9,22 @@ import UIKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
+    private static let imageAvatarName = "Avatar"
+    private static let textNameLabel = "Екатерина Новикова"
+    private static let textLoginNameLabel = "@ekaterina_nov"
+    private static let textDescriptionLabel = "Hello, world!"
+    private static let imageLogoutButtonName = "ipad.and.arrow.forward"
+    private static let imagePlaceholderName = "placeholder"
+    private static let fontNameLabel = CGFloat(23)
+    private static let fontLoginNameLabel = CGFloat(13)
+    private static let fontDescriptionLabel = CGFloat(13)
+    
     private let profileService = ProfileService.shared
     private var profileModel: Profile?
     private var profileImageServiceObserver: NSObjectProtocol?
     
-    private let avatarImageView: UIImageView = {
-        let avatarImage = UIImage(named: "Avatar")
+    private lazy var avatarImageView: UIImageView = {
+        let avatarImage = UIImage(named: ProfileViewController.imageAvatarName)
         let avatarImageView = UIImageView(image: avatarImage)
         avatarImageView.clipsToBounds = true
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.width / 2
@@ -22,36 +32,36 @@ final class ProfileViewController: UIViewController {
         return avatarImageView
     }()
     
-    private let nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.text = "Екатерина Новикова"
+        nameLabel.text = ProfileViewController.textNameLabel
         nameLabel.textColor = .ypWhite
-        nameLabel.font = .boldSystemFont(ofSize: 23)
+        nameLabel.font = .boldSystemFont(ofSize: ProfileViewController.fontNameLabel)
         
         return nameLabel
     }()
     
-    private let loginNameLabel: UILabel = {
+    private lazy var loginNameLabel: UILabel = {
         let loginNameLabel = UILabel()
-        loginNameLabel.text = "@ekaterina_nov"
+        loginNameLabel.text = ProfileViewController.textLoginNameLabel
         loginNameLabel.textColor = .ypGrey
-        loginNameLabel.font = UIFont.systemFont(ofSize: 13)
+        loginNameLabel.font = UIFont.systemFont(ofSize: ProfileViewController.fontLoginNameLabel)
         
         return loginNameLabel
     }()
     
-    private var descriptionLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = {
         let descriptionLabel = UILabel()
-        descriptionLabel.text = "Hello, world!"
+        descriptionLabel.text = ProfileViewController.textDescriptionLabel
         descriptionLabel.textColor = .ypWhite
-        descriptionLabel.font = UIFont.systemFont(ofSize: 13)
+        descriptionLabel.font = UIFont.systemFont(ofSize: ProfileViewController.fontDescriptionLabel)
         
         return descriptionLabel
     }()
     
-    private let logoutButton: UIButton = {
+    private lazy var logoutButton: UIButton = {
         let logoutButton = UIButton()
-        let imageButton = UIImage(named: "ipad.and.arrow.forward")
+        let imageButton = UIImage(named: ProfileViewController.imageLogoutButtonName)
         logoutButton.setImage(imageButton, for: .normal)
         logoutButton.addTarget(nil, action: #selector(didTapLogoutButton), for: .allTouchEvents)
         logoutButton.tintColor = .ypRed
@@ -65,9 +75,7 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .ypBlack
-        
-        addSubviewAndSetupBackgroundColor()
+        setupUIElement()
         applyConstraints()
         updateProfileDetails(profile: profileService.profile)
         
@@ -82,19 +90,26 @@ final class ProfileViewController: UIViewController {
     private func didTapLogoutButton() {}
 }
 
-//MARK: - Update profile image for kingfisher
 private extension ProfileViewController {
-    private func updateAvatar() {
+    //MARK: Update profile image for kingfisher
+    func updateAvatar() {
         guard let profileImageURL = ProfileImageService.shared.avatarURL,
               let url = URL(string: profileImageURL)
         else { return }
-        avatarImageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder.jpeg"))
+        avatarImageView.kf.setImage(with: url, placeholder: UIImage(named: ProfileViewController.imagePlaceholderName))
     }
-}
-
-//MARK: - SetupUIElement
-private extension ProfileViewController {
-    private func addSubviewAndSetupBackgroundColor() {
+    
+    //MARK: UpdateProfileDetails
+    func updateProfileDetails(profile: Profile?) {
+        guard let profile = profile else { return }
+        nameLabel.text = profile.name
+        loginNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
+    }
+    
+    //MARK: SetupUIElement
+    func setupUIElement() {
+        view.backgroundColor = .ypBlack
         [avatarImageView, nameLabel, loginNameLabel, descriptionLabel, logoutButton].forEach {
             view.addSubview($0)
             $0.backgroundColor = .clear
@@ -123,15 +138,5 @@ private extension ProfileViewController {
             logoutButton.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
             logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
-    }
-}
-
-//MARK: UpdateProfileDetails
-extension ProfileViewController {
-    private func updateProfileDetails(profile: Profile?) {
-        guard let profile = profile else { return }
-        nameLabel.text = profile.name
-        loginNameLabel.text = profile.loginName
-        descriptionLabel.text = profile.bio
     }
 }

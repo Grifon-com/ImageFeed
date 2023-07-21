@@ -12,9 +12,9 @@ protocol ProfileImageServiceProtocol {
 
 final class ProfileImageService: ProfileImageServiceProtocol {
     private static let userInfoKey = "URL"
-    private static let path = "/users/username"
+    private static let path = "/users/"
     static let shared = ProfileImageService()
-    static let didChangeNotification = Notification.Name(rawValue: "ProfileimageproviderDidChange")
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileimageProviderDidChange")
     
     private let profileService = ProfileService.shared
     private let oAuth2Token = OAuth2TokenKeychainStorage()
@@ -52,9 +52,11 @@ final class ProfileImageService: ProfileImageServiceProtocol {
 //MARK: - Request
 private extension ProfileImageService {
     private func profileImageRequest(token: String, username: String) throws -> URLRequest {
+        guard let username = profileService.profile?.username else { throw NetworkError.urlError }
         let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
-        let urlString =  "\(ConstantsUnSplash.jsonDefaultBaseURL)\(ProfileImageService.path)"
-        guard let url = URL(string: urlString) else { throw NetworkError.urlError }
+        let urlString =  "\(ConstantsUnSplash.jsonDefaultBaseURL)\(ProfileImageService.path)\(username)"
+        guard let url = URL(string: urlString)
+        else { throw NetworkError.urlError }
         
         return URLRequest.makeHTTPRequestForModel(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField)
     }

@@ -8,28 +8,34 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
+    private static let cellReuseIdentifier = "ImagesListCell"
+    private static let imageLikeName = "Active"
+    private static let imageNoLikeName = "No Active"
+    private static let edgeInsetsTableView = (top: 12, left: 0, bottom: 12, right: 0)
+    private static let edgeInsetsCellView = (top: 4, left: 16, bottom: 4, right: 16)
+    
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
     
-    private var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(ImagesListCell.classForKeyedArchiver(), forCellReuseIdentifier: ImagesListViewController.cellReuseIdentifier)
+        tableView.contentInset = UIEdgeInsets(top: CGFloat(ImagesListViewController.edgeInsetsTableView.top),
+                                              left: CGFloat(ImagesListViewController.edgeInsetsTableView.left),
+                                              bottom: CGFloat(ImagesListViewController.edgeInsetsTableView.bottom),
+                                              right: CGFloat(ImagesListViewController.edgeInsetsTableView.right))
         
         return tableView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(tableView)
+        setupUIElement()
         applyConstraints()
-        view.backgroundColor = .ypBlack
         
         tableView.dataSource = self
         tableView.delegate = self
-        
-        self.tableView.register(ImagesListCell.classForKeyedArchiver(), forCellReuseIdentifier: "ImagesListCell")
-        
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -52,7 +58,10 @@ extension ImagesListViewController: UITableViewDelegate {
         guard let image = UIImage(named: photosName[indexPath.row]) else {
             return 0
         }
-        let indents = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+        let indents = UIEdgeInsets(top: CGFloat(ImagesListViewController.edgeInsetsCellView.top),
+                                   left: CGFloat(ImagesListViewController.edgeInsetsCellView.left),
+                                   bottom: CGFloat(ImagesListViewController.edgeInsetsCellView.bottom),
+                                   right: CGFloat(ImagesListViewController.edgeInsetsCellView.right))
         let widthImageView = tableView.bounds.width - indents.left - indents.right
         let widthImage = image.size.width
         let coefficient = widthImageView / widthImage
@@ -75,7 +84,7 @@ extension ImagesListViewController: UITableViewDataSource {
         }
         
         guard let image = UIImage(named: photosName[indexPath.row]) else { return UITableViewCell() }
-        let buttonImage = indexPath.row % 2 == 0 ? UIImage(named: "Active") : UIImage(named: "No Active")
+        let buttonImage = indexPath.row % 2 == 0 ? UIImage(named: ImagesListViewController.imageLikeName) : UIImage(named: ImagesListViewController.imageNoLikeName)
         let textLabel = Date().dateTimeString
         let model = ImagesListCellModel(image: image, buttonImage: buttonImage, textLabel: textLabel)
         
@@ -85,8 +94,14 @@ extension ImagesListViewController: UITableViewDataSource {
     }
 }
 
+//MARK: - SetupUielement
 private extension ImagesListViewController {
-    private func applyConstraints() {
+    func setupUIElement() {
+        view.backgroundColor = .ypBlack
+        view.addSubview(tableView)
+    }
+    
+    func applyConstraints() {
         NSLayoutConstraint.activate([
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
