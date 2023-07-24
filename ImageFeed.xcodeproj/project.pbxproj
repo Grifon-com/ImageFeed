@@ -28,6 +28,9 @@
 		1ABF04132A44D96D00EA00B8 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABF04122A44D96D00EA00B8 /* AuthViewController.swift */; };
 		1ABF04152A44DAE400EA00B8 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABF04142A44DAE400EA00B8 /* WebViewViewController.swift */; };
 		1AC0F1D42A583B5B00A2502F /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC0F1D32A583B5B00A2502F /* UIBlockingProgressHUD.swift */; };
+		1AC8566C2A6D46760091D4EC /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC8566B2A6D46760091D4EC /* ImagesListService.swift */; };
+		1AC8566E2A6D480C0091D4EC /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC8566D2A6D480C0091D4EC /* PhotoModel.swift */; };
+		1AC856702A6D4D5A0091D4EC /* PhotoResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC8566F2A6D4D5A0091D4EC /* PhotoResult.swift */; };
 		1ACBB6012A616D7C000A37F3 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 1ACBB6002A616D7C000A37F3 /* SwiftKeychainWrapper */; };
 		1ACBB6042A618173000A37F3 /* KeychainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBB6032A618173000A37F3 /* KeychainError.swift */; };
 		1ACCC8242A20DE3C00433E49 /* ExtensionsUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACCC8232A20DE3C00433E49 /* ExtensionsUIColor.swift */; };
@@ -84,6 +87,9 @@
 		1ABF04122A44D96D00EA00B8 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		1ABF04142A44DAE400EA00B8 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		1AC0F1D32A583B5B00A2502F /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
+		1AC8566B2A6D46760091D4EC /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
+		1AC8566D2A6D480C0091D4EC /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
+		1AC8566F2A6D4D5A0091D4EC /* PhotoResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResult.swift; sourceTree = "<group>"; };
 		1ACBB6032A618173000A37F3 /* KeychainError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainError.swift; sourceTree = "<group>"; };
 		1ACCC8232A20DE3C00433E49 /* ExtensionsUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsUIColor.swift; sourceTree = "<group>"; };
 		1AD0754A2A335B0500A41082 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
@@ -170,6 +176,7 @@
 				1A6424E42A47725200D6B46B /* OAuth2Service.swift */,
 				1A3170302A584E43001C4A26 /* ProfileService.swift */,
 				1A9B8E8F2A5C94B500A8E2D5 /* ProfileImageService.swift */,
+				1AC8566B2A6D46760091D4EC /* ImagesListService.swift */,
 				1A6424E82A4861D400D6B46B /* OAuth2TokenKeycheinStorage.swift */,
 				1A3170342A584FA2001C4A26 /* SnakeCaseJsonDecoder.swift */,
 				1A9B8E8B2A5C808900A8E2D5 /* ExtensionsRequest.swift */,
@@ -197,6 +204,8 @@
 				1A3170322A584F02001C4A26 /* PrifileResultModel.swift */,
 				1A6236142A585BDE00710E80 /* ProfileModel.swift */,
 				1A9B8E912A5C951F00A8E2D5 /* UserResult.swift */,
+				1AC8566D2A6D480C0091D4EC /* PhotoModel.swift */,
+				1AC8566F2A6D4D5A0091D4EC /* PhotoResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -460,8 +469,11 @@
 				1A3170352A584FA2001C4A26 /* SnakeCaseJsonDecoder.swift in Sources */,
 				1A3170312A584E43001C4A26 /* ProfileService.swift in Sources */,
 				1A3170332A584F02001C4A26 /* PrifileResultModel.swift in Sources */,
+				1AC856702A6D4D5A0091D4EC /* PhotoResult.swift in Sources */,
 				1AD0754B2A335B0500A41082 /* SingleImageViewController.swift in Sources */,
 				1AFE86182A1FB89100BBEA1B /* ImagesListViewController.swift in Sources */,
+				1AC8566C2A6D46760091D4EC /* ImagesListService.swift in Sources */,
+				1AC8566E2A6D480C0091D4EC /* PhotoModel.swift in Sources */,
 				1A2A77EA2A4DD8E1009CF5AD /* SplashViewController.swift in Sources */,
 				1A6EC8FD2A62C0DA0006EE0C /* TabBarViweController.swift in Sources */,
 				1AFE86142A1FB89100BBEA1B /* AppDelegate.swift in Sources */,

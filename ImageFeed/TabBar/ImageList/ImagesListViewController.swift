@@ -14,6 +14,7 @@ final class ImagesListViewController: UIViewController {
     private static let edgeInsetsTableView = (top: 12, left: 0, bottom: 12, right: 0)
     private static let edgeInsetsCellView = (top: 4, left: 16, bottom: 4, right: 16)
     
+    private let imagesListService = ImagesListService.shared
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
     
     private lazy var tableView: UITableView = {
@@ -52,6 +53,11 @@ extension ImagesListViewController: UITableViewDelegate {
         let image = UIImage(named: photosName[indexPath.row])
         singleVc.image = image
         present(singleVc, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == imagesListService.photos.count { imagesListService.fetchPhotosNextPage()
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

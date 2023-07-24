@@ -17,13 +17,17 @@ enum ConstantsUnSplash {
     static let jsonDefaultBaseURL = "https://api.unsplash.com"
     static let unSplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     static let authNativePath = "/oauth/authorize/native"
-    static let path = "/oauth/token"
+    static let pathToken = "/oauth/token"
     
     static let code = "code"
     static let bearer = "Bearer"
     static let hTTPHeaderField = "Authorization"
     static let redirectUriString = "redirect_uri"
     static let clientIdString = "client_id"
+}
+
+enum Constants {
+    static let emptyLine = ""
 }
 
 enum ConstantsSceneConfiguration {

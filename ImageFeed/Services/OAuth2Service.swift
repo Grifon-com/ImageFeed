@@ -50,13 +50,14 @@ final class OAuth2Service: OAuth2ServiceProtocol {
                 self.lastCode = nil
             }
         }
+        self.task = task
         task.resume()
     }
 }
 
 private extension OAuth2Service {
     private func authTokenRequest(code: String) throws -> URLRequest {
-        let urlAbsoluteString = "\(ConstantsUnSplash.defaultBaseURL)\(ConstantsUnSplash.path)"
+        let urlAbsoluteString = "\(ConstantsUnSplash.defaultBaseURL)\(ConstantsUnSplash.pathToken)"
         guard var urlComponents = URLComponents(string: urlAbsoluteString) else {
             throw NetworkError.urlComponentsError
         }

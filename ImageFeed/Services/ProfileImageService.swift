@@ -45,13 +45,14 @@ final class ProfileImageService: ProfileImageServiceProtocol {
                 self.lastToken = nil
             }
         }
+        self.task = task
         task.resume()
     }
 }
 
 //MARK: - Request
 private extension ProfileImageService {
-    private func profileImageRequest(token: String, username: String) throws -> URLRequest {
+    func profileImageRequest(token: String, username: String) throws -> URLRequest {
         guard let username = profileService.profile?.username else { throw NetworkError.urlError }
         let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
         let urlString =  "\(ConstantsUnSplash.jsonDefaultBaseURL)\(ProfileImageService.path)\(username)"

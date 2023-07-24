@@ -14,10 +14,9 @@ protocol ProfileServiceProtocol {
 final class ProfileService: ProfileServiceProtocol {
     private static let at = "@"
     private static let path = "/me"
-    private static let emptyLine = ""
     
     static let shared = ProfileService()
-
+    
     private let urlSession = URLSession.shared
     
     private var lastToken: String?
@@ -50,12 +49,14 @@ final class ProfileService: ProfileServiceProtocol {
             }
             self.lastToken = nil
         }
+        self.task = task
         task.resume()
     }
 }
-//MARK: - Request
+
 private extension ProfileService {
-    private func profileModelRequest(token: String) throws -> URLRequest {
+    //MARK: Request
+    func profileModelRequest(token: String) throws -> URLRequest {
         let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
         let urlAbsoluteString = "\(ConstantsUnSplash.jsonDefaultBaseURL)\(ProfileService.path)"
         guard let url = URL(string: urlAbsoluteString) else { throw NetworkError.urlError }
@@ -65,16 +66,14 @@ private extension ProfileService {
                                                          forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField)
         return request
     }
-}
-
-//MARK: - Convert Model
-private extension ProfileService {
-    private func convertModel(model: ProfileResult) -> Profile {
-        let username = model.username ?? ProfileService.emptyLine
-        let firstName = model.firstName ?? ProfileService.emptyLine
-        let lastName = model.lastName ?? ProfileService.emptyLine
+    
+    //MARK: Convert Model
+    func convertModel(model: ProfileResult) -> Profile {
+        let username = model.username ?? Constants.emptyLine
+        let firstName = model.firstName ?? Constants.emptyLine
+        let lastName = model.lastName ?? Constants.emptyLine
         let loginName = "\(ProfileService.at)\(username)"
-        let bio = model.bio ?? ProfileService.emptyLine
+        let bio = model.bio ?? Constants.emptyLine
         let name = "\(firstName)\(lastName)"
         
         let profile = Profile(username: username,
