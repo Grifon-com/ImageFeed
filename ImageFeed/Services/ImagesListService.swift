@@ -17,7 +17,7 @@ final class ImagesListService: ImagesListServiceProtocol {
     private static let userInfoKey = "listPhoto"
     private static let pageString = "page"
     private static let path = "/photos"
-    private static let didChangeNotification = Notification.Name("ImageListServiceDidChange")
+    static let didChangeNotification = Notification.Name("ImageListServiceDidChange")
     
     static let shared = ImagesListService()
     
@@ -40,21 +40,22 @@ final class ImagesListService: ImagesListServiceProtocol {
         }
         catch {
             let errorRequest = NetworkError.urlComponentsError
-            assertionFailure("\(errorRequest)")
         }
         guard let request = request else { return }
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result <[PhotoResult], Error>) in
             guard let self = self else { return }
             switch result {
-            case .success(let listModel):
-                listModel.forEach {
+            case .success(let model):
+                model.forEach {
                     let photoModel = self.convertModel(model: $0)
                     self.photos.append(photoModel)
+                    print(self.photos.count)
                 }
                 NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self, userInfo: [ImagesListService.userInfoKey: self.photos])
                 self.task = nil
             case .failure(let error):
-                assertionFailure("\(error)")
+                //TODO: DELETE
+                print(error)
             }
         }
         self.task = task
@@ -65,10 +66,11 @@ final class ImagesListService: ImagesListServiceProtocol {
 private extension ImagesListService {
     func imageListServiceRequest(page: Int) throws -> URLRequest {
         guard var component = URLComponents(string: ConstantsUnSplash.jsonDefaultBaseURL) else { throw NetworkError.urlComponentsError}
-        component.queryItems = [URLQueryItem(name: ImagesListService.pageString, value: "\(page)")]
+        component.queryItems = [
+            URLQueryItem(name: ImagesListService.pageString, value: "\(page)")
+        ]
         component.path = ImagesListService.path
         guard let url = component.url else { throw NetworkError.urlComponentsError}
-        
         guard let token = OAuth2TokenKeychainStorage().getToken() else { throw KeychainError.errorStorageToken}
         let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
         
@@ -77,13 +79,13 @@ private extension ImagesListService {
     
     func convertModel(model: PhotoResult) -> Photo {
         let id = model.id ?? Constants.emptyLine
-        let heigt = model.heigt ?? ImagesListService.sizeDefault.heigt
+        let heigt = model.height ?? ImagesListService.sizeDefault.heigt
         let width = model.width ?? ImagesListService.sizeDefault.width
         let size = CGSize(width: width, height: heigt)
         let createdAt = model.createdAt
         let welcomeDescription = model.description
-        let thumbImageURL = model.urls?.thumb ?? Constants.emptyLine
-        let largeImageURL = model.urls?.regular ?? Constants.emptyLine
+        let thumbImageURL = model.urls.thumb ?? Constants.emptyLine
+        let largeImageURL = model.urls.regular ?? Constants.emptyLine
         let isLiked = model.likedByUser ?? ImagesListService.isLikedDefault
         
         let photoModel = Photo(id: id,
