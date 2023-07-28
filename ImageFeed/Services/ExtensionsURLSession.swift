@@ -33,6 +33,31 @@ extension URLSession {
         return task
     }
     
+    func statusCode(for request: URLRequest, completion: @escaping (Result <Void, Error>) -> Void) -> URLSessionTask {
+        let fulfillCompletion: (Result<Void, Error>) -> Void = { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
+        let task = dataTask(with: request, completionHandler: {_, response, error in
+            if let response = response,
+               let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                print(statusCode)
+                if 200..<300 ~= statusCode {
+                    completion(.success(Void()))
+                } else {
+                    fulfillCompletion(.failure(NetworkError.httpStatusCode(statusCode)))
+                }
+            } else if let error = error {
+                fulfillCompletion(.failure(NetworkError.urlRequestError(error)))
+            } else {
+                fulfillCompletion(.failure(NetworkError.urlSessionError))
+            }
+        })
+        task.resume()
+        return task
+    }
+    
     func objectTask<T: Codable>(for request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionTask {
         let decoder = SnakeCaseJsonDecoder()
         return self.data(for: request) {(result: Result<Data, Error>) in

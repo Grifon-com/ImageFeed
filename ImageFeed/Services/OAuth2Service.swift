@@ -70,7 +70,7 @@ private extension OAuth2Service {
             URLQueryItem(name: OAuth2Service.grantTypeString, value: OAuth2Service.authorizationCodeString)
         ]
         guard let url = urlComponents.url else { throw NetworkError.urlError}
-        return URLRequest.makeHTTPRequestForToken(url: url, httpMethod: OAuth2Service.httpMethod)
+        return URLRequest.makeHTTPRequest(url: url, httpMethod: OAuth2Service.httpMethod)
     }
 }
 

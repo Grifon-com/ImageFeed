@@ -8,7 +8,6 @@
 import UIKit
 
 struct ImagesListCellModel {
-    let image: UIImage?
     let buttonImage: UIImage?
     let textLabel: String?
 }

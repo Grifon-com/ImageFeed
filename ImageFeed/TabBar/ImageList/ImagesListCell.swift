@@ -6,14 +6,22 @@
 //
 
 import UIKit
+import Kingfisher
+
+protocol ImageListCellDelegate: AnyObject {
+    func imageListCellDidTapLike(_ cell: ImagesListCell)
+}
 
 final class ImagesListCell: UITableViewCell {
-    private static let imageLikeName = "Active"
+    private static let imageLikeActive = "ActiveLike"
+    private static let imageLikeNoActive = "NoActiveLike"
     private static let cornerRadiusCellImage = CGFloat(16)
     private static let fontCellLabel = CGFloat(13)
     static let reuseIdentifier = "ImagesListCell"
     
-    private lazy var cellImage: UIImageView = {
+    weak var delegate: ImageListCellDelegate?
+    
+    lazy var cellImageView: UIImageView = {
         let cellImage = UIImageView()
         cellImage.layer.masksToBounds = true
         cellImage.layer.cornerRadius = ImagesListCell.cornerRadiusCellImage
@@ -23,8 +31,7 @@ final class ImagesListCell: UITableViewCell {
     
     private lazy var cellButton: UIButton = {
         let cellButton = UIButton()
-        let image = UIImage(named: ImagesListCell.imageLikeName)
-        cellButton.setImage(image, for: .normal)
+        cellButton.addTarget(nil, action: #selector(likeButtonClicked), for: .allTouchEvents)
         
         return cellButton
     }()
@@ -48,31 +55,33 @@ final class ImagesListCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func configure(model: ImagesListCellModel) {
-        cellImage.image = model.image
-        cellButton.imageView?.image = model.buttonImage
-        cellLabel.text = model.textLabel
-    }
 }
 
-//MARK: - SetupUIElement
 private extension ImagesListCell {
-    private func setupUIElement() {
+    //MARK: Button Action
+    @objc
+    func likeButtonClicked() {
+        delegate?.imageListCellDidTapLike(self)
+    }
+    
+    //MARK: SetupUIElement
+    func setupUIElement() {
         self.backgroundColor = .clear
-        [cellImage, cellButton, cellLabel].forEach {
-            self.addSubview($0)
+        [cellImageView, cellButton, cellLabel].forEach {
+            self.contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.backgroundColor = .clear
         }
+        cellButton.translatesAutoresizingMaskIntoConstraints = false
+        cellButton.backgroundColor = .clear
     }
     
-    private func applyConstraints() {
+    func applyConstraints() {
         NSLayoutConstraint.activate([
-            cellImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
-            cellImage.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
-            cellImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 4),
-            cellImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4),
+            cellImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+            cellImageView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
+            cellImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 4),
+            cellImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4),
             
             cellButton.heightAnchor.constraint(equalToConstant: 44),
             cellButton.widthAnchor.constraint(equalToConstant: 44),
@@ -82,5 +91,27 @@ private extension ImagesListCell {
             cellLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12),
             cellLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 24)
         ])
+    }
+}
+
+extension ImagesListCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        // Отменяем загрузку, чтобы избежать багов при переиспользовании ячеек
+        cellImageView.kf.cancelDownloadTask()
+    }
+    
+    func configure(model: ImagesListCellModel) {
+        cellButton.setImage(model.buttonImage, for: .normal)
+        cellLabel.text = model.textLabel
+    }
+    
+    //MARK: Set is Liked
+    func setIsLiked(isLike: Bool) {
+        guard let imageActive = UIImage(named: ImagesListCell.imageLikeActive),
+              let imageNoActive = UIImage(named: ImagesListCell.imageLikeNoActive) else { return }
+        let imageButton = isLike ? imageActive : imageNoActive
+        cellButton.setImage(imageButton, for: .normal)
     }
 }

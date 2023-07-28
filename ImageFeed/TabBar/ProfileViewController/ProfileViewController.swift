@@ -14,7 +14,7 @@ final class ProfileViewController: UIViewController {
     private static let textLoginNameLabel = "@ekaterina_nov"
     private static let textDescriptionLabel = "Hello, world!"
     private static let imageLogoutButtonName = "ipad.and.arrow.forward"
-    private static let imagePlaceholderName = "placeholder"
+    private static let imagePlaceholderName = "placeholderAvatar"
     private static let fontNameLabel = CGFloat(23)
     private static let fontLoginNameLabel = CGFloat(13)
     private static let fontDescriptionLabel = CGFloat(13)

@@ -5,12 +5,15 @@
 //  Created by Григорий Машук on 9.06.23.
 //
 
-import Foundation
 import UIKit
 
 final class SingleImageViewController: UIViewController {
     private static let backButtonImageName = "Backward"
     private static let sharedButtonImageName = "Sharing 1"
+    
+    private static let alertMessage = "Не удалось войти в систему"
+    private static let titleActionDismiss = "Не надо"
+    private static let titleActionRestart = "Повторить"
     
     var image: UIImage! {
         didSet {
@@ -19,7 +22,7 @@ final class SingleImageViewController: UIViewController {
             rescaleAndCenterImageInScrollView(image: image)
         }
     }
-    
+
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         
@@ -57,8 +60,6 @@ final class SingleImageViewController: UIViewController {
         applyConstraint()
         
         scrollView.delegate = self
-    
-        rescaleAndCenterImageInScrollView(image: image)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -90,7 +91,7 @@ extension SingleImageViewController: UIScrollViewDelegate {
     }
 }
 
-private extension SingleImageViewController {
+extension SingleImageViewController {
         //MARK: Rescale
         func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
@@ -109,6 +110,39 @@ private extension SingleImageViewController {
         let x = (newContentSize.width - visibleRectSize.width) / 2
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
+    }
+    
+    
+    //MARK: King Fisher
+    func  kingFisher(url: URL) {
+        imageView.kf.setImage(with: url) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageResult):
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                self.showError(url: url)
+            }
+        }
+    }
+}
+
+private extension SingleImageViewController {
+    //MARK: Show Error
+    func showError(url: URL) {
+        let alertVc = UIAlertController(title: nil,
+                                        message: SingleImageViewController.alertMessage,
+                                        preferredStyle: .actionSheet)
+        let actionDismiss = UIAlertAction(title: SingleImageViewController.titleActionDismiss, style: .default) { _ in
+            alertVc.dismiss(animated: true)
+        }
+        let actionRestart = UIAlertAction(title: SingleImageViewController.titleActionRestart, style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            self.kingFisher(url: url)
+        }
+        alertVc.addAction(actionDismiss)
+        alertVc.addAction(actionRestart)
     }
     
     //MARK: SetupUIElement
