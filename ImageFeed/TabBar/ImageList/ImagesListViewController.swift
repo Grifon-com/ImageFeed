@@ -20,7 +20,7 @@ final class ImagesListViewController: UIViewController {
     private let dateFarmatter = FormatDate.shared
     private var imageListServiceObserver: NSObjectProtocol?
     private var photos: [Photo] = []
-    private var flagHudIndicator = true
+    private var flagForHud = true
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -48,6 +48,14 @@ final class ImagesListViewController: UIViewController {
             self.updateTableViewAnimated()
         }
         self.updateTableViewAnimated()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if flagForHud {
+            UIBlockingProgressHUD.show()
+            flagForHud = false
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -192,9 +200,9 @@ private extension ImagesListViewController {
         ])
     }
 }
-
+ 
 extension ImagesListViewController: ImageListCellDelegate {
-    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+    internal func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let photo = photos[indexPath.row]
         //Покажем лоадер
@@ -218,14 +226,6 @@ extension ImagesListViewController: ImageListCellDelegate {
             }
         }
         UIBlockingProgressHUD.dismiss()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if flagHudIndicator {
-            UIBlockingProgressHUD.show()
-            flagHudIndicator = false
-        }
     }
 }
 

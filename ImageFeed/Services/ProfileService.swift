@@ -20,7 +20,7 @@ final class ProfileService: ProfileServiceProtocol {
     private let urlSession = URLSession.shared
     
     private var lastToken: String?
-    private var task: URLSessionTask?
+    var task: URLSessionTask?
     private(set) var profile: Profile?
     
     func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {

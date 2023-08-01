@@ -11,7 +11,6 @@ import ProgressHUD
 final class SplashViewController: UIViewController {
     private static let imageName = "Vector"
     
-    
     private var oAuth2Service = OAuth2Service.shared
     private var OAuth2TokenKeychainStorage: OAuth2TokenKeychainStorage?
     private let profileService = ProfileService.shared
@@ -43,35 +42,6 @@ final class SplashViewController: UIViewController {
             authViewController.modalPresentationStyle = .fullScreen
             present(authViewController, animated: true)
         }
-    }
-}
-
-extension SplashViewController: AuthViewControllerDelegate {
-    //MARK: Delegate
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        UIBlockingProgressHUD.show()
-        fetchOAuthToken(code)
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.fetchOAuthToken(code)
-        }
-    }
-    
-    //MARK: SetupUIElement
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
-    
-    private func setupUIElement() {
-        view.addSubview(imageView)
-        view.backgroundColor = .ypBlack
-    }
-    
-    private func applyConstraints() {
-        NSLayoutConstraint.activate([
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
     }
 }
 
@@ -130,3 +100,30 @@ private extension SplashViewController {
     }
 }
 
+extension SplashViewController: AuthViewControllerDelegate {
+    //MARK: Delegate
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        UIBlockingProgressHUD.show()
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            fetchOAuthToken(code)
+        }
+    }
+    
+    //MARK: SetupUIElement
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
+    private func setupUIElement() {
+        view.addSubview(imageView)
+        view.backgroundColor = .ypBlack
+    }
+    
+    private func applyConstraints() {
+        NSLayoutConstraint.activate([
+            imageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            imageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
+        ])
+    }
+}
