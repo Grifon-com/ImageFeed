@@ -15,14 +15,8 @@ final class SingleImageViewController: UIViewController {
     private static let titleActionDismiss = "Не надо"
     private static let titleActionRestart = "Повторить"
     
-    var image: UIImage! {
-        didSet {
-            guard isViewLoaded else { return }
-            imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
-        }
-    }
-
+    var image: UIImage?
+    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         
@@ -65,10 +59,6 @@ final class SingleImageViewController: UIViewController {
         .lightContent
     }
     
-    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        rescaleAndCenterImageInScrollView(image: image)
-    }
-    
     @objc private func didTapBackButton() {
         dismiss(animated: true)
     }
@@ -76,9 +66,7 @@ final class SingleImageViewController: UIViewController {
     @objc private func didTapSharedButton(_ sender: UIButton) {
         guard let image = image else { return }
         let content: [Any] = [image]
-        
         let sharing = UIActivityViewController(activityItems: content, applicationActivities: nil)
-        
         present(sharing, animated: true)
     }
 }
@@ -91,8 +79,8 @@ extension SingleImageViewController: UIScrollViewDelegate {
 }
 
 extension SingleImageViewController {
-        //MARK: Rescale
-        func rescaleAndCenterImageInScrollView(image: UIImage) {
+    //MARK: Rescale
+    func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
         view.layoutIfNeeded()
@@ -119,6 +107,7 @@ extension SingleImageViewController {
             guard let self = self else { return }
             switch result {
             case .success(let imageResult):
+                self.image = imageResult.image
                 self.rescaleAndCenterImageInScrollView(image: imageResult.image)
             case .failure:
                 self.showAlertDissmisOrRestart(url: url)
@@ -155,7 +144,7 @@ private extension SingleImageViewController {
         view.addSubview(backButton)
         view.addSubview(sharedButton)
         
-        imageView.image = image
+//        imageView.image = image
         
         scrollView.maximumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25

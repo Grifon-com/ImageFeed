@@ -26,7 +26,7 @@ final class ProfileViewController: UIViewController {
     private static let fontDescriptionLabel = CGFloat(13)
     
     private let profileService = ProfileService.shared
-    private var cleanCookiAndToken: CleanProtocol?
+    private var cleanCookieAndToken: CleanProtocol?
     private var profileModel: Profile?
     private var profileImageServiceObserver: NSObjectProtocol?
     
@@ -82,7 +82,7 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cleanCookiAndToken = Clean()
+        cleanCookieAndToken = Clean()
         setupUIElement()
         applyConstraints()
         updateProfileDetails(profile: profileService.profile)
@@ -103,9 +103,9 @@ final class ProfileViewController: UIViewController {
         let actionAlertOne = UIAlertAction(title: ProfileViewController.titleActionOne,
                                            style: .default) { [weak self] _ in
             guard let self = self,
-                  let cleanCookiAndToken = self.cleanCookiAndToken else { return }
-            cleanCookiAndToken.cleanCookies()
-            cleanCookiAndToken.cleanToken()
+                  let cleanCookieAndToken = self.cleanCookieAndToken else { return }
+            cleanCookieAndToken.cleanCookies()
+            cleanCookieAndToken.cleanToken()
             
             let authVc = AuthViewController()
             authVc.modalPresentationStyle = .fullScreen

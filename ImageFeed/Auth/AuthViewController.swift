@@ -38,7 +38,7 @@ final class AuthViewController: UIViewController{
         logoutButton.setTitleColor(.ypBlack, for: .normal)
         logoutButton.titleLabel?.font = .boldSystemFont(ofSize: AuthViewController.fontTitleLabelLogoutButton)
         logoutButton.tintColor = .ypWhite
-        logoutButton.addTarget(nil, action: #selector(didTapPushVc), for: .touchUpInside)
+        logoutButton.addTarget(nil, action: #selector(didTapLogout), for: .touchUpInside)
         
         return logoutButton
     }()
@@ -55,7 +55,7 @@ final class AuthViewController: UIViewController{
         .lightContent
     }
     
-    @objc private func didTapPushVc() {
+    @objc private func didTapLogout() {
         let webVc = WebViewViewController()
         webVc.delegate = self
         webVc.modalPresentationStyle = .fullScreen
@@ -66,6 +66,8 @@ final class AuthViewController: UIViewController{
 //MARK: - Delegate
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        let splashVc = SplashViewController()
+        delegate = splashVc
         delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     

@@ -38,14 +38,13 @@ final class WebViewViewController: UIViewController {
         let backButton = UIButton()
         let image = UIImage(named: WebViewViewController.backButtonImageName)
         backButton.setImage(image, for: .normal)
+        backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         
         return backButton
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        
         setupUIElement()
         applyConstraint()
         

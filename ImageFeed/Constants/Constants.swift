@@ -47,3 +47,8 @@ enum ConstantsImage {
     static let imageNoLike = UIImage(named:"NoActiveLike")
 }
 
+enum ConstantsAlert {
+    static let alertTitle = "Что-то пошло не так("
+    static let alertMessage = "Не удалось войти в систему"
+    static let alertActionTitle = "OK"
+}

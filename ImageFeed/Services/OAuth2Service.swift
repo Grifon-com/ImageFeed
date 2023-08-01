@@ -12,7 +12,7 @@ protocol OAuth2ServiceProtocol: AnyObject {
 }
 
 final class OAuth2Service: OAuth2ServiceProtocol {
-    private static let shared = OAuth2Service()
+    static let shared = OAuth2Service()
     
     private static let httpMethod = "POST"
     private static let clientSecretString = "client_secret"

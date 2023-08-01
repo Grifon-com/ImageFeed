@@ -211,7 +211,10 @@ extension ImagesListViewController: ImageListCellDelegate {
                 }
             case .failure(let error):
                 print(error)
-                //TODO: Показать UIAlertController
+                let alert = UIAlertController(title: ConstantsAlert.alertTitle, message: ConstantsAlert.alertMessage, preferredStyle: .alert)
+                let action = UIAlertAction(title: ConstantsAlert.alertActionTitle, style: .default)
+                alert.addAction(action)
+                present(alert, animated: true)
             }
         }
         UIBlockingProgressHUD.dismiss()

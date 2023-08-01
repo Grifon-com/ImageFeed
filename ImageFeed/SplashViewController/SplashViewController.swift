@@ -10,11 +10,9 @@ import ProgressHUD
 
 final class SplashViewController: UIViewController {
     private static let imageName = "Vector"
-    private static let alertTitle = "Что-то пошло не так("
-    private static let alertMessage = "Не удалось войти в систему"
-    private static let alertActionTitle = "Ok"
     
-    private var oAuth2Service: OAuth2ServiceProtocol?
+    
+    private var oAuth2Service = OAuth2Service.shared
     private var OAuth2TokenKeychainStorage: OAuth2TokenKeychainStorage?
     private let profileService = ProfileService.shared
     
@@ -29,13 +27,12 @@ final class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        oAuth2Service = OAuth2Service()
         OAuth2TokenKeychainStorage = ImageFeed.OAuth2TokenKeychainStorage()
-    
+        
         setupUIElement()
         applyConstraints()
     }
-        
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let token = OAuth2TokenKeychainStorage?.getToken() {
@@ -53,10 +50,8 @@ extension SplashViewController: AuthViewControllerDelegate {
     //MARK: Delegate
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.fetchOAuthToken(code)
-        }
+        fetchOAuthToken(code)
+        vc.dismiss(animated: true)
     }
     
     //MARK: SetupUIElement
@@ -68,7 +63,7 @@ extension SplashViewController: AuthViewControllerDelegate {
         view.addSubview(imageView)
         view.backgroundColor = .ypBlack
     }
-
+    
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -80,7 +75,6 @@ extension SplashViewController: AuthViewControllerDelegate {
 private extension SplashViewController {
     //MARK: Service
     func fetchOAuthToken(_ code: String) {
-        guard let oAuth2Service = oAuth2Service else { return }
         oAuth2Service.fetchAuthToken(code) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -122,10 +116,10 @@ private extension SplashViewController {
     
     //MARK: AlertPresent
     func showAlert() {
-        let title = SplashViewController.alertTitle
-        let message = SplashViewController.alertMessage
+        let title = ConstantsAlert.alertTitle
+        let message = ConstantsAlert.alertMessage
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: SplashViewController.alertActionTitle, style: .default) { _ in
+        let action = UIAlertAction(title: ConstantsAlert.alertActionTitle, style: .default) { _ in
             alert.dismiss(animated: true)
         }
         alert.addAction(action)
