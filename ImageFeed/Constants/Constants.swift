@@ -5,7 +5,7 @@
 //  Created by Григорий Машук on 22.06.23.
 //
 
-import Foundation
+import UIKit
 
 enum ConstantsUnSplash {
     static let accessKey = "LT6B1zlWM3KVZlUOpvTTGCoCJJNdB7kOuornZ5RL6p8"
@@ -34,5 +34,8 @@ enum ConstantsSceneConfiguration {
     static let name = "Main"
 }
 
-
+enum ConstantImage {
+    static let imageLike = UIImage(named: "ActiveLike")
+    static let imageNoLike = UIImage(named:"NoActiveLike")
+}
 

@@ -1,14 +1,14 @@
 //
-//  ResumeDate.swift
+//  FormatDate.swift
 //  ImageFeed
 //
-//  Created by Марина Машук on 31.07.23.
+//  Created by Григорий Машук on 31.07.23.
 //
 
 import Foundation
 
-final class ResumeDate {
-    let shared = ResumeDate()
+final class FormatDate {
+    let shared = FormatDate()
 
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()

@@ -21,6 +21,7 @@ final class ImagesListViewController: UIViewController {
     private let imagesListService = ImagesListService.shared
     private var imageListServiceObserver: NSObjectProtocol?
     private var photos: [Photo] = []
+    private var flag = true
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -221,6 +222,14 @@ extension ImagesListViewController: ImageListCellDelegate {
             }
         }
         UIBlockingProgressHUD.dismiss()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if flag {
+            UIBlockingProgressHUD.show()
+            flag = false
+        }
     }
 }
 
