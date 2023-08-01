@@ -24,6 +24,9 @@ enum ConstantsUnSplash {
     static let hTTPHeaderField = "Authorization"
     static let redirectUriString = "redirect_uri"
     static let clientIdString = "client_id"
+    
+    static let postHTTPMethod = "POST"
+    static let deleteHTTPMethod = "DELETE"
 }
 
 enum Constants {
@@ -32,6 +35,11 @@ enum Constants {
 
 enum ConstantsSceneConfiguration {
     static let name = "Main"
+}
+
+enum ConstantsBool {
+    static let isFalse = false
+    static let isTrue = true
 }
 
 enum ConstantsImage {

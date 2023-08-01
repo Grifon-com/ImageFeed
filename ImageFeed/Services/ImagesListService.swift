@@ -9,18 +9,15 @@ import Foundation
 
 protocol ImagesListServiceProtocol {
     func fetchPhotosNextPage()
+    func chengeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 final class ImagesListService: ImagesListServiceProtocol {
-    private static let isLikedDefault = false
     private static let sizeDefault = (heigt: 0, width: 0)
     private static let userInfoKey = "listPhoto"
     private static let pageString = "page"
     private static let likeString = "/like"
     private static let path = "/photos/"
-    private static let postHTTPMethod = "POST"
-    private static let deleteHTTPMethod = "DELETE"
-    private static let isLikeFalse = false
     static let didChangeNotification = Notification.Name("ImageListServiceDidChange")
     
     static let shared = ImagesListService()
@@ -98,7 +95,7 @@ private extension ImagesListService {
         assert(Thread.isMainThread)
         guard deleteTask == nil else { return }
         var request: URLRequest?
-        do { let requestForLike = try imageListServiceRequestForLike(photoId: photoId, isLike: ImagesListService.isLikeFalse)
+        do { let requestForLike = try imageListServiceRequestForLike(photoId: photoId, isLike: ConstantsBool.isFalse)
             request = requestForLike
         }
         catch {
@@ -125,7 +122,7 @@ private extension ImagesListService {
         guard putLikeTask == nil else { return }
         var request: URLRequest?
         do {
-            let putLikeRequest = try imageListServiceRequestForLike(photoId: photoId, isLike: ImagesListService.isLikeFalse)
+            let putLikeRequest = try imageListServiceRequestForLike(photoId: photoId, isLike: ConstantsBool.isTrue)
             request = putLikeRequest
         }
         catch {
@@ -166,14 +163,14 @@ private extension ImagesListService {
         let path = "\(ImagesListService.path)\(photoId)\(ImagesListService.likeString)"
         component.path = path
         guard let url = component.url else { throw NetworkError.urlComponentsError }
-
+        
         guard let token = OAuth2TokenKeychainStorage().getToken() else { throw KeychainError.errorStorageToken}
         let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
         
         if isLike {
-            return URLRequest.makeHTTPRequestForToken(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField, httpMethod: ImagesListService.postHTTPMethod)
+            return URLRequest.makeHTTPRequestForToken(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField, httpMethod: ConstantsUnSplash.postHTTPMethod)
         } else {
-            return URLRequest.makeHTTPRequestForToken(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField, httpMethod: ImagesListService.deleteHTTPMethod)
+            return URLRequest.makeHTTPRequestForToken(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField, httpMethod: ConstantsUnSplash.deleteHTTPMethod)
         }
     }
     
@@ -181,7 +178,6 @@ private extension ImagesListService {
         if let index = photos.firstIndex(where: { $0.id == photoId }) {
             // Текущий элемент
             let photo = photos[index]
-            print(photo.isLiked)
             // Копия элемента с инвентированным значением isLiked.
             let newPhoto = Photo(id: photo.id,
                                  size: photo.size,
@@ -193,8 +189,6 @@ private extension ImagesListService {
             )
             // Заменяем значение в массиве
             photos[index] = newPhoto
-            print(photos[index].isLiked)
-            
         }
     }
     
@@ -207,7 +201,7 @@ private extension ImagesListService {
         let welcomeDescription = model.description
         let thumbImageURL = model.urls?.thumb ?? Constants.emptyLine
         let largeImageURL = model.urls?.regular ?? Constants.emptyLine
-        let isLiked = model.likedByUser ?? ImagesListService.isLikedDefault
+        let isLiked = model.likedByUser ?? ConstantsBool.isFalse
         let createDate: Date
         do { let createdAt = try dateFormatter.setupModelDate(createAt: model.createdAt)
             createDate = createdAt

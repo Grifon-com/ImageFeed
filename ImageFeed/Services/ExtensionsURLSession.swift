@@ -42,7 +42,6 @@ extension URLSession {
         let task = dataTask(with: request, completionHandler: {_, response, error in
             if let response = response,
                let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                print(statusCode)
                 if 200..<300 ~= statusCode {
                     completion(.success(Void()))
                 } else {

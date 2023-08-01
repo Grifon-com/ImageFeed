@@ -48,14 +48,13 @@ final class SingleImageViewController: UIViewController {
         let sharedButton = UIButton()
         let image = UIImage(named: SingleImageViewController.sharedButtonImageName)
         sharedButton.setImage(image, for: .normal)
+        sharedButton.addTarget(self, action: #selector(didTapSharedButton), for: .allTouchEvents)
         
         return sharedButton
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sharedButton.addTarget(self, action: #selector(didTapSharedButton), for: .allTouchEvents)
-        
         setupUIElement()
         applyConstraint()
         
@@ -122,7 +121,7 @@ extension SingleImageViewController {
             case .success(let imageResult):
                 self.rescaleAndCenterImageInScrollView(image: imageResult.image)
             case .failure:
-                self.showError(url: url)
+                self.showAlertDissmisOrRestart(url: url)
             }
         }
     }
@@ -130,10 +129,10 @@ extension SingleImageViewController {
 
 private extension SingleImageViewController {
     //MARK: Show Error
-    func showError(url: URL) {
+    func showAlertDissmisOrRestart(url: URL) {
         let alertVc = UIAlertController(title: nil,
                                         message: SingleImageViewController.alertMessage,
-                                        preferredStyle: .actionSheet)
+                                        preferredStyle: .alert)
         let actionDismiss = UIAlertAction(title: SingleImageViewController.titleActionDismiss, style: .default) { _ in
             alertVc.dismiss(animated: true)
         }
@@ -143,6 +142,8 @@ private extension SingleImageViewController {
         }
         alertVc.addAction(actionDismiss)
         alertVc.addAction(actionRestart)
+        
+        present(alertVc, animated: true)
     }
     
     //MARK: SetupUIElement
