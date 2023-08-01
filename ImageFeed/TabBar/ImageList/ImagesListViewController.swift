@@ -10,16 +10,16 @@ import Kingfisher
 
 final class ImagesListViewController: UIViewController {
     private static let cellReuseIdentifier = "ImagesListCell"
-    private static let imageLikeName = "ActiveLike"
-    private static let imageNoLikeName = "NoActiveLike"
     private static let placeholder = "placeholderCell"
-    private static let edgeInsetsTableView = (top: 12, left: 0, bottom: 12, right: 0)
-    private static let edgeInsetsCellView = (top: 4, left: 16, bottom: 4, right: 16)
+    private static let contentInsetsTableView = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+    private static let indentsCellView = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
     private static let defaultSectionCount = 0
     private static let cellImageCornerRadius: Double = 16
     
     private let imagesListService = ImagesListService.shared
+    private let dateFormatter = DateFormat()
     private var imageListServiceObserver: NSObjectProtocol?
+    private var flag = true
     private var photos: [Photo] = []
     
     private lazy var tableView: UITableView = {
@@ -27,10 +27,7 @@ final class ImagesListViewController: UIViewController {
         tableView.backgroundColor = .clear
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(ImagesListCell.classForKeyedArchiver(), forCellReuseIdentifier: ImagesListViewController.cellReuseIdentifier)
-        tableView.contentInset = UIEdgeInsets(top: CGFloat(ImagesListViewController.edgeInsetsTableView.top),
-                                              left: CGFloat(ImagesListViewController.edgeInsetsTableView.left),
-                                              bottom: CGFloat(ImagesListViewController.edgeInsetsTableView.bottom),
-                                              right: CGFloat(ImagesListViewController.edgeInsetsTableView.right))
+        tableView.contentInset = ImagesListViewController.contentInsetsTableView
         
         return tableView
     }()
@@ -44,16 +41,28 @@ final class ImagesListViewController: UIViewController {
         tableView.delegate = self
         
         imagesListService.fetchPhotosNextPage()
-        
         imageListServiceObserver = NotificationCenter.default.addObserver(forName: ImagesListService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
             guard let self = self else { return }
+            UIBlockingProgressHUD.dismiss()
             self.updateTableViewAnimated()
         }
         self.updateTableViewAnimated()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if flag {
+            UIBlockingProgressHUD.show()
+        }
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        flag = false
     }
 }
 
@@ -152,12 +161,11 @@ private extension ImagesListViewController {
     }
     
     func setupImagesListCellModel(indexPath: IndexPath) -> ImagesListCellModel {
-        let imageLike = UIImage(named: ImagesListViewController.imageLikeName)
-        let imageNoLike = UIImage(named: ImagesListViewController.imageNoLikeName)
-        let isLike = photos[indexPath.row].isLiked
-        let dataStringArray = photos[indexPath.row].createdAt?.split { $0 == "T" }
-        let textLabel: String = String(dataStringArray?.first ?? String.SubSequence(Constants.emptyLine))
-        let buttonImage = isLike ? imageLike : imageNoLike
+        let photo = photos[indexPath.row]
+        
+        let isLike = photo.isLiked
+        let textLabel: String = dateFormatter.setupUIDateString(date: photo.createdAt)
+        let buttonImage = isLike ? ConstantsImage.imageLike: ConstantsImage.imageNoLike
         let model = ImagesListCellModel(buttonImage: buttonImage, textLabel: textLabel)
         
         return model
@@ -165,10 +173,7 @@ private extension ImagesListViewController {
     
     //TODO: Cell Height Calculation
     func cellHeightCalculation(imageSize: CGSize, tableView: UITableView) -> CGFloat {
-        let indents = UIEdgeInsets(top: CGFloat(ImagesListViewController.edgeInsetsCellView.top),
-                                   left: CGFloat(ImagesListViewController.edgeInsetsCellView.left),
-                                   bottom: CGFloat(ImagesListViewController.edgeInsetsCellView.bottom),
-                                   right: CGFloat(ImagesListViewController.edgeInsetsCellView.right))
+        let indents = ImagesListViewController.indentsCellView
         let widthImageView = tableView.bounds.width - indents.left - indents.right
         let widthImage = imageSize.width
         let coefficient = widthImageView / widthImage

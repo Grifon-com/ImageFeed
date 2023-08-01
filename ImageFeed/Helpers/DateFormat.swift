@@ -1,15 +1,13 @@
 //
-//  ResumeDate.swift
+//  DateFormat.swift
 //  ImageFeed
 //
-//  Created by Марина Машук on 31.07.23.
+//  Created by Григорий Машук on 31.07.23.
 //
 
 import Foundation
 
-final class ResumeDate {
-    let shared = ResumeDate()
-
+final class DateFormat {
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
@@ -26,6 +24,7 @@ final class ResumeDate {
     func setupModelDate(createAt: String?) throws -> Date {
         guard let createAt = createAt,
               let date = iSO8601DateFormatter.date(from: createAt) else { throw  ErrorDateFormat.dateError}
+        
         return date
     }
 

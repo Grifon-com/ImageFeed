@@ -15,11 +15,17 @@ final class ProfileViewController: UIViewController {
     private static let textDescriptionLabel = "Hello, world!"
     private static let imageLogoutButtonName = "ipad.and.arrow.forward"
     private static let imagePlaceholderName = "placeholderAvatar"
+    private static let titleAlert = "Пока, пока!"
+    private static let messageAlert = "Уверены что хотите выйти?"
+    private static let titleActionOne = "Да"
+    private static let titleActionTwo = "Нет"
+    
     private static let fontNameLabel = CGFloat(23)
     private static let fontLoginNameLabel = CGFloat(13)
     private static let fontDescriptionLabel = CGFloat(13)
     
     private let profileService = ProfileService.shared
+    private var cleanCookiAndToken: Clean?
     private var profileModel: Profile?
     private var profileImageServiceObserver: NSObjectProtocol?
     
@@ -75,6 +81,7 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        cleanCookiAndToken = Clean()
         setupUIElement()
         applyConstraints()
         updateProfileDetails(profile: profileService.profile)
@@ -87,7 +94,31 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc
-    private func didTapLogoutButton() {}
+    private func didTapLogoutButton() {
+        let alert = UIAlertController(title: ProfileViewController.titleAlert,
+                                      message: ProfileViewController.messageAlert,
+                                      preferredStyle: .alert)
+        
+        let actionAlertOne = UIAlertAction(title: ProfileViewController.titleActionOne,
+                                           style: .default) { [weak self] _ in
+            guard let self = self,
+                  let cleanCookiAndToken = self.cleanCookiAndToken else { return }
+            cleanCookiAndToken.cleanCookies()
+            cleanCookiAndToken.cleanToken()
+            
+            let authVc = AuthViewController()
+            authVc.modalPresentationStyle = .fullScreen
+            present(authVc, animated: true)
+        }
+        let alertActionTwo = UIAlertAction(title: ProfileViewController.titleActionTwo, style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            self.dismiss(animated: true)
+        }
+        alert.addAction(actionAlertOne)
+        alert.addAction(alertActionTwo)
+        
+        present(alert, animated: true)
+    }
 }
 
 private extension ProfileViewController {

@@ -13,10 +13,8 @@ protocol OAuth2ServiceProtocol: AnyObject {
 
 final class OAuth2Service: OAuth2ServiceProtocol {
     private static let shared = OAuth2Service()
-    
-    private static let httpMethod = "POST"
+
     private static let clientSecretString = "client_secret"
-    private static let codeString = "code"
     private static let grantTypeString = "grant_type"
     private static let authorizationCodeString = "authorization_code"
     
@@ -66,11 +64,11 @@ private extension OAuth2Service {
             URLQueryItem(name: ConstantsUnSplash.clientIdString, value: ConstantsUnSplash.accessKey),
             URLQueryItem(name: OAuth2Service.clientSecretString, value: ConstantsUnSplash.secretKey),
             URLQueryItem(name: ConstantsUnSplash.redirectUriString, value: ConstantsUnSplash.redirectURI),
-            URLQueryItem(name: OAuth2Service.codeString, value: code),
+            URLQueryItem(name: ConstantsUnSplash.code, value: code),
             URLQueryItem(name: OAuth2Service.grantTypeString, value: OAuth2Service.authorizationCodeString)
         ]
         guard let url = urlComponents.url else { throw NetworkError.urlError}
-        return URLRequest.makeHTTPRequest(url: url, httpMethod: OAuth2Service.httpMethod)
+        return URLRequest.makeHTTPRequest(url: url, httpMethod: ConstantsUnSplash.httpMethodPost)
     }
 }
 

@@ -13,8 +13,6 @@ protocol ImageListCellDelegate: AnyObject {
 }
 
 final class ImagesListCell: UITableViewCell {
-    private static let imageLikeActive = "ActiveLike"
-    private static let imageLikeNoActive = "NoActiveLike"
     private static let cornerRadiusCellImage = CGFloat(16)
     private static let fontCellLabel = CGFloat(13)
     static let reuseIdentifier = "ImagesListCell"
@@ -109,9 +107,7 @@ extension ImagesListCell {
     
     //MARK: Set is Liked
     func setIsLiked(isLike: Bool) {
-        guard let imageActive = UIImage(named: ImagesListCell.imageLikeActive),
-              let imageNoActive = UIImage(named: ImagesListCell.imageLikeNoActive) else { return }
-        let imageButton = isLike ? imageActive : imageNoActive
+        let imageButton = isLike ? ConstantsImage.imageLike : ConstantsImage.imageNoLike
         cellButton.setImage(imageButton, for: .normal)
     }
 }

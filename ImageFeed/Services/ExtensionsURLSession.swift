@@ -9,7 +9,7 @@ import Foundation
 
 extension URLSession {
     func data(for request: URLRequest, completion: @escaping (Result <Data, Error>) -> Void) -> URLSessionTask {
-        let fulfillCompletion: (Result<Data, Error>) -> Void = { result in
+        let fulfillCompletion: (Result <Data, Error>) -> Void = { result in
             DispatchQueue.main.async {
                 completion(result)
             }
@@ -34,7 +34,7 @@ extension URLSession {
     }
     
     func statusCode(for request: URLRequest, completion: @escaping (Result <Void, Error>) -> Void) -> URLSessionTask {
-        let fulfillCompletion: (Result<Void, Error>) -> Void = { result in
+        let fulfillCompletion: (Result <Void, Error>) -> Void = { result in
             DispatchQueue.main.async {
                 completion(result)
             }
@@ -42,7 +42,6 @@ extension URLSession {
         let task = dataTask(with: request, completionHandler: {_, response, error in
             if let response = response,
                let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                print(statusCode)
                 if 200..<300 ~= statusCode {
                     completion(.success(Void()))
                 } else {

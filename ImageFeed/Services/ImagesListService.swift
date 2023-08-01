@@ -12,16 +12,11 @@ protocol ImagesListServiceProtocol {
 }
 
 final class ImagesListService: ImagesListServiceProtocol {
-    private static let isLikedDefault = false
     private static let sizeDefault = (heigt: 0, width: 0)
     private static let userInfoKey = "listPhoto"
     private static let pageString = "page"
     private static let likeString = "/like"
     private static let path = "/photos/"
-    private static let postHTTPMethod = "POST"
-    private static let deleteHTTPMethod = "DELETE"
-//    private static let putLike = true
-    private static let isLikeFalse = false
     static let didChangeNotification = Notification.Name("ImageListServiceDidChange")
     
     static let shared = ImagesListService()
@@ -29,6 +24,7 @@ final class ImagesListService: ImagesListServiceProtocol {
     private (set) var photos: [Photo] = []
     private (set) var lastLoadedPage: Int?
     
+    private let dateFormatter = DateFormat()
     private let urlSession = URLSession.shared
     private var component = URLComponents(string: ConstantsUnSplash.jsonDefaultBaseURL)
     private var photosNextPageTask: URLSessionTask?
@@ -55,8 +51,13 @@ final class ImagesListService: ImagesListServiceProtocol {
             switch result {
             case .success(let listModel):
                 listModel.forEach {
-                    let photoModel = self.convertModel(model: $0)
-                    self.photos.append(photoModel)
+                    do { let photoModel = try self.convertModel(model: $0)
+                        self.photos.append(photoModel)
+                    }
+                    catch {
+                        let dateError = ErrorDateFormat.dateError
+                        print(dateError)
+                    }
                 }
                 NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self, userInfo: [ImagesListService.userInfoKey: self.photos])
                 self.photosNextPageTask = nil
@@ -94,7 +95,7 @@ private extension ImagesListService {
         assert(Thread.isMainThread)
         guard deleteTask == nil else { return }
         var request: URLRequest?
-        do { let requestForLike = try imageListServiceRequestForLike(photoId: photoId, isLike: ImagesListService.isLikeFalse)
+        do { let requestForLike = try imageListServiceRequestForLike(photoId: photoId, isLike: Constants.isFalse)
             request = requestForLike
         }
         catch {
@@ -121,7 +122,7 @@ private extension ImagesListService {
         guard putLikeTask == nil else { return }
         var request: URLRequest?
         do {
-            let putLikeRequest = try imageListServiceRequestForLike(photoId: photoId, isLike: ImagesListService.isLikeFalse)
+            let putLikeRequest = try imageListServiceRequestForLike(photoId: photoId, isLike: Constants.isTrue)
             request = putLikeRequest
         }
         catch {
@@ -162,14 +163,14 @@ private extension ImagesListService {
         let path = "\(ImagesListService.path)\(photoId)\(ImagesListService.likeString)"
         component.path = path
         guard let url = component.url else { throw NetworkError.urlComponentsError }
-
+        
         guard let token = OAuth2TokenKeychainStorage().getToken() else { throw KeychainError.errorStorageToken}
         let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
         
         if isLike {
-            return URLRequest.makeHTTPRequestForToken(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField, httpMethod: ImagesListService.postHTTPMethod)
+            return URLRequest.makeHTTPRequestForToken(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField, httpMethod: ConstantsUnSplash.httpMethodPost)
         } else {
-            return URLRequest.makeHTTPRequestForToken(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField, httpMethod: ImagesListService.deleteHTTPMethod)
+            return URLRequest.makeHTTPRequestForToken(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField, httpMethod: ConstantsUnSplash.httpMethodDelete)
         }
     }
     
@@ -177,7 +178,6 @@ private extension ImagesListService {
         if let index = photos.firstIndex(where: { $0.id == photoId }) {
             // Текущий элемент
             let photo = photos[index]
-            print(photo.isLiked)
             // Копия элемента с инвентированным значением isLiked.
             let newPhoto = Photo(id: photo.id,
                                  size: photo.size,
@@ -189,26 +189,31 @@ private extension ImagesListService {
             )
             // Заменяем значение в массиве
             photos[index] = newPhoto
-            print(photos[index].isLiked)
-            
         }
     }
     
     //MARK: Convert Model
-    func convertModel(model: PhotoResult) -> Photo {
+    func convertModel(model: PhotoResult) throws -> Photo {
         let id = model.id ?? Constants.emptyLine
         let heigt = model.height ?? ImagesListService.sizeDefault.heigt
         let width = model.width ?? ImagesListService.sizeDefault.width
         let size = CGSize(width: width, height: heigt)
-        let createdAt = model.createdAt
         let welcomeDescription = model.description
         let thumbImageURL = model.urls?.thumb ?? Constants.emptyLine
         let largeImageURL = model.urls?.regular ?? Constants.emptyLine
-        let isLiked = model.likedByUser ?? ImagesListService.isLikedDefault
+        let isLiked = model.likedByUser ?? Constants.isFalse
+        let createDate: Date
+        do { let createdAt = try dateFormatter.setupModelDate(createAt: model.createdAt)
+            createDate = createdAt
+        }
+        catch {
+            let dateError = ErrorDateFormat.dateError
+            throw dateError
+        }
         
         let photoModel = Photo(id: id,
                                size: size,
-                               createdAt: createdAt,
+                               createdAt: createDate,
                                welcomeDescription: welcomeDescription,
                                thumbImageURL: thumbImageURL,
                                largeImageURL: largeImageURL,

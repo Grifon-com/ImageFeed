@@ -77,7 +77,6 @@ final class SingleImageViewController: UIViewController {
     @objc private func didTapSharedButton(_ sender: UIButton) {
         guard let image = image else { return }
         let content: [Any] = [image]
-        
         let sharing = UIActivityViewController(activityItems: content, applicationActivities: nil)
         
         present(sharing, animated: true)
@@ -133,7 +132,7 @@ private extension SingleImageViewController {
     func showError(url: URL) {
         let alertVc = UIAlertController(title: nil,
                                         message: SingleImageViewController.alertMessage,
-                                        preferredStyle: .actionSheet)
+                                        preferredStyle: .alert)
         let actionDismiss = UIAlertAction(title: SingleImageViewController.titleActionDismiss, style: .default) { _ in
             alertVc.dismiss(animated: true)
         }
@@ -143,6 +142,8 @@ private extension SingleImageViewController {
         }
         alertVc.addAction(actionDismiss)
         alertVc.addAction(actionRestart)
+        
+        present(alertVc, animated: true)
     }
     
     //MARK: SetupUIElement

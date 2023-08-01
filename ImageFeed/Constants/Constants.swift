@@ -5,7 +5,7 @@
 //  Created by Григорий Машук on 22.06.23.
 //
 
-import Foundation
+import UIKit
 
 enum ConstantsUnSplash {
     static let accessKey = "LT6B1zlWM3KVZlUOpvTTGCoCJJNdB7kOuornZ5RL6p8"
@@ -19,6 +19,8 @@ enum ConstantsUnSplash {
     static let authNativePath = "/oauth/authorize/native"
     static let pathToken = "/oauth/token"
     
+    static let httpMethodPost = "POST"
+    static let httpMethodDelete = "DELETE"
     static let code = "code"
     static let bearer = "Bearer"
     static let hTTPHeaderField = "Authorization"
@@ -28,10 +30,17 @@ enum ConstantsUnSplash {
 
 enum Constants {
     static let emptyLine = ""
+    static let isFalse = false
+    static let isTrue = true
 }
 
 enum ConstantsSceneConfiguration {
     static let name = "Main"
+}
+
+enum ConstantsImage {
+    static let imageLike = UIImage(named: "ActiveLike")
+    static let imageNoLike = UIImage(named: "NoActiveLike")
 }
 
 

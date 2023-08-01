@@ -2,7 +2,7 @@
 //  Clear.swift
 //  ImageFeed
 //
-//  Created by Марина Машук on 31.07.23.
+//  Created by Григорий Машук on 31.07.23.
 //
 
 import Foundation
