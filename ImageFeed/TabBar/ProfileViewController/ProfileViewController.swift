@@ -107,9 +107,9 @@ final class ProfileViewController: UIViewController {
             cleanCookieAndToken.cleanCookies()
             cleanCookieAndToken.cleanToken()
             
-            let authVc = AuthViewController()
-            authVc.modalPresentationStyle = .fullScreen
-            present(authVc, animated: true)
+            guard let window = UIApplication.shared.windows.first else { return }
+            let splashViewController = SplashViewController()
+            window.rootViewController = splashViewController
         }
         let alertActionTwo = UIAlertAction(title: ProfileViewController.titleActionTwo, style: .default) { [weak self] _ in
             guard let self = self else { return }
