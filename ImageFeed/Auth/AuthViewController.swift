@@ -66,9 +66,7 @@ final class AuthViewController: UIViewController{
 //MARK: - Delegate
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        let splashVc = SplashViewController()
-        delegate = splashVc
-        delegate?.authViewController(self, didAuthenticateWithCode: code)
+        let 
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
