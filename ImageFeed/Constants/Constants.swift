@@ -34,7 +34,7 @@ enum ConstantsSceneConfiguration {
     static let name = "Main"
 }
 
-enum ConstantImage {
+enum ConstantsImage {
     static let imageLike = UIImage(named: "ActiveLike")
     static let imageNoLike = UIImage(named:"NoActiveLike")
 }

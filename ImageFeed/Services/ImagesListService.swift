@@ -20,7 +20,6 @@ final class ImagesListService: ImagesListServiceProtocol {
     private static let path = "/photos/"
     private static let postHTTPMethod = "POST"
     private static let deleteHTTPMethod = "DELETE"
-//    private static let putLike = true
     private static let isLikeFalse = false
     static let didChangeNotification = Notification.Name("ImageListServiceDidChange")
     
@@ -30,6 +29,7 @@ final class ImagesListService: ImagesListServiceProtocol {
     private (set) var lastLoadedPage: Int?
     
     private let urlSession = URLSession.shared
+    private let dateFormatter = FormatDate.shared
     private var component = URLComponents(string: ConstantsUnSplash.jsonDefaultBaseURL)
     private var photosNextPageTask: URLSessionTask?
     private var putLikeTask: URLSessionTask?
@@ -200,15 +200,23 @@ private extension ImagesListService {
         let heigt = model.height ?? ImagesListService.sizeDefault.heigt
         let width = model.width ?? ImagesListService.sizeDefault.width
         let size = CGSize(width: width, height: heigt)
-        let createdAt = model.createdAt
         let welcomeDescription = model.description
         let thumbImageURL = model.urls?.thumb ?? Constants.emptyLine
         let largeImageURL = model.urls?.regular ?? Constants.emptyLine
         let isLiked = model.likedByUser ?? ImagesListService.isLikedDefault
+        var createDate: Date
+        do {
+            let createdAt = try dateFormatter.setupModelDate(createAt: model.createdAt)
+            createDate = createdAt
+        }
+        catch {
+            let dateError = ErrorDateFormat.dateError
+            print(dateError)
+        }
         
         let photoModel = Photo(id: id,
                                size: size,
-                               createdAt: createdAt,
+                               createdAt: createDate,
                                welcomeDescription: welcomeDescription,
                                thumbImageURL: thumbImageURL,
                                largeImageURL: largeImageURL,

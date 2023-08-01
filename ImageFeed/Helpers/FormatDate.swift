@@ -8,7 +8,7 @@
 import Foundation
 
 final class FormatDate {
-    let shared = FormatDate()
+    static let shared = FormatDate()
 
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()

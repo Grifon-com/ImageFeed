@@ -19,6 +19,7 @@ final class ImagesListViewController: UIViewController {
     private static let cellImageCornerRadius: Double = 16
     
     private let imagesListService = ImagesListService.shared
+    private let dateFarmatter = FormatDate.shared
     private var imageListServiceObserver: NSObjectProtocol?
     private var photos: [Photo] = []
     private var flag = true
@@ -153,12 +154,11 @@ private extension ImagesListViewController {
     }
     
     func setupImagesListCellModel(indexPath: IndexPath) -> ImagesListCellModel {
-        let imageLike = UIImage(named: ImagesListViewController.imageLikeName)
-        let imageNoLike = UIImage(named: ImagesListViewController.imageNoLikeName)
-        let isLike = photos[indexPath.row].isLiked
-        let dataStringArray = photos[indexPath.row].createdAt?.split { $0 == "T" }
-        let textLabel: String = String(dataStringArray?.first ?? String.SubSequence(Constants.emptyLine))
-        let buttonImage = isLike ? imageLike : imageNoLike
+        let photo = photos[indexPath.row]
+        
+        let isLike = photo.isLiked
+        let textLabel: String = dateFarmatter.setupUIDateString(date: photo.createdAt)
+        let buttonImage = isLike ? ConstantsImage.imageLike: ConstantsImage.imageNoLike
         let model = ImagesListCellModel(buttonImage: buttonImage, textLabel: textLabel)
         
         return model
