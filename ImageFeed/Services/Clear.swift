@@ -13,7 +13,7 @@ protocol CleanProtocol {
     func cleanToken()
 }
 
-final class Clean: CleanProtocol {
+final class Clean: CleanProtocol {    
     private let tokenStorage = OAuth2TokenKeychainStorage()
     
     func cleanCookies() {
