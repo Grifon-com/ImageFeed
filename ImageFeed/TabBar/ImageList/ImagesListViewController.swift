@@ -22,7 +22,7 @@ final class ImagesListViewController: UIViewController {
     private let dateFarmatter = FormatDate.shared
     private var imageListServiceObserver: NSObjectProtocol?
     private var photos: [Photo] = []
-    private var flag = true
+    private var flagHudIndicator = true
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -49,6 +49,7 @@ final class ImagesListViewController: UIViewController {
         
         imageListServiceObserver = NotificationCenter.default.addObserver(forName: ImagesListService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
             guard let self = self else { return }
+            UIBlockingProgressHUD.dismiss()
             self.updateTableViewAnimated()
         }
         self.updateTableViewAnimated()
@@ -226,9 +227,9 @@ extension ImagesListViewController: ImageListCellDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if flag {
+        if flagHudIndicator {
             UIBlockingProgressHUD.show()
-            flag = false
+            flagHudIndicator = false
         }
     }
 }

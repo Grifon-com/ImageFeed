@@ -55,8 +55,12 @@ final class ImagesListService: ImagesListServiceProtocol {
             switch result {
             case .success(let listModel):
                 listModel.forEach {
-                    let photoModel = self.convertModel(model: $0)
-                    self.photos.append(photoModel)
+                    do { let photoModel = try self.convertModel(model: $0)
+                        self.photos.append(photoModel) }
+                    catch {
+                        let dateError = ErrorDateFormat.dateError
+                        print(dateError)
+                    }
                 }
                 NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self, userInfo: [ImagesListService.userInfoKey: self.photos])
                 self.photosNextPageTask = nil
@@ -195,7 +199,7 @@ private extension ImagesListService {
     }
     
     //MARK: Convert Model
-    func convertModel(model: PhotoResult) -> Photo {
+    func convertModel(model: PhotoResult) throws -> Photo {
         let id = model.id ?? Constants.emptyLine
         let heigt = model.height ?? ImagesListService.sizeDefault.heigt
         let width = model.width ?? ImagesListService.sizeDefault.width
@@ -204,14 +208,13 @@ private extension ImagesListService {
         let thumbImageURL = model.urls?.thumb ?? Constants.emptyLine
         let largeImageURL = model.urls?.regular ?? Constants.emptyLine
         let isLiked = model.likedByUser ?? ImagesListService.isLikedDefault
-        var createDate: Date
-        do {
-            let createdAt = try dateFormatter.setupModelDate(createAt: model.createdAt)
+        let createDate: Date
+        do { let createdAt = try dateFormatter.setupModelDate(createAt: model.createdAt)
             createDate = createdAt
         }
         catch {
             let dateError = ErrorDateFormat.dateError
-            print(dateError)
+            throw dateError
         }
         
         let photoModel = Photo(id: id,
