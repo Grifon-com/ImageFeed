@@ -8,12 +8,13 @@
 import UIKit
 
 final class SingleImageViewController: UIViewController {
-    private static let backButtonImageName = "Backward"
-    private static let sharedButtonImageName = "Sharing 1"
-    
-    private static let alertMessage = "Не удалось войти в систему"
-    private static let titleActionDismiss = "Не надо"
-    private static let titleActionRestart = "Повторить"
+    private struct Constants {
+        static let imageBackButton = "Backward"
+        static let imageSharedButton = "Sharing 1"
+        static let alertMessage = "Не удалось войти в систему"
+        static let titleActionDismiss = "Не надо"
+        static let titleActionRestart = "Повторить"
+    }
     
     var image: UIImage?
     
@@ -31,7 +32,7 @@ final class SingleImageViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let backButton = UIButton()
-        let image = UIImage(named: SingleImageViewController.backButtonImageName)
+        let image = UIImage(named: Constants.imageBackButton)
         backButton.setImage(image, for: .normal)
         backButton.addTarget(nil, action: #selector(didTapBackButton), for: .allTouchEvents)
         
@@ -40,7 +41,7 @@ final class SingleImageViewController: UIViewController {
     
     private lazy var sharedButton: UIButton = {
         let sharedButton = UIButton()
-        let image = UIImage(named: SingleImageViewController.sharedButtonImageName)
+        let image = UIImage(named: Constants.imageSharedButton)
         sharedButton.setImage(image, for: .normal)
         sharedButton.addTarget(self, action: #selector(didTapSharedButton), for: .allTouchEvents)
         
@@ -120,12 +121,12 @@ private extension SingleImageViewController {
     //MARK: Show Error
     func showAlertDissmisOrRestart(url: URL) {
         let alertVc = UIAlertController(title: nil,
-                                        message: SingleImageViewController.alertMessage,
+                                        message: Constants.alertMessage,
                                         preferredStyle: .alert)
-        let actionDismiss = UIAlertAction(title: SingleImageViewController.titleActionDismiss, style: .default) { _ in
+        let actionDismiss = UIAlertAction(title: Constants.titleActionDismiss, style: .default) { _ in
             alertVc.dismiss(animated: true)
         }
-        let actionRestart = UIAlertAction(title: SingleImageViewController.titleActionRestart, style: .default) { [weak self] _ in
+        let actionRestart = UIAlertAction(title: Constants.titleActionRestart, style: .default) { [weak self] _ in
             guard let self = self else { return }
             self.kingFisher(url: url)
         }
@@ -143,8 +144,6 @@ private extension SingleImageViewController {
         view.addSubview(scrollView)
         view.addSubview(backButton)
         view.addSubview(sharedButton)
-        
-//        imageView.image = image
         
         scrollView.maximumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25

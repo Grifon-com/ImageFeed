@@ -8,5 +8,6 @@
 import Foundation
 
 struct Like: Codable {
+    let id: String?
     let likedByUser: Bool?
 }

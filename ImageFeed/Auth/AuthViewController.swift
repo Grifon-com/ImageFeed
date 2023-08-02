@@ -12,17 +12,19 @@ protocol AuthViewControllerDelegate: AnyObject {
 }
 
 final class AuthViewController: UIViewController{
-    private static let imageViewName = "Logo_of_Unsplash"
-    private static let titleLogoutButton = "Войти"
-    private static let fontTitleLabelLogoutButton = CGFloat(17)
-    private static let cornerRadiusLogoutButton = CGFloat(16)
+    private struct Constants {
+        static let imageView = "Logo_of_Unsplash"
+        static let buttonTitleLogout = "Войти"
+        static let labelTitleLogoutButtonFont = CGFloat(17)
+        static let cornerRadiusLogoutButton = CGFloat(16)
+    }
     
     private var oAuth2Service: OAuth2ServiceProtocol?
     
     weak var delegate: AuthViewControllerDelegate?
     
     private lazy var imageView: UIImageView = {
-        let image = UIImage(named: AuthViewController.imageViewName)
+        let image = UIImage(named: Constants.imageView)
         let imageView = UIImageView(image: image)
         imageView.backgroundColor = .clear
         
@@ -32,11 +34,11 @@ final class AuthViewController: UIViewController{
     private lazy var logoutButton: UIButton = {
         let logoutButton = UIButton()
         logoutButton.backgroundColor = .ypWhite
-        logoutButton.layer.cornerRadius = AuthViewController.cornerRadiusLogoutButton
+        logoutButton.layer.cornerRadius = Constants.cornerRadiusLogoutButton
         logoutButton.layer.masksToBounds = true
-        logoutButton.setTitle(AuthViewController.titleLogoutButton, for: .normal)
+        logoutButton.setTitle(Constants.buttonTitleLogout, for: .normal)
         logoutButton.setTitleColor(.ypBlack, for: .normal)
-        logoutButton.titleLabel?.font = .boldSystemFont(ofSize: AuthViewController.fontTitleLabelLogoutButton)
+        logoutButton.titleLabel?.font = .boldSystemFont(ofSize: Constants.labelTitleLogoutButtonFont)
         logoutButton.tintColor = .ypWhite
         logoutButton.addTarget(nil, action: #selector(didTapLogout), for: .touchUpInside)
         

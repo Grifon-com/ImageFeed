@@ -13,12 +13,15 @@ protocol ImagesListServiceProtocol {
 }
 
 final class ImagesListService: ImagesListServiceProtocol {
-    private static let sizeDefault = (heigt: 0, width: 0)
-    private static let userInfoKey = "listPhoto"
-    private static let pageString = "page"
-    private static let likeString = "/like"
-    private static let path = "/photos/"
-    static let didChangeNotification = Notification.Name("ImageListServiceDidChange")
+    private struct Constants {
+        static let sizeDefault = (heigt: 0, width: 0)
+        static let userInfoKey = "listPhoto"
+        static let pageString = "page"
+        static let likeString = "/like"
+        static let path = "/photos/"
+        static let notificationName = "ImageListServiceDidChange"
+    }
+    static let didChangeNotification = Notification.Name(Constants.notificationName)
     
     static let shared = ImagesListService()
     
@@ -27,7 +30,7 @@ final class ImagesListService: ImagesListServiceProtocol {
     
     private let urlSession = URLSession.shared
     private let dateFormatter = FormatDate.shared
-    private var component = URLComponents(string: ConstantsUnSplash.jsonDefaultBaseURL)
+    private var component = URLComponents(string: ConstantsImageFeed.jsonDefaultBaseURL)
     private var photosNextPageTask: URLSessionTask?
     private var putLikeTask: URLSessionTask?
     private var deleteTask: URLSessionTask?
@@ -52,14 +55,10 @@ final class ImagesListService: ImagesListServiceProtocol {
             switch result {
             case .success(let listModel):
                 listModel.forEach {
-                    do { let photoModel = try self.convertModel(model: $0)
-                        self.photos.append(photoModel) }
-                    catch {
-                        let dateError = ErrorDateFormat.dateError
-                        print(dateError)
-                    }
+                    let photoModel = self.convertModel(model: $0)
+                        self.photos.append(photoModel)
                 }
-                NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self, userInfo: [ImagesListService.userInfoKey: self.photos])
+                NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self, userInfo: [Constants.userInfoKey: self.photos])
                 self.photosNextPageTask = nil
             case .failure(let error):
                 print(error)
@@ -71,7 +70,7 @@ final class ImagesListService: ImagesListServiceProtocol {
     
     //MARK: Chenge Like
     func chengeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
-        let completionHandler = { [weak self] (result: Result <Void, Error>)  in
+        isLike ? self.putLike(photoId: photoId) { [weak self] (result: Result <Like, Error>)  in
             guard let self = self else { return }
             switch result {
             case .success(_):
@@ -80,11 +79,15 @@ final class ImagesListService: ImagesListServiceProtocol {
             case .failure(let error):
                 completion(.failure(error))
             }
-        }
-        if isLike {
-            self.deleteLike(photoId: photoId, completion: completionHandler)
-        } else {
-            self.putLike(photoId: photoId, completion: completionHandler)
+        } : self.deleteLike(photoId: photoId) { [weak self] (result: Result <Void, Error>)  in
+            guard let self = self else { return }
+            switch result {
+            case .success(_):
+                self.convertIsLike(photoId: photoId)
+                completion(.success(Void()))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
 }
@@ -95,7 +98,7 @@ private extension ImagesListService {
         assert(Thread.isMainThread)
         guard deleteTask == nil else { return }
         var request: URLRequest?
-        do { let requestForLike = try imageListServiceRequestForLike(photoId: photoId, isLike: ConstantsBool.isFalse)
+        do { let requestForLike = try imageListServiceRequestForLike(photoId: photoId, isLike: ConstantsImageFeed.isFalse)
             request = requestForLike
         }
         catch {
@@ -117,12 +120,12 @@ private extension ImagesListService {
         task.resume()
     }
     
-    func putLike(photoId: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    func putLike(photoId: String, completion: @escaping (Result<Like, Error>) -> Void) {
         assert(Thread.isMainThread)
         guard putLikeTask == nil else { return }
         var request: URLRequest?
         do {
-            let putLikeRequest = try imageListServiceRequestForLike(photoId: photoId, isLike: ConstantsBool.isTrue)
+            let putLikeRequest = try imageListServiceRequestForLike(photoId: photoId, isLike: ConstantsImageFeed.isTrue)
             request = putLikeRequest
         }
         catch {
@@ -133,8 +136,8 @@ private extension ImagesListService {
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result <Like, Error>) in
             guard let self = self else { return }
             switch result {
-            case .success(_):
-                completion(.success(Void()))
+            case .success(let like):
+                completion(.success(like))
                 self.putLikeTask = nil
             case .failure(let error):
                 completion(.failure(error))
@@ -147,31 +150,28 @@ private extension ImagesListService {
     //TODO: Image List Service For Page Request
     func imageListServiceRequestForPage(page: Int) throws -> URLRequest {
         guard var component = component else { throw NetworkError.urlComponentsError}
-        component.queryItems = [URLQueryItem(name: ImagesListService.pageString, value: "\(page)")]
-        component.path = ImagesListService.path
+        component.queryItems = [URLQueryItem(name: Constants.pageString, value: "\(page)")]
+        component.path = Constants.path
         guard let url = component.url else { throw NetworkError.urlComponentsError}
         
         guard let token = OAuth2TokenKeychainStorage().getToken() else { throw KeychainError.errorStorageToken}
-        let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
+        let bearerToken = "\(ConstantsImageFeed.bearer) \(token)"
         
-        return URLRequest.makeHTTPRequestForModel(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField)
+        return URLRequest.makeHTTPRequestForModel(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsImageFeed.hTTPHeaderField)
     }
     
     //TODO: Image List Service For Like Request
     func imageListServiceRequestForLike(photoId: String, isLike: Bool) throws -> URLRequest {
         guard var component = component else { throw NetworkError.urlComponentsError }
-        let path = "\(ImagesListService.path)\(photoId)\(ImagesListService.likeString)"
+        let path = "\(Constants.path)\(photoId)\(Constants.likeString)"
         component.path = path
         guard let url = component.url else { throw NetworkError.urlComponentsError }
         
         guard let token = OAuth2TokenKeychainStorage().getToken() else { throw KeychainError.errorStorageToken}
-        let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
+        let bearerToken = "\(ConstantsImageFeed.bearer) \(token)"
         
-        if isLike {
-            return URLRequest.makeHTTPRequestForToken(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField, httpMethod: ConstantsUnSplash.postHTTPMethod)
-        } else {
-            return URLRequest.makeHTTPRequestForToken(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField, httpMethod: ConstantsUnSplash.deleteHTTPMethod)
-        }
+        return URLRequest.makeHTTPRequestForToken(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsImageFeed.hTTPHeaderField, httpMethod: isLike ? ConstantsImageFeed.postHTTPMethod : ConstantsImageFeed.deleteHTTPMethod)
+        
     }
     
     func convertIsLike(photoId: String) {
@@ -193,27 +193,20 @@ private extension ImagesListService {
     }
     
     //MARK: Convert Model
-    func convertModel(model: PhotoResult) throws -> Photo {
-        let id = model.id ?? Constants.emptyLine
-        let heigt = model.height ?? ImagesListService.sizeDefault.heigt
-        let width = model.width ?? ImagesListService.sizeDefault.width
+    func convertModel(model: PhotoResult) -> Photo {
+        let id = model.id ?? ConstantsImageFeed.emptyLine
+        let heigt = model.height ?? Constants.sizeDefault.heigt
+        let width = model.width ?? Constants.sizeDefault.width
         let size = CGSize(width: width, height: heigt)
         let welcomeDescription = model.description
-        let thumbImageURL = model.urls?.thumb ?? Constants.emptyLine
-        let largeImageURL = model.urls?.regular ?? Constants.emptyLine
-        let isLiked = model.likedByUser ?? ConstantsBool.isFalse
-        let createDate: Date
-        do { let createdAt = try dateFormatter.setupModelDate(createAt: model.createdAt)
-            createDate = createdAt
-        }
-        catch {
-            let dateError = ErrorDateFormat.dateError
-            throw dateError
-        }
+        let thumbImageURL = model.urls?.thumb ?? ConstantsImageFeed.emptyLine
+        let largeImageURL = model.urls?.regular ?? ConstantsImageFeed.emptyLine
+        let isLiked = model.likedByUser ?? ConstantsImageFeed.isFalse
+        let createAt = dateFormatter.setupModelDate(createAt: model.createdAt)
         
         let photoModel = Photo(id: id,
                                size: size,
-                               createdAt: createDate,
+                               createdAt: createAt,
                                welcomeDescription: welcomeDescription,
                                thumbImageURL: thumbImageURL,
                                largeImageURL: largeImageURL,

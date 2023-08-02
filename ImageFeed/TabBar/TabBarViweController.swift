@@ -8,8 +8,10 @@
 import UIKit
 
 final class TabBarViewController: UITabBarController {
-    private static let tabBarImageList = "tab_editorial_active"
-    private static let tabBarImageProfile = "tab_profile_active"
+    private struct Constanstants {
+        static let tabBarImageList = "tab_editorial_active"
+        static let tabBarImageProfile = "tab_profile_active"
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,10 +28,10 @@ final class TabBarViewController: UITabBarController {
         self.viewControllers = [
             generateVC(viewController: ImagesListViewController(),
                        title: nil,
-                       image: UIImage(named: TabBarViewController.tabBarImageList)),
+                       image: UIImage(named: Constanstants.tabBarImageList)),
             generateVC(viewController: ProfileViewController(),
                        title: nil,
-                       image: UIImage(named: TabBarViewController.tabBarImageProfile))]
+                       image: UIImage(named: Constanstants.tabBarImageProfile))]
     }
 }
 

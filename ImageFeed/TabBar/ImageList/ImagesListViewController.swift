@@ -9,12 +9,14 @@ import UIKit
 import Kingfisher
 
 final class ImagesListViewController: UIViewController {
-    private static let cellReuseIdentifier = "ImagesListCell"
-    private static let placeholder = "placeholderCell"
-    private static let contentInsetsTableView = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-    private static let indentsCellView = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
-    private static let defaultSectionCount = 0
-    private static let cellImageCornerRadius: Double = 16
+    struct Constants {
+        static let cellReuseIdentifier = "ImagesListCell"
+        static let placeholder = "placeholderCell"
+        static let tableViewContentInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        static let cellViewIndents = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
+        static let defaultSectionCount = 0
+        static let cellImageCornerRadius: Double = 16
+    }
     
     private let imagesListService = ImagesListService.shared
     private let dateFarmatter = FormatDate.shared
@@ -26,8 +28,8 @@ final class ImagesListViewController: UIViewController {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(ImagesListCell.classForKeyedArchiver(), forCellReuseIdentifier: ImagesListViewController.cellReuseIdentifier)
-        tableView.contentInset = ImagesListViewController.contentInsetsTableView
+        tableView.register(ImagesListCell.classForKeyedArchiver(), forCellReuseIdentifier: Constants.cellReuseIdentifier)
+        tableView.contentInset = Constants.tableViewContentInsets
         
         return tableView
     }()
@@ -106,13 +108,13 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.Constants.reuseIdentifier, for: indexPath)
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
         
         imageListCell.delegate = self
-    
+        
         let urlString = photos[indexPath.row].thumbImageURL
         var urlForKf: URL?
         do { let url = try setupURL(urlString: urlString)
@@ -123,8 +125,8 @@ extension ImagesListViewController: UITableViewDataSource {
             print("\(errorUrl)")
         }
         
-        let placeholder = UIImage(named: ImagesListViewController.placeholder)
-        let processor = RoundCornerImageProcessor(cornerRadius: ImagesListViewController.cellImageCornerRadius)
+        let placeholder = UIImage(named: Constants.placeholder)
+        let processor = RoundCornerImageProcessor(cornerRadius: Constants.cellImageCornerRadius)
         imageListCell.cellImageView.kf.indicatorType = .activity
         imageListCell.cellImageView.kf.setImage(with: urlForKf,
                                                 placeholder: placeholder,
@@ -150,7 +152,7 @@ private extension ImagesListViewController {
             photos = imagesListService.photos
             if startIndex != endIndex {
                 let listIndexPath = (startIndex..<endIndex).map {
-                    IndexPath(row: $0, section: ImagesListViewController.defaultSectionCount)
+                    IndexPath(row: $0, section: Constants.defaultSectionCount)
                 }
                 tableView.insertRows(at: listIndexPath, with: .automatic)
             }
@@ -161,8 +163,8 @@ private extension ImagesListViewController {
         let photo = photos[indexPath.row]
         
         let isLike = photo.isLiked
-        let textLabel: String = dateFarmatter.setupUIDateString(date: photo.createdAt)
-        let buttonImage = isLike ? ConstantsImage.imageLike: ConstantsImage.imageNoLike
+        let textLabel: String = dateFarmatter.setupUIDateString(date: photo.createdAt) ?? ConstantsImageFeed.emptyLine
+        let buttonImage = isLike ? ConstantsImageFeed.imageLike: ConstantsImageFeed.imageNoLike
         let model = ImagesListCellModel(buttonImage: buttonImage, textLabel: textLabel)
         
         return model
@@ -170,7 +172,7 @@ private extension ImagesListViewController {
     
     //TODO: Cell Height Calculation
     func cellHeightCalculation(imageSize: CGSize, tableView: UITableView) -> CGFloat {
-        let indents = ImagesListViewController.indentsCellView
+        let indents = Constants.cellViewIndents
         let widthImageView = tableView.bounds.width - indents.left - indents.right
         let widthImage = imageSize.width
         let coefficient = widthImageView / widthImage
@@ -200,13 +202,12 @@ private extension ImagesListViewController {
         ])
     }
 }
- 
+
 extension ImagesListViewController: ImageListCellDelegate {
-    internal func imageListCellDidTapLike(_ cell: ImagesListCell) {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        UIBlockingProgressHUD.show()
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let photo = photos[indexPath.row]
-        //Покажем лоадер
-        UIBlockingProgressHUD.show()
         imagesListService.chengeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self]  result in
             guard let self = self else { return }
             switch result {
@@ -219,13 +220,15 @@ extension ImagesListViewController: ImageListCellDelegate {
                 }
             case .failure(let error):
                 print(error)
-                let alert = UIAlertController(title: ConstantsAlert.alertTitle, message: ConstantsAlert.alertMessage, preferredStyle: .alert)
-                let action = UIAlertAction(title: ConstantsAlert.alertActionTitle, style: .default)
+                let alert = UIAlertController(title: ConstantsImageFeed.alertTitle, message: ConstantsImageFeed.alertMessage, preferredStyle: .alert)
+                let action = UIAlertAction(title: ConstantsImageFeed.alertActionTitle, style: .default)
                 alert.addAction(action)
                 present(alert, animated: true)
             }
+            DispatchQueue.main.async {
+                UIBlockingProgressHUD.dismiss()
+            }
         }
-        UIBlockingProgressHUD.dismiss()
     }
 }
 

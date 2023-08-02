@@ -12,11 +12,13 @@ protocol OAuth2ServiceProtocol: AnyObject {
 }
 
 final class OAuth2Service: OAuth2ServiceProtocol {
-    static let shared = OAuth2Service()
+    private struct Constants {
+        static let clientSecretString = "client_secret"
+        static let grantTypeString = "grant_type"
+        static let authorizationCodeString = "authorization_code"
+    }
     
-    private static let clientSecretString = "client_secret"
-    private static let grantTypeString = "grant_type"
-    private static let authorizationCodeString = "authorization_code"
+    static let shared = OAuth2Service()
     
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
@@ -55,20 +57,20 @@ final class OAuth2Service: OAuth2ServiceProtocol {
 
 private extension OAuth2Service {
     private func authTokenRequest(code: String) throws -> URLRequest {
-        let urlAbsoluteString = "\(ConstantsUnSplash.defaultBaseURL)\(ConstantsUnSplash.pathToken)"
+        let urlAbsoluteString = "\(ConstantsImageFeed.defaultBaseURL)\(ConstantsImageFeed.pathToken)"
         guard var urlComponents = URLComponents(string: urlAbsoluteString) else {
             throw NetworkError.urlComponentsError
         }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: ConstantsUnSplash.clientIdString, value: ConstantsUnSplash.accessKey),
-            URLQueryItem(name: OAuth2Service.clientSecretString, value: ConstantsUnSplash.secretKey),
-            URLQueryItem(name: ConstantsUnSplash.redirectUriString, value: ConstantsUnSplash.redirectURI),
-            URLQueryItem(name: ConstantsUnSplash.code, value: code),
-            URLQueryItem(name: OAuth2Service.grantTypeString, value: OAuth2Service.authorizationCodeString)
+            URLQueryItem(name: ConstantsImageFeed.clientIdString, value: ConstantsImageFeed.accessKey),
+            URLQueryItem(name: Constants.clientSecretString, value: ConstantsImageFeed.secretKey),
+            URLQueryItem(name: ConstantsImageFeed.redirectUriString, value: ConstantsImageFeed.redirectURI),
+            URLQueryItem(name: ConstantsImageFeed.code, value: code),
+            URLQueryItem(name: Constants.grantTypeString, value: Constants.authorizationCodeString)
         ]
         guard let url = urlComponents.url else { throw NetworkError.urlError}
-        return URLRequest.makeHTTPRequest(url: url, httpMethod: ConstantsUnSplash.postHTTPMethod)
+        return URLRequest.makeHTTPRequest(url: url, httpMethod: ConstantsImageFeed.postHTTPMethod)
     }
 }
 

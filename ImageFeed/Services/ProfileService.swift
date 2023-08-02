@@ -12,8 +12,10 @@ protocol ProfileServiceProtocol {
 }
 
 final class ProfileService: ProfileServiceProtocol {
-    private static let at = "@"
-    private static let path = "/me"
+    private struct Constants {
+        static let at = "@"
+        static let path = "/me"
+    }
     
     static let shared = ProfileService()
     
@@ -57,23 +59,23 @@ final class ProfileService: ProfileServiceProtocol {
 private extension ProfileService {
     //MARK: Request
     func profileModelRequest(token: String) throws -> URLRequest {
-        let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
-        let urlAbsoluteString = "\(ConstantsUnSplash.jsonDefaultBaseURL)\(ProfileService.path)"
+        let bearerToken = "\(ConstantsImageFeed.bearer) \(token)"
+        let urlAbsoluteString = "\(ConstantsImageFeed.jsonDefaultBaseURL)\(Constants.path)"
         guard let url = URL(string: urlAbsoluteString) else { throw NetworkError.urlError }
         
         let request = URLRequest.makeHTTPRequestForModel(url: url,
                                                          bearerToken: bearerToken,
-                                                         forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField)
+                                                         forHTTPHeaderField: ConstantsImageFeed.hTTPHeaderField)
         return request
     }
     
     //MARK: Convert Model
     func convertModel(model: ProfileResult) -> Profile {
-        let username = model.username ?? Constants.emptyLine
-        let firstName = model.firstName ?? Constants.emptyLine
-        let lastName = model.lastName ?? Constants.emptyLine
-        let loginName = "\(ProfileService.at)\(username)"
-        let bio = model.bio ?? Constants.emptyLine
+        let username = model.username ?? ConstantsImageFeed.emptyLine
+        let firstName = model.firstName ?? ConstantsImageFeed.emptyLine
+        let lastName = model.lastName ?? ConstantsImageFeed.emptyLine
+        let loginName = "\(Constants.at)\(username)"
+        let bio = model.bio ?? ConstantsImageFeed.emptyLine
         let name = "\(firstName)\(lastName)"
         
         let profile = Profile(username: username,

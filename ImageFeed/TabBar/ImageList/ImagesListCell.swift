@@ -13,16 +13,18 @@ protocol ImageListCellDelegate: AnyObject {
 }
 
 final class ImagesListCell: UITableViewCell {
-    private static let cornerRadiusCellImage = CGFloat(16)
-    private static let fontCellLabel = CGFloat(13)
-    static let reuseIdentifier = "ImagesListCell"
+    struct Constants {
+        static let imageCellCornerRadius = CGFloat(16)
+        static let labelCellFont = CGFloat(13)
+        static let reuseIdentifier = "ImagesListCell"
+    }
     
     weak var delegate: ImageListCellDelegate?
     
     lazy var cellImageView: UIImageView = {
         let cellImage = UIImageView()
         cellImage.layer.masksToBounds = true
-        cellImage.layer.cornerRadius = ImagesListCell.cornerRadiusCellImage
+        cellImage.layer.cornerRadius = Constants.imageCellCornerRadius
         
         return cellImage
     }()
@@ -36,7 +38,7 @@ final class ImagesListCell: UITableViewCell {
     
     private lazy var cellLabel: UILabel = {
         let cellLabel = UILabel()
-        cellLabel.font = UIFont.systemFont(ofSize: ImagesListCell.fontCellLabel)
+        cellLabel.font = UIFont.systemFont(ofSize: Constants.labelCellFont)
         cellLabel.textColor = .ypWhite
         
         return cellLabel
@@ -59,6 +61,7 @@ private extension ImagesListCell {
     //MARK: Button Action
     @objc
     func likeButtonClicked() {
+//        UIBlockingProgressHUD.show()
         delegate?.imageListCellDidTapLike(self)
     }
     
@@ -107,7 +110,7 @@ extension ImagesListCell {
     
     //MARK: Set is Liked
     func setIsLiked(isLike: Bool) {
-        let imageButton = isLike ? ConstantsImage.imageLike : ConstantsImage.imageNoLike
+        let imageButton = isLike ? ConstantsImageFeed.imageLike : ConstantsImageFeed.imageNoLike
         cellButton.setImage(imageButton, for: .normal)
     }
 }

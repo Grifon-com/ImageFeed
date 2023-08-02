@@ -9,14 +9,16 @@ import UIKit
 import ProgressHUD
 
 final class SplashViewController: UIViewController {
-    private static let imageName = "Vector"
+    private struct Constants {
+        static let imageSplash = "Vector"
+    }
     
     private var oAuth2Service = OAuth2Service.shared
     private var OAuth2TokenKeychainStorage: OAuth2TokenKeychainStorage?
     private let profileService = ProfileService.shared
     
     private lazy var imageView: UIImageView = {
-        let image = UIImage(named: SplashViewController.imageName)
+        let image = UIImage(named: Constants.imageSplash)
         let imageView = UIImageView(image: image)
         imageView.backgroundColor = .clear
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +37,7 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let token = OAuth2TokenKeychainStorage?.getToken() {
+            UIBlockingProgressHUD.show()
             fetchProfile(token: token)
         } else {
             let authViewController = AuthViewController()
@@ -89,10 +92,10 @@ private extension SplashViewController {
     
     //MARK: AlertPresent
     func showAlert() {
-        let title = ConstantsAlert.alertTitle
-        let message = ConstantsAlert.alertMessage
+        let title = ConstantsImageFeed.alertTitle
+        let message = ConstantsImageFeed.alertMessage
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: ConstantsAlert.alertActionTitle, style: .default) { _ in
+        let action = UIAlertAction(title: ConstantsImageFeed.alertActionTitle, style: .default) { _ in
             alert.dismiss(animated: true)
         }
         alert.addAction(action)

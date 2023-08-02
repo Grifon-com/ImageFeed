@@ -1,5 +1,5 @@
 //
-//  Clean.swift
+//  CleanManager.swift
 //  ImageFeed
 //
 //  Created by Григорий Машук on 31.07.23.
@@ -8,12 +8,12 @@
 import Foundation
 import WebKit
 
-protocol CleanProtocol {
+protocol CleanManagerProtocol {
     func cleanCookies()
     func cleanToken()
 }
 
-final class Clean: CleanProtocol {    
+final class CleanManager: CleanManagerProtocol {    
     private let tokenStorage = OAuth2TokenKeychainStorage()
     
     func cleanCookies() {

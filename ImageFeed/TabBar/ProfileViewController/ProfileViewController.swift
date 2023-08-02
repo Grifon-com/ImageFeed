@@ -9,29 +9,29 @@ import UIKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
-    private static let imageAvatarName = "Avatar"
-    private static let textNameLabel = "Екатерина Новикова"
-    private static let textLoginNameLabel = "@ekaterina_nov"
-    private static let textDescriptionLabel = "Hello, world!"
-    private static let imageLogoutButtonName = "ipad.and.arrow.forward"
-    private static let imagePlaceholderName = "placeholderAvatar"
-    
-    private static let titleAlert = "Пока, пока!"
-    private static let messageAlert = "Уверены что хотите выйти?"
-    private static let titleActionOne = "Да"
-    private static let titleActionTwo = "Нет"
-    
-    private static let fontNameLabel = CGFloat(23)
-    private static let fontLoginNameLabel = CGFloat(13)
-    private static let fontDescriptionLabel = CGFloat(13)
+    private struct Constants {
+        static let imageAvatar = "Avatar"
+        static let labelText = "Екатерина Новикова"
+        static let loginLabelText = "@ekaterina_nov"
+        static let descriptionLabelText = "Hello, world!"
+        static let imageLogoutButton = "ipad.and.arrow.forward"
+        static let imagePlaceholder = "placeholderAvatar"
+        static let alertTitle = "Пока, пока!"
+        static let alertMessage = "Уверены что хотите выйти?"
+        static let titleActionOne = "Да"
+        static let titleActionTwo = "Нет"
+        static let labelFont = CGFloat(23)
+        static let labelLoginFont = CGFloat(13)
+        static let labelDescriptionFont = CGFloat(13)
+    }
     
     private let profileService = ProfileService.shared
-    private var cleanCookieAndToken: CleanProtocol?
+    private var cleanCookieAndToken: CleanManagerProtocol?
     private var profileModel: Profile?
     private var profileImageServiceObserver: NSObjectProtocol?
     
     private lazy var avatarImageView: UIImageView = {
-        let avatarImage = UIImage(named: ProfileViewController.imageAvatarName)
+        let avatarImage = UIImage(named: Constants.imageAvatar)
         let avatarImageView = UIImageView(image: avatarImage)
         avatarImageView.clipsToBounds = true
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.width / 2
@@ -41,34 +41,34 @@ final class ProfileViewController: UIViewController {
     
     private lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.text = ProfileViewController.textNameLabel
+        nameLabel.text = Constants.labelText
         nameLabel.textColor = .ypWhite
-        nameLabel.font = .boldSystemFont(ofSize: ProfileViewController.fontNameLabel)
+        nameLabel.font = .boldSystemFont(ofSize: Constants.labelFont)
         
         return nameLabel
     }()
     
     private lazy var loginNameLabel: UILabel = {
         let loginNameLabel = UILabel()
-        loginNameLabel.text = ProfileViewController.textLoginNameLabel
+        loginNameLabel.text = Constants.loginLabelText
         loginNameLabel.textColor = .ypGrey
-        loginNameLabel.font = UIFont.systemFont(ofSize: ProfileViewController.fontLoginNameLabel)
+        loginNameLabel.font = UIFont.systemFont(ofSize: Constants.labelLoginFont)
         
         return loginNameLabel
     }()
     
     private lazy var descriptionLabel: UILabel = {
         let descriptionLabel = UILabel()
-        descriptionLabel.text = ProfileViewController.textDescriptionLabel
+        descriptionLabel.text = Constants.descriptionLabelText
         descriptionLabel.textColor = .ypWhite
-        descriptionLabel.font = UIFont.systemFont(ofSize: ProfileViewController.fontDescriptionLabel)
+        descriptionLabel.font = UIFont.systemFont(ofSize: Constants.labelDescriptionFont)
         
         return descriptionLabel
     }()
     
     private lazy var logoutButton: UIButton = {
         let logoutButton = UIButton()
-        let imageButton = UIImage(named: ProfileViewController.imageLogoutButtonName)
+        let imageButton = UIImage(named: Constants.imageLogoutButton)
         logoutButton.setImage(imageButton, for: .normal)
         logoutButton.addTarget(nil, action: #selector(didTapLogoutButton), for: .allTouchEvents)
         logoutButton.tintColor = .ypRed
@@ -82,7 +82,7 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cleanCookieAndToken = Clean()
+        cleanCookieAndToken = CleanManager()
         setupUIElement()
         applyConstraints()
         updateProfileDetails(profile: profileService.profile)
@@ -96,11 +96,11 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapLogoutButton() {
-        let alert = UIAlertController(title: ProfileViewController.titleAlert,
-                                      message: ProfileViewController.messageAlert,
+        let alert = UIAlertController(title: Constants.alertTitle,
+                                      message: Constants.alertMessage,
                                       preferredStyle: .alert)
         
-        let actionAlertOne = UIAlertAction(title: ProfileViewController.titleActionOne,
+        let actionAlertOne = UIAlertAction(title: Constants.titleActionOne,
                                            style: .default) { [weak self] _ in
             guard let self = self,
                   let cleanCookieAndToken = self.cleanCookieAndToken else { return }
@@ -111,7 +111,7 @@ final class ProfileViewController: UIViewController {
             let splashViewController = SplashViewController()
             window.rootViewController = splashViewController
         }
-        let alertActionTwo = UIAlertAction(title: ProfileViewController.titleActionTwo, style: .default) { [weak self] _ in
+        let alertActionTwo = UIAlertAction(title: Constants.titleActionTwo, style: .default) { [weak self] _ in
             guard let self = self else { return }
             self.dismiss(animated: true)
         }
@@ -128,7 +128,7 @@ private extension ProfileViewController {
         guard let profileImageURL = ProfileImageService.shared.avatarURL,
               let url = URL(string: profileImageURL)
         else { return }
-        avatarImageView.kf.setImage(with: url, placeholder: UIImage(named: ProfileViewController.imagePlaceholderName))
+        avatarImageView.kf.setImage(with: url, placeholder: UIImage(named: Constants.imagePlaceholder))
     }
     
     //MARK: UpdateProfileDetails
