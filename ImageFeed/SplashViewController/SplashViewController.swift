@@ -9,17 +9,16 @@ import UIKit
 import ProgressHUD
 
 final class SplashViewController: UIViewController {
-    private static let imageName = "Vector"
-    private static let alertTitle = "Что-то пошло не так("
-    private static let alertMessage = "Не удалось войти в систему"
-    private static let alertActionTitle = "Ok"
+    private struct Constants {
+        static let imageSplash = "Vector"
+    }
     
-    private var oAuth2Service: OAuth2ServiceProtocol?
+    private var oAuth2Service = OAuth2Service.shared
     private var OAuth2TokenKeychainStorage: OAuth2TokenKeychainStorage?
     private let profileService = ProfileService.shared
     
     private lazy var imageView: UIImageView = {
-        let image = UIImage(named: SplashViewController.imageName)
+        let image = UIImage(named: Constants.imageSplash)
         let imageView = UIImageView(image: image)
         imageView.backgroundColor = .clear
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -29,16 +28,16 @@ final class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        oAuth2Service = OAuth2Service()
         OAuth2TokenKeychainStorage = ImageFeed.OAuth2TokenKeychainStorage()
-    
+        
         setupUIElement()
         applyConstraints()
     }
-        
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let token = OAuth2TokenKeychainStorage?.getToken() {
+            UIBlockingProgressHUD.show()
             fetchProfile(token: token)
         } else {
             let authViewController = AuthViewController()
@@ -49,38 +48,9 @@ final class SplashViewController: UIViewController {
     }
 }
 
-extension SplashViewController: AuthViewControllerDelegate {
-    //MARK: Delegate
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        UIBlockingProgressHUD.show()
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.fetchOAuthToken(code)
-        }
-    }
-    
-    //MARK: SetupUIElement
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
-    
-    private func setupUIElement() {
-        view.addSubview(imageView)
-        view.backgroundColor = .ypBlack
-    }
-
-    private func applyConstraints() {
-        NSLayoutConstraint.activate([
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-    }
-}
-
 private extension SplashViewController {
     //MARK: Service
     func fetchOAuthToken(_ code: String) {
-        guard let oAuth2Service = oAuth2Service else { return }
         oAuth2Service.fetchAuthToken(code) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -101,8 +71,9 @@ private extension SplashViewController {
                 guard let username = self.profileService.profile?.username else { return }
                 ProfileImageService.shared.fetchProfileImageUrl(username: username) {_ in }
                 self.switchToTabBarController()
-            case .failure:
+            case .failure(let error):
                 self.showAlert()
+                print(error)
             }
             UIBlockingProgressHUD.dismiss()
         }
@@ -121,10 +92,10 @@ private extension SplashViewController {
     
     //MARK: AlertPresent
     func showAlert() {
-        let title = SplashViewController.alertTitle
-        let message = SplashViewController.alertMessage
+        let title = ConstantsImageFeed.alertTitle
+        let message = ConstantsImageFeed.alertMessage
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: SplashViewController.alertActionTitle, style: .default) { _ in
+        let action = UIAlertAction(title: ConstantsImageFeed.alertActionTitle, style: .default) { _ in
             alert.dismiss(animated: true)
         }
         alert.addAction(action)
@@ -132,3 +103,30 @@ private extension SplashViewController {
     }
 }
 
+extension SplashViewController: AuthViewControllerDelegate {
+    //MARK: Delegate
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        UIBlockingProgressHUD.show()
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            fetchOAuthToken(code)
+        }
+    }
+    
+    //MARK: SetupUIElement
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
+    private func setupUIElement() {
+        view.addSubview(imageView)
+        view.backgroundColor = .ypBlack
+    }
+    
+    private func applyConstraints() {
+        NSLayoutConstraint.activate([
+            imageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            imageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
+        ])
+    }
+}

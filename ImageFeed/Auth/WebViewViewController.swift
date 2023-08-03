@@ -14,9 +14,11 @@ protocol WebViewViewControllerDelegate: AnyObject {
 }
 
 final class WebViewViewController: UIViewController {
-    private static let backButtonImageName = "nav_back_button"
-    private static let responseTypeString = "response_type"
-    private static let scopeString = "scope"
+    private struct Constants {
+        static let imageBackButton = "nav_back_button"
+        static let responseTypeString = "response_type"
+        static let scopeString = "scope"
+    }
     
     private var estimatedProgressObservation: NSKeyValueObservation?
     weak var delegate: WebViewViewControllerDelegate?
@@ -36,16 +38,15 @@ final class WebViewViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let backButton = UIButton()
-        let image = UIImage(named: WebViewViewController.backButtonImageName)
+        let image = UIImage(named: Constants.imageBackButton)
         backButton.setImage(image, for: .normal)
+        backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         
         return backButton
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        
         setupUIElement()
         applyConstraint()
         
@@ -70,13 +71,13 @@ final class WebViewViewController: UIViewController {
 //MARK: - SetupURL
 extension WebViewViewController {
     private func setupURL() {
-        guard var urlComponents = URLComponents(string: ConstantsUnSplash.unSplashAuthorizeURLString) else { return }
+        guard var urlComponents = URLComponents(string: ConstantsImageFeed.unSplashAuthorizeURLString) else { return }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: ConstantsUnSplash.clientIdString, value: ConstantsUnSplash.accessKey),
-            URLQueryItem(name: ConstantsUnSplash.redirectUriString, value: ConstantsUnSplash.redirectURI),
-            URLQueryItem(name: WebViewViewController.responseTypeString, value: ConstantsUnSplash.code),
-            URLQueryItem(name: WebViewViewController.scopeString, value: ConstantsUnSplash.accessScope)
+            URLQueryItem(name: ConstantsImageFeed.clientIdString, value: ConstantsImageFeed.accessKey),
+            URLQueryItem(name: ConstantsImageFeed.redirectUriString, value: ConstantsImageFeed.redirectURI),
+            URLQueryItem(name: Constants.responseTypeString, value: ConstantsImageFeed.code),
+            URLQueryItem(name: Constants.scopeString, value: ConstantsImageFeed.accessScope)
         ]
         
         guard let url = urlComponents.url else { return }
@@ -91,7 +92,8 @@ extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let code = code(from: navigationAction) {
             decisionHandler(.cancel)
-            delegate?.webViewViewController(self, didAuthenticateWithCode: code)
+            guard let delegate = delegate else { return }
+            delegate.webViewViewController(self, didAuthenticateWithCode: code)
         } else {
             decisionHandler(.allow)
         }
@@ -138,9 +140,9 @@ private extension WebViewViewController {
         if
             let url = navigationAction.request.url,
             let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == ConstantsUnSplash.authNativePath,
+            urlComponents.path == ConstantsImageFeed.authNativePath,
             let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == ConstantsUnSplash.code}) {
+            let codeItem = items.first(where: { $0.name == ConstantsImageFeed.code}) {
             
             return codeItem.value
         } else {

@@ -12,16 +12,17 @@ protocol ProfileServiceProtocol {
 }
 
 final class ProfileService: ProfileServiceProtocol {
-    private static let at = "@"
-    private static let path = "/me"
-    private static let emptyLine = ""
+    private struct Constants {
+        static let at = "@"
+        static let path = "/me"
+    }
     
     static let shared = ProfileService()
-
+    
     private let urlSession = URLSession.shared
     
     private var lastToken: String?
-    private var task: URLSessionTask?
+    var task: URLSessionTask?
     private(set) var profile: Profile?
     
     func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
@@ -50,31 +51,31 @@ final class ProfileService: ProfileServiceProtocol {
             }
             self.lastToken = nil
         }
+        self.task = task
         task.resume()
     }
 }
-//MARK: - Request
+
 private extension ProfileService {
-    private func profileModelRequest(token: String) throws -> URLRequest {
-        let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
-        let urlAbsoluteString = "\(ConstantsUnSplash.jsonDefaultBaseURL)\(ProfileService.path)"
+    //MARK: Request
+    func profileModelRequest(token: String) throws -> URLRequest {
+        let bearerToken = "\(ConstantsImageFeed.bearer) \(token)"
+        let urlAbsoluteString = "\(ConstantsImageFeed.jsonDefaultBaseURL)\(Constants.path)"
         guard let url = URL(string: urlAbsoluteString) else { throw NetworkError.urlError }
         
         let request = URLRequest.makeHTTPRequestForModel(url: url,
                                                          bearerToken: bearerToken,
-                                                         forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField)
+                                                         forHTTPHeaderField: ConstantsImageFeed.hTTPHeaderField)
         return request
     }
-}
-
-//MARK: - Convert Model
-private extension ProfileService {
-    private func convertModel(model: ProfileResult) -> Profile {
-        let username = model.username ?? ProfileService.emptyLine
-        let firstName = model.firstName ?? ProfileService.emptyLine
-        let lastName = model.lastName ?? ProfileService.emptyLine
-        let loginName = "\(ProfileService.at)\(username)"
-        let bio = model.bio ?? ProfileService.emptyLine
+    
+    //MARK: Convert Model
+    func convertModel(model: ProfileResult) -> Profile {
+        let username = model.username ?? ConstantsImageFeed.emptyLine
+        let firstName = model.firstName ?? ConstantsImageFeed.emptyLine
+        let lastName = model.lastName ?? ConstantsImageFeed.emptyLine
+        let loginName = "\(Constants.at)\(username)"
+        let bio = model.bio ?? ConstantsImageFeed.emptyLine
         let name = "\(firstName)\(lastName)"
         
         let profile = Profile(username: username,

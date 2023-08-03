@@ -11,10 +11,13 @@ protocol ProfileImageServiceProtocol {
 }
 
 final class ProfileImageService: ProfileImageServiceProtocol {
-    private static let userInfoKey = "URL"
-    private static let path = "/users/"
+    private struct Constants {
+        static let userInfoKey = "URL"
+        static let path = "/users/"
+        static let notificationName =  "ProfileimageProviderDidChange"
+    }
     static let shared = ProfileImageService()
-    static let didChangeNotification = Notification.Name(rawValue: "ProfileimageProviderDidChange")
+    static let didChangeNotification = Notification.Name(rawValue: Constants.notificationName)
     
     private let profileService = ProfileService.shared
     private let oAuth2Token = OAuth2TokenKeychainStorage()
@@ -39,26 +42,27 @@ final class ProfileImageService: ProfileImageServiceProtocol {
                 guard let profileImageURL = profileImageURL.profileImage.small else { return }
                 self.avatarURL = profileImageURL
                 completion(.success(profileImageURL))
-                NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: self, userInfo: [ProfileImageService.userInfoKey: profileImageURL])
+                NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: self, userInfo: [Constants.userInfoKey: profileImageURL])
             case .failure(let error):
                 completion(.failure(error))
                 self.lastToken = nil
             }
         }
+        self.task = task
         task.resume()
     }
 }
 
 //MARK: - Request
 private extension ProfileImageService {
-    private func profileImageRequest(token: String, username: String) throws -> URLRequest {
+    func profileImageRequest(token: String, username: String) throws -> URLRequest {
         guard let username = profileService.profile?.username else { throw NetworkError.urlError }
-        let bearerToken = "\(ConstantsUnSplash.bearer) \(token)"
-        let urlString =  "\(ConstantsUnSplash.jsonDefaultBaseURL)\(ProfileImageService.path)\(username)"
+        let bearerToken = "\(ConstantsImageFeed.bearer) \(token)"
+        let urlString =  "\(ConstantsImageFeed.jsonDefaultBaseURL)\(Constants.path)\(username)"
         guard let url = URL(string: urlString)
         else { throw NetworkError.urlError }
         
-        return URLRequest.makeHTTPRequestForModel(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsUnSplash.hTTPHeaderField)
+        return URLRequest.makeHTTPRequestForModel(url: url, bearerToken: bearerToken, forHTTPHeaderField: ConstantsImageFeed.hTTPHeaderField)
     }
 }
 

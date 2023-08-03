@@ -5,20 +5,18 @@
 //  Created by Григорий Машук on 9.06.23.
 //
 
-import Foundation
 import UIKit
 
 final class SingleImageViewController: UIViewController {
-    private static let backButtonImageName = "Backward"
-    private static let sharedButtonImageName = "Sharing 1"
-    
-    var image: UIImage! {
-        didSet {
-            guard isViewLoaded else { return }
-            imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
-        }
+    private struct Constants {
+        static let imageBackButton = "Backward"
+        static let imageSharedButton = "Sharing 1"
+        static let alertMessage = "Не удалось войти в систему"
+        static let titleActionDismiss = "Не надо"
+        static let titleActionRestart = "Повторить"
     }
+    
+    var image: UIImage?
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -34,7 +32,7 @@ final class SingleImageViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let backButton = UIButton()
-        let image = UIImage(named: SingleImageViewController.backButtonImageName)
+        let image = UIImage(named: Constants.imageBackButton)
         backButton.setImage(image, for: .normal)
         backButton.addTarget(nil, action: #selector(didTapBackButton), for: .allTouchEvents)
         
@@ -43,30 +41,23 @@ final class SingleImageViewController: UIViewController {
     
     private lazy var sharedButton: UIButton = {
         let sharedButton = UIButton()
-        let image = UIImage(named: SingleImageViewController.sharedButtonImageName)
+        let image = UIImage(named: Constants.imageSharedButton)
         sharedButton.setImage(image, for: .normal)
+        sharedButton.addTarget(self, action: #selector(didTapSharedButton), for: .allTouchEvents)
         
         return sharedButton
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sharedButton.addTarget(self, action: #selector(didTapSharedButton), for: .allTouchEvents)
-        
         setupUIElement()
         applyConstraint()
         
         scrollView.delegate = self
-    
-        rescaleAndCenterImageInScrollView(image: image)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
-    }
-    
-    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        rescaleAndCenterImageInScrollView(image: image)
     }
     
     @objc private func didTapBackButton() {
@@ -76,9 +67,7 @@ final class SingleImageViewController: UIViewController {
     @objc private func didTapSharedButton(_ sender: UIButton) {
         guard let image = image else { return }
         let content: [Any] = [image]
-        
         let sharing = UIActivityViewController(activityItems: content, applicationActivities: nil)
-        
         present(sharing, animated: true)
     }
 }
@@ -90,9 +79,9 @@ extension SingleImageViewController: UIScrollViewDelegate {
     }
 }
 
-private extension SingleImageViewController {
-        //MARK: Rescale
-        func rescaleAndCenterImageInScrollView(image: UIImage) {
+extension SingleImageViewController {
+    //MARK: Rescale
+    func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
         view.layoutIfNeeded()
@@ -111,6 +100,42 @@ private extension SingleImageViewController {
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
     
+    
+    //MARK: King Fisher
+    func  kingFisher(url: URL) {
+        imageView.kf.setImage(with: url) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageResult):
+                self.image = imageResult.image
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                self.showAlertDissmisOrRestart(url: url)
+            }
+        }
+    }
+}
+
+private extension SingleImageViewController {
+    //MARK: Show Error
+    func showAlertDissmisOrRestart(url: URL) {
+        let alertVc = UIAlertController(title: nil,
+                                        message: Constants.alertMessage,
+                                        preferredStyle: .alert)
+        let actionDismiss = UIAlertAction(title: Constants.titleActionDismiss, style: .default) { _ in
+            alertVc.dismiss(animated: true)
+        }
+        let actionRestart = UIAlertAction(title: Constants.titleActionRestart, style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            self.kingFisher(url: url)
+        }
+        alertVc.addAction(actionDismiss)
+        alertVc.addAction(actionRestart)
+        
+        present(alertVc, animated: true)
+    }
+    
     //MARK: SetupUIElement
     func setupUIElement() {
         scrollView.addSubview(imageView)
@@ -119,8 +144,6 @@ private extension SingleImageViewController {
         view.addSubview(scrollView)
         view.addSubview(backButton)
         view.addSubview(sharedButton)
-        
-        imageView.image = image
         
         scrollView.maximumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
