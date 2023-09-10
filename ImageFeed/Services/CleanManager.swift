@@ -14,7 +14,11 @@ protocol CleanManagerProtocol {
 }
 
 final class CleanManager: CleanManagerProtocol {    
-    private let tokenStorage = OAuth2TokenKeychainStorage()
+    private let tokenStorage: OAuth2TokenKeychainStorageProtocol
+    
+    init(tokenStorage: OAuth2TokenKeychainStorageProtocol) {
+        self.tokenStorage = tokenStorage
+    }
     
     func cleanCookies() {
         // Очищаем все куки из хранилища.

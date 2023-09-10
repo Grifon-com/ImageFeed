@@ -20,6 +20,8 @@ final class SingleImageViewController: UIViewController {
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.maximumZoomScale = 0.1
+        scrollView.maximumZoomScale = 1.25
         
         return scrollView
     }()
@@ -102,7 +104,7 @@ extension SingleImageViewController {
     
     
     //MARK: King Fisher
-    func  kingFisher(url: URL) {
+    public func kingFisher(url: URL) {
         imageView.kf.setImage(with: url) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
             guard let self = self else { return }
@@ -144,9 +146,6 @@ private extension SingleImageViewController {
         view.addSubview(scrollView)
         view.addSubview(backButton)
         view.addSubview(sharedButton)
-        
-        scrollView.maximumZoomScale = 0.1
-        scrollView.maximumZoomScale = 1.25
         
         [scrollView, imageView, backButton, sharedButton].forEach {
             $0.backgroundColor = .clear

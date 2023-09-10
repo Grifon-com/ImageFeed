@@ -58,10 +58,14 @@ final class AuthViewController: UIViewController{
     }
     
     @objc private func didTapLogout() {
-        let webVc = WebViewViewController()
-        webVc.delegate = self
-        webVc.modalPresentationStyle = .fullScreen
-        self.present(webVc, animated: true)
+        let webViewViewController = WebViewViewController()
+        webViewViewController.modalPresentationStyle = .fullScreen
+        let authHelper = AuthHelper()
+        let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+        webViewViewController.presenter = webViewPresenter
+        webViewPresenter.view = webViewViewController
+        webViewViewController.delegate = self
+        self.present(webViewViewController, animated: true)
     }
 }
 

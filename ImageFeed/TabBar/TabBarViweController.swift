@@ -25,19 +25,36 @@ final class TabBarViewController: UITabBarController {
         let tabBar = UITabBar.self
         tabBar.appearance().tintColor = .ypWhite
         
+        let imagesListViewController = ImagesListViewController()
+        let imagesListService = ImagesListService.shared
+        let imagesListHelper = ImagesListHelper()
+        let imagesListViewControllerPresenter = ImagesListViewControllerPresenter(imagesListService: imagesListService,
+                                                                                  imagesListHelper: imagesListHelper)
+        imagesListViewControllerPresenter.view = imagesListViewController
+        imagesListViewController.presenter = imagesListViewControllerPresenter
+        
+        let profileViewController = ProfileViewController()
+        let tokenStorage = OAuth2TokenKeychainStorage()
+        let cleanManager = CleanManager(tokenStorage: tokenStorage)
+        let profileService = ProfileService.shared
+        let profileViewControllerPresenter = ProfileViewControllerPresenter(cleanmanager: cleanManager, profileService: profileService)
+        profileViewControllerPresenter.view = profileViewController
+        profileViewController.presenter = profileViewControllerPresenter
+        
         self.viewControllers = [
-            generateVC(viewController: ImagesListViewController(),
+            generateVC(viewController: imagesListViewController, 
                        title: nil,
                        image: UIImage(named: Constanstants.tabBarImageList)),
-            generateVC(viewController: ProfileViewController(),
+            generateVC(viewController: profileViewController,
                        title: nil,
                        image: UIImage(named: Constanstants.tabBarImageProfile))]
+        
     }
 }
 
 //MARK: - GenerateVC
 private extension TabBarViewController {
-    func generateVC(viewController: UIViewController, title: String?, image: UIImage?) -> UIViewController{
+    func generateVC(viewController: UIViewController, title: String?, image: UIImage?) -> UIViewController {
         viewController.tabBarItem.title = title
         viewController.tabBarItem.image = image
         

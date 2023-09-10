@@ -21,10 +21,15 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     static let shared = OAuth2Service()
     
     private let urlSession = URLSession.shared
+    private let configuration: AuthConfiguration
     private var task: URLSessionTask?
     private var lastCode: String?
     
     private let authToken = OAuth2TokenKeychainStorage()
+    
+    init(configuration: AuthConfiguration = .standard) {
+        self.configuration = configuration
+    }
     
     func fetchAuthToken(_ code: String, completion: @escaping (Result <String, Error>) -> Void) {
         assert(Thread.isMainThread)
@@ -57,15 +62,15 @@ final class OAuth2Service: OAuth2ServiceProtocol {
 
 private extension OAuth2Service {
     private func authTokenRequest(code: String) throws -> URLRequest {
-        let urlAbsoluteString = "\(ConstantsImageFeed.defaultBaseURL)\(ConstantsImageFeed.pathToken)"
+        let urlAbsoluteString = "\(configuration.defaultBaseURL)\(ConstantsImageFeed.pathToken)"
         guard var urlComponents = URLComponents(string: urlAbsoluteString) else {
             throw NetworkError.urlComponentsError
         }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: ConstantsImageFeed.clientIdString, value: ConstantsImageFeed.accessKey),
-            URLQueryItem(name: Constants.clientSecretString, value: ConstantsImageFeed.secretKey),
-            URLQueryItem(name: ConstantsImageFeed.redirectUriString, value: ConstantsImageFeed.redirectURI),
+            URLQueryItem(name: ConstantsImageFeed.clientIdString, value: configuration.accessKey),
+            URLQueryItem(name: Constants.clientSecretString, value: configuration.secretKey),
+            URLQueryItem(name: ConstantsImageFeed.redirectUriString, value: configuration.redirectURI),
             URLQueryItem(name: ConstantsImageFeed.code, value: code),
             URLQueryItem(name: Constants.grantTypeString, value: Constants.authorizationCodeString)
         ]

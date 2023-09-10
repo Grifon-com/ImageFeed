@@ -8,30 +8,18 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
-    private struct Constants {
-        static let imageAvatar = "Avatar"
-        static let labelText = "Екатерина Новикова"
-        static let loginLabelText = "@ekaterina_nov"
-        static let descriptionLabelText = "Hello, world!"
-        static let imageLogoutButton = "ipad.and.arrow.forward"
-        static let imagePlaceholder = "placeholderAvatar"
-        static let alertTitle = "Пока, пока!"
-        static let alertMessage = "Уверены что хотите выйти?"
-        static let titleActionOne = "Да"
-        static let titleActionTwo = "Нет"
-        static let labelFont = CGFloat(23)
-        static let labelLoginFont = CGFloat(13)
-        static let labelDescriptionFont = CGFloat(13)
-    }
-    
-    private let profileService = ProfileService.shared
-    private var cleanCookieAndToken: CleanManagerProtocol?
-    private var profileModel: Profile?
-    private var profileImageServiceObserver: NSObjectProtocol?
-    
+public protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfileViewControllerPresenterProtocol? { get set }
+    func updateAvatar()
+    func updateProfileDetails(profile: Profile?)
+}
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
+    var presenter: ProfileViewControllerPresenterProtocol?
+        
     private lazy var avatarImageView: UIImageView = {
-        let avatarImage = UIImage(named: Constants.imageAvatar)
+        guard let presenter else { return UIImageView() }
+        let avatarImage = UIImage(named: presenter.configuration.imageAvatar)
         let avatarImageView = UIImageView(image: avatarImage)
         avatarImageView.clipsToBounds = true
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.width / 2
@@ -40,35 +28,39 @@ final class ProfileViewController: UIViewController {
     }()
     
     private lazy var nameLabel: UILabel = {
+        guard let presenter else { return UILabel() }
         let nameLabel = UILabel()
-        nameLabel.text = Constants.labelText
+        nameLabel.text = presenter.configuration.labelText
         nameLabel.textColor = .ypWhite
-        nameLabel.font = .boldSystemFont(ofSize: Constants.labelFont)
+        nameLabel.font = .boldSystemFont(ofSize: presenter.configuration.labelFont)
         
         return nameLabel
     }()
     
     private lazy var loginNameLabel: UILabel = {
+        guard let presenter else { return UILabel() }
         let loginNameLabel = UILabel()
-        loginNameLabel.text = Constants.loginLabelText
+        loginNameLabel.text = presenter.configuration.loginLabelText
         loginNameLabel.textColor = .ypGrey
-        loginNameLabel.font = UIFont.systemFont(ofSize: Constants.labelLoginFont)
+        loginNameLabel.font = UIFont.systemFont(ofSize: presenter.configuration.labelLoginFont)
         
         return loginNameLabel
     }()
     
     private lazy var descriptionLabel: UILabel = {
+        guard let presenter else { return UILabel() }
         let descriptionLabel = UILabel()
-        descriptionLabel.text = Constants.descriptionLabelText
+        descriptionLabel.text = presenter.configuration.descriptionLabelText
         descriptionLabel.textColor = .ypWhite
-        descriptionLabel.font = UIFont.systemFont(ofSize: Constants.labelDescriptionFont)
+        descriptionLabel.font = UIFont.systemFont(ofSize: presenter.configuration.labelDescriptionFont)
         
         return descriptionLabel
     }()
     
     private lazy var logoutButton: UIButton = {
+        guard let presenter else { return UIButton() }
         let logoutButton = UIButton()
-        let imageButton = UIImage(named: Constants.imageLogoutButton)
+        let imageButton = UIImage(named: presenter.configuration.imageLogoutButton)
         logoutButton.setImage(imageButton, for: .normal)
         logoutButton.addTarget(nil, action: #selector(didTapLogoutButton), for: .allTouchEvents)
         logoutButton.tintColor = .ypRed
@@ -82,55 +74,53 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cleanCookieAndToken = CleanManager()
         setupUIElement()
         applyConstraints()
-        updateProfileDetails(profile: profileService.profile)
-        
-        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageService.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
-            guard let self = self else { return }
-            self.updateAvatar()
-        }
-        updateAvatar()
+        presenter?.viewDidLoad()
     }
     
     @objc
     private func didTapLogoutButton() {
-        let alert = UIAlertController(title: Constants.alertTitle,
-                                      message: Constants.alertMessage,
+        guard let presenter else { return }
+        let alert = UIAlertController(title: presenter.configuration.alertTitle,
+                                      message: presenter.configuration.alertMessage,
                                       preferredStyle: .alert)
         
-        let actionAlertOne = UIAlertAction(title: Constants.titleActionOne,
-                                           style: .default) { [weak self] _ in
-            guard let self = self,
-                  let cleanCookieAndToken = self.cleanCookieAndToken else { return }
-            cleanCookieAndToken.cleanCookies()
-            cleanCookieAndToken.cleanToken()
-            
+        let actionAlertOne = UIAlertAction(title: presenter.configuration.titleActionOne,
+                                           style: .default) { _ in
             guard let window = UIApplication.shared.windows.first else { return }
+            presenter.cleanCookiAndToken()
+            
             let splashViewController = SplashViewController()
             window.rootViewController = splashViewController
         }
-        let alertActionTwo = UIAlertAction(title: Constants.titleActionTwo, style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            self.dismiss(animated: true)
+        let alertActionTwo = UIAlertAction(title: presenter.configuration.titleActionTwo, style: .default) { _ in
+            alert.dismiss(animated: true)
         }
         alert.addAction(actionAlertOne)
         alert.addAction(alertActionTwo)
-        
-        present(alert, animated: true)
+        self.present(alert, animated: true)
     }
 }
 
-private extension ProfileViewController {
+extension ProfileViewController {
     //MARK: Update profile image for kingfisher
     func updateAvatar() {
-        guard let profileImageURL = ProfileImageService.shared.avatarURL,
-              let url = URL(string: profileImageURL)
+        guard let presenter,
+        let avatarURL = ProfileImageService.shared.avatarURL
         else { return }
-        avatarImageView.kf.setImage(with: url, placeholder: UIImage(named: Constants.imagePlaceholder))
+        do {
+            let url = try presenter.greatAvatareURL(urlString: avatarURL)
+            let placeholder = UIImage(named: presenter.configuration.imagePlaceholder)
+            avatarImageView.kf.setImage(with: url, placeholder: placeholder)
+        }
+        catch { let urlError = NetworkError.urlError
+            print(urlError)
+        }
     }
-    
+}
+
+extension ProfileViewController {
     //MARK: UpdateProfileDetails
     func updateProfileDetails(profile: Profile?) {
         guard let profile = profile else { return }
@@ -172,3 +162,5 @@ private extension ProfileViewController {
         ])
     }
 }
+
+

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 struct UserResult: Codable {
     let profileImage: ImageURL
     

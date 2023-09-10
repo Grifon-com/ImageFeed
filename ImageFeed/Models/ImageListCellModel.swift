@@ -7,7 +7,8 @@
 
 import UIKit
 
-struct ImagesListCellModel {
+public struct ImagesListCellModel {
     let buttonImage: UIImage?
     let textLabel: String?
 }
+
