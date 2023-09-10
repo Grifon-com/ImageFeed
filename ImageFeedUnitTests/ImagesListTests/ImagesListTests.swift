@@ -86,4 +86,22 @@ final class ImagesListTests: XCTestCase {
         //then
         XCTAssertTrue(presenter.setupCellCalled)
     }
+    
+    func testImagesListHelperDidModel() {
+        //given
+        let imagesListHelper = ImagesListHelper()
+        
+        //when
+        let photoModel = Photo(id: "test",
+                               size: CGSize(width: 50, height: 50),
+                               createdAt: nil,
+                               welcomeDescription: nil,
+                               thumbImageURL: "https://api.unsplash.com",
+                               largeImageURL: "https://api.unsplash.com",
+                               isLiked: true)
+        let testModel = imagesListHelper.didModel(photo: photoModel)
+        
+        //then
+        XCTAssertEqual(testModel.textLabel, "")
+    }
 }
