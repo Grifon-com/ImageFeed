@@ -52,7 +52,7 @@ final class ImageFeedUITests: XCTestCase {
         
         webView.buttons["Login"].tap()
 
-        //вернёт таблицы на экран
+        //вернёт все таблицы на экран
         let tablesQuery = app.tables
         
         //вернёт ячейку по индексу 0
