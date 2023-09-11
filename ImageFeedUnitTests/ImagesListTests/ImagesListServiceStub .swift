@@ -2,7 +2,7 @@
 //  ImagesListServiceStub .swift
 //  ImagesListTests
 //
-//  Created by Марина Машук on 9.09.23.
+//  Created by Григорий Машук on 9.09.23.
 //
 
 import Foundation

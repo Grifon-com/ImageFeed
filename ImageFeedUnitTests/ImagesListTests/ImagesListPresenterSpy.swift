@@ -18,7 +18,6 @@ final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
     var viewDidLoadCalled: Bool = false
     var setupListIndexPathCalled: Bool = false
     var setupCellCalled: Bool = false
-    var setupThumbImageURLCalled: Bool = false
     
     func viewDidload() {
         viewDidLoadCalled = true
@@ -31,9 +30,7 @@ final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
     func setupCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         setupCellCalled = true
         return UITableViewCell() }
-    func setupThumbImageURL(indexPath: IndexPath) throws -> URL? {
-        setupThumbImageURLCalled = true
-        return nil }
+    func setupThumbImageURL(indexPath: IndexPath) throws -> URL? { return nil }
     func setupLargeURLImage(indexPath: IndexPath) throws -> URL? { nil }
     func fetchPhotosNextPage() {}  //test
     func cellHeightCalculation(imageSize: CGSize, tableView: UITableView) -> CGFloat { CGFloat(0) }

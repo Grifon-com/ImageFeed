@@ -33,6 +33,7 @@ final class AuthViewController: UIViewController{
     
     private lazy var logoutButton: UIButton = {
         let logoutButton = UIButton()
+        logoutButton.accessibilityIdentifier = ConstantsImageFeed.authButtonIdentifier
         logoutButton.backgroundColor = .ypWhite
         logoutButton.layer.cornerRadius = Constants.cornerRadiusLogoutButton
         logoutButton.layer.masksToBounds = true

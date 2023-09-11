@@ -21,15 +21,12 @@ protocol WebViewViewControllerDelegate: AnyObject {
 }
 
 final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
-    private struct Constants {
-        static let imageBackButton = "nav_back_button"
-    }
-    
     var presenter: WebViewPresenterProtocol?
     weak var delegate: WebViewViewControllerDelegate?
     
     private lazy var webView: WKWebView = {
         let webView = WKWebView()
+        webView.accessibilityIdentifier = ConstantsImageFeed.webViewIdentifier
         
         return webView
     }()
@@ -43,7 +40,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     
     private lazy var backButton: UIButton = {
         let backButton = UIButton()
-        let image = UIImage(named: Constants.imageBackButton)
+        let image = UIImage(named: ConstantsImageFeed.webViewImageBackButton)
         backButton.setImage(image, for: .normal)
         backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         

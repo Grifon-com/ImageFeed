@@ -35,11 +35,8 @@ struct ConstantsImageFeed {
     static let alertMessage = "Не удалось войти в систему"
     static let alertActionTitle = "OK"
     
-    let photo = Photo(id: "test",
-                                   size: CGSize(),
-                                   createdAt: nil,
-                                   welcomeDescription: nil,
-                                   thumbImageURL: "test",
-                                   largeImageURL: "test",
-                                   isLiked: true)
+    static let webViewImageBackButton = "nav_back_button"
+    static let webViewIdentifier = "UnsplashWebView"
+    
+    static let authButtonIdentifier = "Authenticate"
 }
