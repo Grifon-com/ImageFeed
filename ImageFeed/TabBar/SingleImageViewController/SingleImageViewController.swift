@@ -11,6 +11,7 @@ final class SingleImageViewController: UIViewController {
     private struct Constants {
         static let imageBackButton = "Backward"
         static let imageSharedButton = "Sharing 1"
+        static let backButtonIdentifier = "backButton"
         static let alertMessage = "Не удалось войти в систему"
         static let titleActionDismiss = "Не надо"
         static let titleActionRestart = "Повторить"
@@ -34,6 +35,7 @@ final class SingleImageViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let backButton = UIButton()
+        backButton.accessibilityIdentifier = Constants.backButtonIdentifier
         let image = UIImage(named: Constants.imageBackButton)
         backButton.setImage(image, for: .normal)
         backButton.addTarget(nil, action: #selector(didTapBackButton), for: .allTouchEvents)

@@ -39,4 +39,5 @@ struct ConstantsImageFeed {
     static let webViewIdentifier = "UnsplashWebView"
     
     static let authButtonIdentifier = "Authenticate"
+    static let profileLogoutButtonIdentifier = "logoutButton"
 }

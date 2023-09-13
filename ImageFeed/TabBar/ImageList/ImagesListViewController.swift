@@ -40,7 +40,7 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
         tableView.dataSource = self
         tableView.delegate = self
         
-        presenter.viewDidload()
+        presenter.viewDidLoad()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,12 +65,11 @@ extension ImagesListViewController: UITableViewDelegate {
         singleVc.modalPresentationStyle = .fullScreen
         var largeURL: URL?
         do {
-            let url = try presenter.setupLargeURLImage(indexPath: indexPath)
+            let url = try presenter.setupLargeURLImage(indexPath: indexPath, photos: presenter.photos)
             largeURL = url
         }
         catch {
-            let errorURL = NetworkError.urlError
-            print(errorURL)
+            assertionFailure("\(error.localizedDescription)")
         }
         guard let largeURL else { return }
         UIBlockingProgressHUD.show()
@@ -105,16 +104,16 @@ extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let presenter,
-        let imageListCell = presenter.setupCell(tableView: tableView, indexPath: indexPath) as? ImagesListCell
+              let imageListCell = presenter.setupCell(tableView: tableView, indexPath: indexPath) as? ImagesListCell
         else { return UITableViewCell() }
         imageListCell.delegate = self
         var thumbURL: URL?
         do {
-            let url = try presenter.setupThumbImageURL(indexPath: indexPath)
+            let url = try presenter.setupThumbImageURL(indexPath: indexPath, photos: presenter.photos)
             thumbURL = url
         }
-        catch { let errorUrl = NetworkError.urlError
-            print(errorUrl)
+        catch {
+            assertionFailure("\(error.localizedDescription)")
         }
         let placeholder = UIImage(named: Placeholder)
         let processor = RoundCornerImageProcessor(cornerRadius: CellImageCornerRadius)
@@ -131,7 +130,7 @@ extension ImagesListViewController: UITableViewDataSource {
 extension ImagesListViewController: ImageListCellDelegate {
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
         guard var presenter,
-        let indexPath = tableView.indexPath(for: cell)
+              let indexPath = tableView.indexPath(for: cell)
         else { return }
         presenter.imageListCellDidTapLike(cell: cell, tableView: tableView) { [weak self] result in
             guard let self else { return }
@@ -150,7 +149,7 @@ extension ImagesListViewController: ImageListCellDelegate {
                 alert.addAction(action)
                 present(alert, animated: true)
             }
-                UIBlockingProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismiss()
         }
     }
 }
@@ -167,7 +166,7 @@ extension ImagesListViewController {
             }
         }
     }
-        
+    
     //MARK: SetupUIElement
     func setupUIElement() {
         view.backgroundColor = .ypBlack

@@ -37,6 +37,20 @@ public struct ProfileConfiguration {
     let labelLoginFont: CGFloat
     let labelDescriptionFont: CGFloat
     
+    static let standart: ProfileConfiguration = ProfileConfiguration(imageAvatar: ImageAvatar,
+                                                                     labelText: LabelText,
+                                                                     loginLabelText: LoginLabelText,
+                                                                     descriptionLabelText: DescriptionLabelText,
+                                                                     imageLogoutButton: ImageLogoutButton,
+                                                                     imagePlaceholder: ImagePlaceholder,
+                                                                     alertTitle: AlertTitle,
+                                                                     alertMessage: AlertMessage,
+                                                                     titleActionOne: TitleActionOne,
+                                                                     titleActionTwo: TitleActionTwo,
+                                                                     labelFont: LabelFont,
+                                                                     labelLoginFont: LabelLoginFont,
+                                                                     labelDescriptionFont: LabelDescriptionFont)
+    
     init(imageAvatar: String, labelText: String, loginLabelText: String, descriptionLabelText: String, imageLogoutButton: String, imagePlaceholder: String, alertTitle: String, alertMessage: String, titleActionOne: String, titleActionTwo: String, labelFont: CGFloat, labelLoginFont: CGFloat, labelDescriptionFont: CGFloat) {
         self.imageAvatar = imageAvatar
         self.labelText = labelText
@@ -52,18 +66,4 @@ public struct ProfileConfiguration {
         self.labelLoginFont = labelLoginFont
         self.labelDescriptionFont = labelDescriptionFont
     }
-    
-    static let standart: ProfileConfiguration = ProfileConfiguration(imageAvatar: ImageAvatar,
-                                                                     labelText: LabelText,
-                                                                     loginLabelText: LoginLabelText,
-                                                                     descriptionLabelText: DescriptionLabelText,
-                                                                     imageLogoutButton: ImageLogoutButton,
-                                                                     imagePlaceholder: ImagePlaceholder,
-                                                                     alertTitle: AlertTitle,
-                                                                     alertMessage: AlertMessage,
-                                                                     titleActionOne: TitleActionOne,
-                                                                     titleActionTwo: TitleActionTwo,
-                                                                     labelFont: LabelFont,
-                                                                     labelLoginFont: LabelLoginFont,
-                                                                     labelDescriptionFont: LabelDescriptionFont)
 }

@@ -18,7 +18,7 @@ final class ImagesListHelper: ImagesListHelperProtocol {
     init(dateFarmatter: FormatDateProtocol = FormatDate.shared) {
         self.dateFarmatter = dateFarmatter
     }
-        
+    
     func didModel(photo: Photo) -> ImagesListCellModel {
         let isLike = photo.isLiked
         let textLabel: String = dateFarmatter.setupUIDateString(date: photo.createdAt) ?? ConstantsImageFeed.emptyLine

@@ -349,8 +349,8 @@
 			isa = PBXGroup;
 			children = (
 				1AFE86172A1FB89100BBEA1B /* ImagesListViewController.swift */,
-				1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */,
 				1A7CE51A2A7EC0CC005B9C95 /* ImagesListViewControllerPresenter.swift */,
+				1AEAF11D2A21EFE1009DA20F /* ImagesListCell.swift */,
 				1A6352602A823FFB00C88CA0 /* ImagesListHelper.swift */,
 			);
 			path = ImageList;

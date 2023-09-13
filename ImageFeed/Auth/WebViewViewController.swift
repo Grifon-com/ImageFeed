@@ -54,7 +54,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
         applyConstraint()
         
         webView.navigationDelegate = self
-        presenter.viewDidload()
+        presenter.viewDidLoad()
         presenter.estimatedProgressObservation = webView.observe(\.estimatedProgress, options: []) { [weak self] _, _ in
             guard let self = self else { return }
             presenter.didUpdateProgressValue(webView.estimatedProgress)

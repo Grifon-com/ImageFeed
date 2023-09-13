@@ -10,7 +10,13 @@ import UIKit
 
 
 final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
-    var photos: [Photo] = []
+    var photos: [Photo] = [Photo(id: "test",
+                                 size: CGSize(width: 5, height: 5),
+                                 createdAt: nil,
+                                 welcomeDescription: nil,
+                                 thumbImageURL: "https://api.unsplash.com",
+                                 largeImageURL: "test",
+                                 isLiked: true)]
     var view: ImageFeed.ImagesListViewControllerProtocol?
     var imagesListService: ImageFeed.ImagesListServiceProtocol?
     var imagesListConfiguration: ImageFeed.ImagesListConfiguration?
@@ -19,7 +25,7 @@ final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
     var setupListIndexPathCalled: Bool = false
     var setupCellCalled: Bool = false
     
-    func viewDidload() {
+    func viewDidLoad() {
         viewDidLoadCalled = true
         fetchPhotosNextPage()
     }
@@ -30,8 +36,8 @@ final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
     func setupCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         setupCellCalled = true
         return UITableViewCell() }
-    func setupThumbImageURL(indexPath: IndexPath) throws -> URL? { return nil }
-    func setupLargeURLImage(indexPath: IndexPath) throws -> URL? { nil }
+    func setupThumbImageURL(indexPath: IndexPath, photos: [Photo]) throws -> URL? { return URL(string: "www") }
+    func setupLargeURLImage(indexPath: IndexPath, photos: [Photo]) throws -> URL? { return URL(string: "www") }
     func fetchPhotosNextPage() {}  //test
     func cellHeightCalculation(imageSize: CGSize, tableView: UITableView) -> CGFloat { CGFloat(0) }
 }

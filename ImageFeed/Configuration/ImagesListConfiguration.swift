@@ -19,24 +19,24 @@ public struct ImagesListConfiguration {
     let tableViewContentInsets: UIEdgeInsets
     let cellViewIndents: UIEdgeInsets
     let null: Int
-    let CcellImageCornerRadius: Double
+    let cellImageCornerRadius: Double
     let placeholder: String
-    
-    init(cellReuseIdentifier: String, tableViewContentInsets: UIEdgeInsets, cellViewIndents: UIEdgeInsets, null: Int, CcellImageCornerRadius: Double, placeholder: String) {
-        self.cellReuseIdentifier = cellReuseIdentifier
-        self.tableViewContentInsets = tableViewContentInsets
-        self.cellViewIndents = cellViewIndents
-        self.null = null
-        self.CcellImageCornerRadius = CcellImageCornerRadius
-        self.placeholder = placeholder
-    }
     
     static var standart: ImagesListConfiguration {
         ImagesListConfiguration(cellReuseIdentifier: CellReuseIdentifier,
                                 tableViewContentInsets: TableViewContentInsets,
                                 cellViewIndents: CellViewIndents,
                                 null: Null,
-                                CcellImageCornerRadius: CellImageCornerRadius,
+                                cellImageCornerRadius: CellImageCornerRadius,
                                 placeholder: Placeholder)
+    }
+    
+    init(cellReuseIdentifier: String, tableViewContentInsets: UIEdgeInsets, cellViewIndents: UIEdgeInsets, null: Int, cellImageCornerRadius: Double, placeholder: String) {
+        self.cellReuseIdentifier = cellReuseIdentifier
+        self.tableViewContentInsets = tableViewContentInsets
+        self.cellViewIndents = cellViewIndents
+        self.null = null
+        self.cellImageCornerRadius = CellImageCornerRadius
+        self.placeholder = placeholder
     }
 }

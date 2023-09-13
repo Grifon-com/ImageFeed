@@ -49,7 +49,6 @@ final class AuthViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         oAuth2Service = OAuth2Service()
-        
         setupUIElement()
         applyConstraint()
     }

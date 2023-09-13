@@ -2,7 +2,7 @@
 //  WebViewPresenterSpy.swift
 //  ImageFeedTests
 //
-//  Created by Марина Машук on 4.08.23.
+//  Created by Григорий Машук on 4.08.23.
 //
 
 import ImageFeed
@@ -11,11 +11,11 @@ import Foundation
 final class WebViewPresenterSpy: WebViewPresenterProtocol {
     var estimatedProgressObservation: NSKeyValueObservation?
     
-    var viewDidLoadeCalled: Bool = false
+    var viewDidLoadCalled: Bool = false
     var view: ImageFeed.WebViewViewControllerProtocol?
     
-    func viewDidload() {
-        viewDidLoadeCalled = true
+    func viewDidLoad() {
+        viewDidLoadCalled = true
     }
     
     func didUpdateProgressValue(_ newValue: Double) {}

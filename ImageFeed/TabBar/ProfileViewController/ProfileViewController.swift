@@ -16,7 +16,7 @@ public protocol ProfileViewControllerProtocol: AnyObject {
 
 final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     var presenter: ProfileViewControllerPresenterProtocol?
-        
+    
     private lazy var avatarImageView: UIImageView = {
         guard let presenter else { return UIImageView() }
         let avatarImage = UIImage(named: presenter.configuration.imageAvatar)
@@ -60,6 +60,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     private lazy var logoutButton: UIButton = {
         guard let presenter else { return UIButton() }
         let logoutButton = UIButton()
+        logoutButton.accessibilityIdentifier = ConstantsImageFeed.profileLogoutButtonIdentifier
         let imageButton = UIImage(named: presenter.configuration.imageLogoutButton)
         logoutButton.setImage(imageButton, for: .normal)
         logoutButton.addTarget(nil, action: #selector(didTapLogoutButton), for: .allTouchEvents)
@@ -100,6 +101,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         alert.addAction(actionAlertOne)
         alert.addAction(alertActionTwo)
         self.present(alert, animated: true)
+        
     }
 }
 
@@ -107,7 +109,7 @@ extension ProfileViewController {
     //MARK: Update profile image for kingfisher
     func updateAvatar() {
         guard let presenter,
-        let avatarURL = ProfileImageService.shared.avatarURL
+              let avatarURL = ProfileImageService.shared.avatarURL
         else { return }
         do {
             let url = try presenter.greatAvatareURL(urlString: avatarURL)

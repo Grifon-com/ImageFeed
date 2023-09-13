@@ -4,7 +4,7 @@
 //
 //  Created by Григорий Машук on 10.08.23.
 //
- 
+
 import ImageFeed
 import Foundation
 

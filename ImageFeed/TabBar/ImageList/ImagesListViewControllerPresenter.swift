@@ -12,14 +12,14 @@ public protocol ImagesListPresenterProtocol {
     var photos: [Photo] { get set }
     var imagesListService: ImagesListServiceProtocol? { get set }
     var imagesListConfiguration: ImagesListConfiguration? { get }
-    func viewDidload()
+    func viewDidLoad()
     func fetchPhotosNextPage()
     func setupListIndexPath(tableView: UITableView, completion: @escaping ([IndexPath]) -> (Void))
     func cellHeightCalculation(imageSize: CGSize, tableView: UITableView) -> CGFloat
     func imageListCellDidTapLike(cell: ImagesListCell, tableView: UITableView, completion: @escaping (Result<Void, Error>) -> ())
     func setupCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell
-    func setupThumbImageURL(indexPath: IndexPath) throws -> URL?
-    func setupLargeURLImage(indexPath: IndexPath) throws -> URL?
+    func setupThumbImageURL(indexPath: IndexPath, photos: [Photo]) throws -> URL?
+    func setupLargeURLImage(indexPath: IndexPath, photos: [Photo]) throws -> URL?
 }
 
 final class ImagesListViewControllerPresenter: ImagesListPresenterProtocol {
@@ -38,7 +38,7 @@ final class ImagesListViewControllerPresenter: ImagesListPresenterProtocol {
         self.imagesListHelper = imagesListHelper
     }
     
-    func viewDidload() {
+    func viewDidLoad() {
         guard let view else { return }
         fetchPhotosNextPage()
         imageListServiceObserver = NotificationCenter.default.addObserver(forName: ImagesListService.didChangeNotification, object: nil, queue: .main) {  [weak self]_ in
@@ -81,7 +81,7 @@ final class ImagesListViewControllerPresenter: ImagesListPresenterProtocol {
         let heightImageView = imagesListHelper.cellHeightCalculation(imageSize: imageSize, indents: indents, tableView: tableView)
         return heightImageView
     }
-        
+    
     public func imageListCellDidTapLike(cell: ImagesListCell, tableView: UITableView, completion: @escaping (Result<Void, Error>) -> ()) {
         guard let imagesListService else { return }
         let fulfillCompletion: (Result<Void, Error>) -> Void = { result in
@@ -105,15 +105,15 @@ final class ImagesListViewControllerPresenter: ImagesListPresenterProtocol {
         return imageListCell
     }
     
-    func setupThumbImageURL(indexPath: IndexPath) throws -> URL? {
+    func setupThumbImageURL(indexPath: IndexPath, photos: [Photo]) throws -> URL? {
         let urlString = photos[indexPath.row].thumbImageURL
-        let url = URL(string: urlString)
+        guard let url = URL(string: urlString) else { throw NetworkError.urlError }
         return url
     }
     
-    func setupLargeURLImage(indexPath: IndexPath) throws -> URL? {
+    func setupLargeURLImage(indexPath: IndexPath, photos: [Photo]) throws -> URL? {
         let urlString = photos[indexPath.row].largeImageURL
-        let url = URL(string: urlString)
+        guard let url = URL(string: urlString) else { throw NetworkError.urlError }
         return url
     }
 }

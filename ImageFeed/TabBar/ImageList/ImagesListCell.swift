@@ -17,6 +17,7 @@ public final class ImagesListCell: UITableViewCell {
         static let imageCellCornerRadius = CGFloat(16)
         static let labelCellFont = CGFloat(13)
         static let reuseIdentifier = "ImagesListCell"
+        static let buttonIdentifier = "likeButton"
     }
     
     weak var delegate: ImageListCellDelegate?
@@ -31,6 +32,7 @@ public final class ImagesListCell: UITableViewCell {
     
     private lazy var cellButton: UIButton = {
         let cellButton = UIButton()
+        cellButton.accessibilityIdentifier = Constants.buttonIdentifier
         cellButton.addTarget(nil, action: #selector(likeButtonClicked), for: .allTouchEvents)
         
         return cellButton
