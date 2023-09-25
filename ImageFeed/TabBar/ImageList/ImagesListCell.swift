@@ -12,11 +12,12 @@ protocol ImageListCellDelegate: AnyObject {
     func imageListCellDidTapLike(_ cell: ImagesListCell)
 }
 
-final class ImagesListCell: UITableViewCell {
-    struct Constants {
+public final class ImagesListCell: UITableViewCell {
+    struct Constants { 
         static let imageCellCornerRadius = CGFloat(16)
         static let labelCellFont = CGFloat(13)
         static let reuseIdentifier = "ImagesListCell"
+        static let buttonIdentifier = "likeButton"
     }
     
     weak var delegate: ImageListCellDelegate?
@@ -31,6 +32,7 @@ final class ImagesListCell: UITableViewCell {
     
     private lazy var cellButton: UIButton = {
         let cellButton = UIButton()
+        cellButton.accessibilityIdentifier = Constants.buttonIdentifier
         cellButton.addTarget(nil, action: #selector(likeButtonClicked), for: .allTouchEvents)
         
         return cellButton
@@ -57,11 +59,30 @@ final class ImagesListCell: UITableViewCell {
     }
 }
 
+extension ImagesListCell {
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        // Отменяем загрузку, чтобы избежать багов при переиспользовании ячеек
+        cellImageView.kf.cancelDownloadTask()
+    }
+    
+    func configure(model: ImagesListCellModel) {
+        cellButton.setImage(model.buttonImage, for: .normal)
+        cellLabel.text = model.textLabel
+    }
+    
+    //MARK: Set is Liked
+    func setIsLiked(isLike: Bool) {
+        let imageButton = isLike ? ConstantsImageFeed.imageLike : ConstantsImageFeed.imageNoLike
+        cellButton.setImage(imageButton, for: .normal)
+    }
+}
+
 private extension ImagesListCell {
     //MARK: Button Action
     @objc
     func likeButtonClicked() {
-//        UIBlockingProgressHUD.show()
         delegate?.imageListCellDidTapLike(self)
     }
     
@@ -95,22 +116,4 @@ private extension ImagesListCell {
     }
 }
 
-extension ImagesListCell {
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        // Отменяем загрузку, чтобы избежать багов при переиспользовании ячеек
-        cellImageView.kf.cancelDownloadTask()
-    }
-    
-    func configure(model: ImagesListCellModel) {
-        cellButton.setImage(model.buttonImage, for: .normal)
-        cellLabel.text = model.textLabel
-    }
-    
-    //MARK: Set is Liked
-    func setIsLiked(isLike: Bool) {
-        let imageButton = isLike ? ConstantsImageFeed.imageLike : ConstantsImageFeed.imageNoLike
-        cellButton.setImage(imageButton, for: .normal)
-    }
-}
+

@@ -8,6 +8,7 @@
 import Foundation
 
 protocol ImagesListServiceProtocol {
+    var photos: [Photo] { get set }
     func fetchPhotosNextPage()
     func chengeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
 }
@@ -25,7 +26,7 @@ final class ImagesListService: ImagesListServiceProtocol {
     
     static let shared = ImagesListService()
     
-    private (set) var photos: [Photo] = []
+    var photos: [Photo] = []
     private (set) var lastLoadedPage: Int?
     
     private let urlSession = URLSession.shared

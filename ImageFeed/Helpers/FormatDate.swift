@@ -7,7 +7,12 @@
 
 import Foundation
 
-final class FormatDate {
+protocol FormatDateProtocol {
+    func setupModelDate(createAt: String?) -> Date?
+    func setupUIDateString(date: Date?) -> String?
+}
+
+final class FormatDate: FormatDateProtocol {
     static let shared = FormatDate()
     
     private lazy var dateFormatter: DateFormatter = {

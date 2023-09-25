@@ -8,6 +8,7 @@
 import Foundation
 
 protocol ProfileServiceProtocol {
+    var profile: Profile? { get set }
     func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void)
 }
 
@@ -23,7 +24,7 @@ final class ProfileService: ProfileServiceProtocol {
     
     private var lastToken: String?
     var task: URLSessionTask?
-    private(set) var profile: Profile?
+    var profile: Profile?
     
     func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
         assert(Thread.isMainThread)

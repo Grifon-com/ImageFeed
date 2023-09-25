@@ -7,8 +7,13 @@
 
 import Foundation
 import SwiftKeychainWrapper
+ 
+protocol OAuth2TokenKeychainStorageProtocol {
+    func storageToken(newToken: String?) throws
+    func removeSuccessful()
+}
 
-final class OAuth2TokenKeychainStorage {
+final class OAuth2TokenKeychainStorage: OAuth2TokenKeychainStorageProtocol {
     private enum Key: String {
         case token
     }

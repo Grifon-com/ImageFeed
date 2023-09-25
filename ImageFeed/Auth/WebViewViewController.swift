@@ -8,23 +8,25 @@
 import UIKit
 import WebKit
 
+protocol WebViewViewControllerProtocol: AnyObject {
+    var presenter: WebViewPresenterProtocol? { get set }
+    func load(request: URLRequest)
+    func setProgressValue(_ newValue: Float)
+    func setProgressHidden(_ isHidden: Bool)
+}
+
 protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
 }
 
-final class WebViewViewController: UIViewController {
-    private struct Constants {
-        static let imageBackButton = "nav_back_button"
-        static let responseTypeString = "response_type"
-        static let scopeString = "scope"
-    }
-    
-    private var estimatedProgressObservation: NSKeyValueObservation?
+final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
+    var presenter: WebViewPresenterProtocol?
     weak var delegate: WebViewViewControllerDelegate?
     
     private lazy var webView: WKWebView = {
         let webView = WKWebView()
+        webView.accessibilityIdentifier = ConstantsImageFeed.webViewIdentifier
         
         return webView
     }()
@@ -38,7 +40,7 @@ final class WebViewViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let backButton = UIButton()
-        let image = UIImage(named: Constants.imageBackButton)
+        let image = UIImage(named: ConstantsImageFeed.webViewImageBackButton)
         backButton.setImage(image, for: .normal)
         backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         
@@ -47,16 +49,20 @@ final class WebViewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard var presenter else { return }
         setupUIElement()
         applyConstraint()
         
         webView.navigationDelegate = self
-        setupURL()
-        
-        estimatedProgressObservation = webView.observe(\.estimatedProgress, options: []) { [weak self] _, _ in
+        presenter.viewDidLoad()
+        presenter.estimatedProgressObservation = webView.observe(\.estimatedProgress, options: []) { [weak self] _, _ in
             guard let self = self else { return }
-            self.updateProgress()
+            presenter.didUpdateProgressValue(webView.estimatedProgress)
         }
+    }
+    
+    func load(request: URLRequest) {
+        webView.load(request)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -65,25 +71,6 @@ final class WebViewViewController: UIViewController {
     
     @objc private func didTapBackButton(_ sender: Any?) {
         delegate?.webViewViewControllerDidCancel(self)
-    }
-}
-
-//MARK: - SetupURL
-extension WebViewViewController {
-    private func setupURL() {
-        guard var urlComponents = URLComponents(string: ConstantsImageFeed.unSplashAuthorizeURLString) else { return }
-        
-        urlComponents.queryItems = [
-            URLQueryItem(name: ConstantsImageFeed.clientIdString, value: ConstantsImageFeed.accessKey),
-            URLQueryItem(name: ConstantsImageFeed.redirectUriString, value: ConstantsImageFeed.redirectURI),
-            URLQueryItem(name: Constants.responseTypeString, value: ConstantsImageFeed.code),
-            URLQueryItem(name: Constants.scopeString, value: ConstantsImageFeed.accessScope)
-        ]
-        
-        guard let url = urlComponents.url else { return }
-        
-        let request = URLRequest(url: url)
-        webView.load(request)
     }
 }
 
@@ -100,7 +87,26 @@ extension WebViewViewController: WKNavigationDelegate {
     }
 }
 
-private extension WebViewViewController {
+extension WebViewViewController {
+    //MARK: KVO
+    func setProgressValue(_ newValue: Float) {
+        progressView.progress = newValue
+    }
+    
+    func setProgressHidden(_ isHidden: Bool) {
+        progressView.isHidden = isHidden
+    }
+    
+    //MARK: Get code
+    func code(from navigationAction: WKNavigationAction) -> String? {
+        if let presenter,
+           let url = navigationAction.request.url {
+            return presenter.code(from: url)
+        } else {
+            return nil
+        }
+    }
+    
     //MARK: Setup UIElement
     func setupUIElement() {
         view.backgroundColor = .ypWhite
@@ -127,26 +133,5 @@ private extension WebViewViewController {
             backButton.heightAnchor.constraint(equalToConstant: 44),
             backButton.widthAnchor.constraint(equalToConstant: 44)
         ])
-    }
-    
-    //MARK: KVO
-    func updateProgress() {
-        progressView.progress = Float(webView.estimatedProgress)
-        progressView.isHidden = fabs(webView.estimatedProgress - 1) <= 0.0001
-    }
-    
-    //MARK: Get code
-    func code(from navigationAction: WKNavigationAction) -> String? {
-        if
-            let url = navigationAction.request.url,
-            let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == ConstantsImageFeed.authNativePath,
-            let items = urlComponents.queryItems,
-            let codeItem = items.first(where: { $0.name == ConstantsImageFeed.code}) {
-            
-            return codeItem.value
-        } else {
-            return nil
-        }
     }
 }

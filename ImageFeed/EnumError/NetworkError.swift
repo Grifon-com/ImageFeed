@@ -14,3 +14,9 @@ enum NetworkError: Error {
     case urlError
     case urlComponentsError
 }
+
+extension NetworkError: Equatable {
+    static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
+        true
+    }
+}

@@ -11,6 +11,7 @@ final class SingleImageViewController: UIViewController {
     private struct Constants {
         static let imageBackButton = "Backward"
         static let imageSharedButton = "Sharing 1"
+        static let backButtonIdentifier = "backButton"
         static let alertMessage = "Не удалось войти в систему"
         static let titleActionDismiss = "Не надо"
         static let titleActionRestart = "Повторить"
@@ -20,6 +21,8 @@ final class SingleImageViewController: UIViewController {
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.maximumZoomScale = 0.1
+        scrollView.maximumZoomScale = 1.25
         
         return scrollView
     }()
@@ -32,9 +35,10 @@ final class SingleImageViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let backButton = UIButton()
+        backButton.accessibilityIdentifier = Constants.backButtonIdentifier
         let image = UIImage(named: Constants.imageBackButton)
         backButton.setImage(image, for: .normal)
-        backButton.addTarget(nil, action: #selector(didTapBackButton), for: .allTouchEvents)
+        backButton.addTarget(self, action: #selector(didTapBackButton), for: .allTouchEvents)
         
         return backButton
     }()
@@ -102,7 +106,7 @@ extension SingleImageViewController {
     
     
     //MARK: King Fisher
-    func  kingFisher(url: URL) {
+    public func kingFisher(url: URL) {
         imageView.kf.setImage(with: url) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
             guard let self = self else { return }
@@ -144,9 +148,6 @@ private extension SingleImageViewController {
         view.addSubview(scrollView)
         view.addSubview(backButton)
         view.addSubview(sharedButton)
-        
-        scrollView.maximumZoomScale = 0.1
-        scrollView.maximumZoomScale = 1.25
         
         [scrollView, imageView, backButton, sharedButton].forEach {
             $0.backgroundColor = .clear
