@@ -8,8 +8,8 @@
 import XCTest
 @testable import ImageFeed
 
-let Login = ""
-let Password = ""
+let login = ""
+let password = ""
 
 final class ImageFeedUITests: XCTestCase {
     private let app = XCUIApplication() //переменная приложения
@@ -39,7 +39,7 @@ final class ImageFeedUITests: XCTestCase {
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         passwordTextField.tap()
         //введёт текст в поле ввода
-        passwordTextField.typeText(Password)
+        passwordTextField.typeText(password)
         // поможет скрыть клавиатуру после ввода текста
         webView.swipeUp()
         
@@ -47,7 +47,7 @@ final class ImageFeedUITests: XCTestCase {
         let loginTextField = webView.descendants(matching: .textField).element
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
         loginTextField.tap()
-        loginTextField.typeText(Login)
+        loginTextField.typeText(login)
         webView.swipeUp()
         
         webView.buttons["Login"].tap()
@@ -86,7 +86,7 @@ final class ImageFeedUITests: XCTestCase {
         sleep(3)
         
         let image = app.scrollViews.images.element(boundBy: 0)
-        
+        XCTAssertTrue(image.waitForExistence(timeout: 5))
         image.pinch(withScale: 3, velocity: 1)
         image.pinch(withScale: 0.5, velocity: -1)
         

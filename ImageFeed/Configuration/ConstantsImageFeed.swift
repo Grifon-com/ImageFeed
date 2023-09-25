@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct ConstantsImageFeed {
+enum ConstantsImageFeed {
     static let jsonDefaultBaseURL = "https://api.unsplash.com"
     static let authNativePath = "/oauth/authorize/native"
     static let pathToken = "/oauth/token"

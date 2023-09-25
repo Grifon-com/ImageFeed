@@ -37,7 +37,14 @@ struct AuthConfiguration {
                           responseTypeString: ResponseTypeString)
     }
     
-    init(accessKey: String, secretKey: String, redirectURI: String, accessScope: String, defaultBaseURL: String, authURLString: String, scopeString: String, responseTypeString: String) {
+    init(accessKey: String,
+         secretKey: String,
+         redirectURI: String,
+         accessScope: String,
+         defaultBaseURL: String,
+         authURLString: String,
+         scopeString: String,
+         responseTypeString: String) {
         self.accessKey = accessKey
         self.secretKey = secretKey
         self.redirectURI = redirectURI

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ImagesListServiceProtocol {
+protocol ImagesListServiceProtocol {
     var photos: [Photo] { get set }
     func fetchPhotosNextPage()
     func chengeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ProfileServiceProtocol {
+protocol ProfileServiceProtocol {
     var profile: Profile? { get set }
     func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void)
 }

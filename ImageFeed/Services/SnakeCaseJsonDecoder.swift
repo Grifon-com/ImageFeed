@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SnakeCaseJsonDecoder: JSONDecoder {
+final class SnakeCaseJsonDecoder: JSONDecoder {
     override init() {
         super.init()
         keyDecodingStrategy = .convertFromSnakeCase

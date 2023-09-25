@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol WebViewPresenterProtocol {
+protocol WebViewPresenterProtocol {
     var view: WebViewViewControllerProtocol? { get set }
     var estimatedProgressObservation: NSKeyValueObservation? { get set }
     func viewDidLoad()

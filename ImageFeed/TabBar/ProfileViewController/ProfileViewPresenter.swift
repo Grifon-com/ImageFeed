@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol ProfileViewControllerPresenterProtocol {
+protocol ProfileViewControllerPresenterProtocol {
     var view: ProfileViewControllerProtocol? { get set }
     func viewDidLoad()
     var profileService: ProfileServiceProtocol? { get set }

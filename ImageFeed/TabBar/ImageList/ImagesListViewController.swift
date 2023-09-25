@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-public protocol ImagesListViewControllerProtocol: AnyObject {
+protocol ImagesListViewControllerProtocol: AnyObject {
     var presenter: ImagesListPresenterProtocol? { get set }
     func updateTableViewAnimated()
 }
@@ -141,7 +141,7 @@ extension ImagesListViewController: ImageListCellDelegate {
                 // Изменим индикатор лайка картинки
                 cell.setIsLiked(isLike: presenter.photos[indexPath.row].isLiked)
             case .failure(let error):
-                print(error)
+                assertionFailure("\(error.localizedDescription)")
                 let alert = UIAlertController(title: ConstantsImageFeed.alertTitle, message: ConstantsImageFeed.alertMessage, preferredStyle: .alert)
                 let action = UIAlertAction(title: ConstantsImageFeed.alertActionTitle, style: .default) { _ in
                     alert.dismiss(animated: true)

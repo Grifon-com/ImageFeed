@@ -6,7 +6,7 @@
 //
 
 import Foundation
-public protocol ProfileImageServiceProtocol {
+protocol ProfileImageServiceProtocol {
     func fetchProfileImageUrl(username: String, completion: @escaping (Result<String, Error>) -> Void)
 }
 

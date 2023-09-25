@@ -5,7 +5,7 @@
 //  Created by Григорий Машук on 10.08.23.
 //
 
-import ImageFeed
+@testable import ImageFeed
 import Foundation
 
 final class ProfileViewControllerSpy: ProfileViewControllerProtocol {

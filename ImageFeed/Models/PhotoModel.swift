@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Photo {
+struct Photo {
     let id: String
     let size: CGSize
     let createdAt: Date?
@@ -16,7 +16,7 @@ public struct Photo {
     let largeImageURL: String
     let isLiked: Bool
     
-    public init(id: String, size: CGSize, createdAt: Date?, welcomeDescription: String?, thumbImageURL: String, largeImageURL: String, isLiked: Bool) {
+    init(id: String, size: CGSize, createdAt: Date?, welcomeDescription: String?, thumbImageURL: String, largeImageURL: String, isLiked: Bool) {
         self.id = id
         self.size = size
         self.createdAt = createdAt

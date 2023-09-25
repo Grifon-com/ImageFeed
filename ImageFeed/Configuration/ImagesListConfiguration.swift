@@ -14,7 +14,7 @@ let Null: Int = 0
 let CellImageCornerRadius: Double = 16
 let Placeholder = "placeholderCell"
 
-public struct ImagesListConfiguration {
+struct ImagesListConfiguration {
     let cellReuseIdentifier: String
     let tableViewContentInsets: UIEdgeInsets
     let cellViewIndents: UIEdgeInsets
@@ -31,7 +31,12 @@ public struct ImagesListConfiguration {
                                 placeholder: Placeholder)
     }
     
-    init(cellReuseIdentifier: String, tableViewContentInsets: UIEdgeInsets, cellViewIndents: UIEdgeInsets, null: Int, cellImageCornerRadius: Double, placeholder: String) {
+    init(cellReuseIdentifier: String,
+         tableViewContentInsets: UIEdgeInsets,
+         cellViewIndents: UIEdgeInsets,
+         null: Int,
+         cellImageCornerRadius: Double,
+         placeholder: String) {
         self.cellReuseIdentifier = cellReuseIdentifier
         self.tableViewContentInsets = tableViewContentInsets
         self.cellViewIndents = cellViewIndents

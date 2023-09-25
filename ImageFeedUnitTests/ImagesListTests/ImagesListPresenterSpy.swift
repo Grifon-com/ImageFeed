@@ -4,8 +4,8 @@
 //
 //  Created by Григорий Машук on 8.08.23.
 //
-
-import ImageFeed
+ 
+@testable import ImageFeed
 import UIKit
 
 

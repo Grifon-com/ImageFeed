@@ -21,8 +21,7 @@ let LabelFont = CGFloat(23)
 let LabelLoginFont = CGFloat(13)
 let LabelDescriptionFont = CGFloat(13)
 
-
-public struct ProfileConfiguration {
+struct ProfileConfiguration {
     let imageAvatar: String
     let labelText: String
     let loginLabelText: String
@@ -51,7 +50,19 @@ public struct ProfileConfiguration {
                                                                      labelLoginFont: LabelLoginFont,
                                                                      labelDescriptionFont: LabelDescriptionFont)
     
-    init(imageAvatar: String, labelText: String, loginLabelText: String, descriptionLabelText: String, imageLogoutButton: String, imagePlaceholder: String, alertTitle: String, alertMessage: String, titleActionOne: String, titleActionTwo: String, labelFont: CGFloat, labelLoginFont: CGFloat, labelDescriptionFont: CGFloat) {
+    init(imageAvatar: String,
+         labelText: String,
+         loginLabelText: String,
+         descriptionLabelText: String,
+         imageLogoutButton: String,
+         imagePlaceholder: String,
+         alertTitle: String,
+         alertMessage: String,
+         titleActionOne: String,
+         titleActionTwo: String,
+         labelFont: CGFloat,
+         labelLoginFont: CGFloat,
+         labelDescriptionFont: CGFloat) {
         self.imageAvatar = imageAvatar
         self.labelText = labelText
         self.loginLabelText = loginLabelText

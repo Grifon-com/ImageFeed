@@ -38,7 +38,7 @@ final class SingleImageViewController: UIViewController {
         backButton.accessibilityIdentifier = Constants.backButtonIdentifier
         let image = UIImage(named: Constants.imageBackButton)
         backButton.setImage(image, for: .normal)
-        backButton.addTarget(nil, action: #selector(didTapBackButton), for: .allTouchEvents)
+        backButton.addTarget(self, action: #selector(didTapBackButton), for: .allTouchEvents)
         
         return backButton
     }()

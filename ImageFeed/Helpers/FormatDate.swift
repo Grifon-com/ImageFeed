@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol FormatDateProtocol {
+protocol FormatDateProtocol {
     func setupModelDate(createAt: String?) -> Date?
     func setupUIDateString(date: Date?) -> String?
 }
